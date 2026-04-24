@@ -6,16 +6,24 @@ const visible = ref(false)
 const phase = ref<'typing' | 'done'>('typing')
 
 function init() {
-  if (localStorage.getItem(STORAGE_KEY)) {
+  try {
+    if (localStorage.getItem(STORAGE_KEY)) {
+      visible.value = false
+    } else {
+      visible.value = true
+      phase.value = 'typing'
+    }
+  } catch {
     visible.value = false
-  } else {
-    visible.value = true
-    phase.value = 'typing'
   }
 }
 
 function finish() {
-  localStorage.setItem(STORAGE_KEY, '1')
+  try {
+    localStorage.setItem(STORAGE_KEY, '1')
+  } catch {
+    // ignore write errors
+  }
   phase.value = 'done'
 }
 
@@ -24,7 +32,11 @@ function hide() {
 }
 
 function restart() {
-  localStorage.removeItem(STORAGE_KEY)
+  try {
+    localStorage.removeItem(STORAGE_KEY)
+  } catch {
+    // ignore
+  }
   phase.value = 'typing'
   visible.value = true
 }
