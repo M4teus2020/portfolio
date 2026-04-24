@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+/* ─── Design tokens ─────────────────────────────────── */
+
+:root {
+  /* Dark theme (default) */
+  --bg: #07090b;
+  --bg2: #0b0f12;
+  --bg3: #0e1318;
+  --fg: #d7e4d0;
+  --dim: #6b7a6a;
+  --dim2: #8a9588;
+  --line: rgba(126, 231, 135, 0.18);
+  --shadow: rgba(126, 231, 135, 0.05);
+  --amber: #ffb86b;
+  --clr-red: #ff6e6e;
+  --blue: #9ec7ff;
+  --accent: #7ee787;
+  --bg-bar: rgba(7, 9, 11, 0.93);
+}
+
+:root[data-theme="light"] {
+  --bg: #f4f1ea;
+  --bg2: #ebe7dc;
+  --bg3: #e0dcd0;
+  --fg: #1a1f1c;
+  --dim: #6b7268;
+  --dim2: #555b52;
+  --line: rgba(20, 70, 40, 0.18);
+  --shadow: rgba(20, 70, 40, 0.06);
+  --amber: #c96b1b;
+  --clr-red: #c93838;
+  --blue: #2a5a9f;
+  --accent: #2a7a35;
+  --bg-bar: rgba(244, 241, 234, 0.93);
+}
+
+/* Accent overrides — dark */
+:root[data-accent="amber"] { --accent: #ffb86b; }
+:root[data-accent="cyan"]  { --accent: #7ed9e7; }
+:root[data-accent="pink"]  { --accent: #ff9ec7; }
+
+/* Accent overrides — light */
+:root[data-theme="light"][data-accent="amber"] { --accent: #c96b1b; }
+:root[data-theme="light"][data-accent="cyan"]  { --accent: #1b7a8f; }
+:root[data-theme="light"][data-accent="pink"]  { --accent: #b0376f; }
+
+/* ─── Tailwind theme ────────────────────────────────── */
+
+@theme inline {
+  --color-bg:         var(--bg);
+  --color-bg2:        var(--bg2);
+  --color-bg3:        var(--bg3);
+  --color-fg:         var(--fg);
+  --color-dim:        var(--dim);
+  --color-dim2:       var(--dim2);
+  --color-line:       var(--line);
+  --color-accent:     var(--accent);
+  --color-t-amber:    var(--amber);
+  --color-t-red:      var(--clr-red);
+  --color-t-blue:     var(--blue);
+  --color-bar:        var(--bg-bar);
+
+  --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+/* ─── Animations ────────────────────────────────────── */
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ─── Base ──────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar          { width: 5px; }
+::-webkit-scrollbar-track    { background: var(--bg2); }
+::-webkit-scrollbar-thumb    { background: var(--dim); }
+
+/* ─── Reusable classes ──────────────────────────────── */
+
+.va-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.15s, color 0.15s;
+}
+
+.va-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.va-link {
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--line);
+  transition: background 0.12s;
+}
+
+.va-link:hover {
+  background: var(--shadow);
+}
+
+.va-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  color: var(--fg);
+  font-size: 11px;
+  margin: 2px 3px 2px 0;
+  font-family: var(--font-mono);
+}
+
+.va-input {
+  background: var(--bg2);
+  border: 1px solid var(--line);
+  color: var(--fg);
+  font-family: var(--font-mono);
+  padding: 8px 10px;
+  font-size: 13px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.va-input:focus {
+  border-color: var(--accent);
+}
+
+.va-card {
+  border: 1px solid var(--line);
+  padding: 14px;
+  background: var(--bg);
+  transition: border-color 0.15s, transform 0.15s, background 0.15s;
+}
+
+.va-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+  background: var(--bg2);
+}
+
+.va-tab {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--dim2);
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+}
+
+.va-tab.active,
+.va-tab:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--shadow);
+}
+
+.va-section {
+  animation: fadein 0.5s ease both;
+}
