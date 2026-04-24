@@ -2,10 +2,12 @@
 import { useTheme } from '@/composables/useTheme'
 import { useLocale } from '@/i18n/useT'
 import { useT } from '@/i18n/useT'
+import { useBootScreen } from '@/composables/useBootScreen'
 
 const { theme, accent, toggleTheme, setAccent } = useTheme()
 const { locale, toggle: toggleLocale } = useLocale()
 const t = useT()
+const bootScreen = useBootScreen()
 
 const accentColors: Record<string, { dark: string; light: string }> = {
   green: { dark: '#7ee787', light: '#2a7a35' },
@@ -53,6 +55,15 @@ const accentColors: Record<string, { dark: string; light: string }> = {
         @click="setAccent(key as any)"
       />
     </div>
+
+    <!-- Reboot -->
+    <button
+      class="bg-transparent border border-line text-dim font-mono text-[10px] px-2 h-7 cursor-pointer hover:border-accent hover:text-accent transition-all tracking-wider hidden sm:flex items-center gap-1"
+      title="reboot portfolio"
+      @click="bootScreen.restart()"
+    >
+      ⟳ reboot
+    </button>
 
     <!-- Theme toggle -->
     <button
