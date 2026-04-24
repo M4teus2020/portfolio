@@ -5,45 +5,21 @@ import TerminalPrompt from './ui/TerminalPrompt.vue'
 import AsciiHeader from './ui/AsciiHeader.vue'
 
 const t = useT()
-
-const ASCII_AVATAR = `        .-"""""-.
-      .'    _    '.
-     /   .-"#"-.   \\
-    |   /       \\   |
-    |  | <*> <*> |  |
-    |   \\   ^   /   |
-     \\   '. - .'   /
-      '.  \`---'  .'
-    __//\`-.___.-\`\\\\__
-   /  //  M.F.   \\\\  \\
-  / .//  </> {}   \\\\. \\
- |_//    laravel   \\\\_|
-   \`        +        \`
-            vue`
 </script>
 
 <template>
   <section class="va-section px-9 py-11 relative overflow-hidden">
     <TerminalPrompt cmd="whoami --verbose" />
 
-    <div class="mt-6 grid gap-5" style="grid-template-columns: auto 1fr; align-items: start;">
-      <!-- ASCII Avatar -->
-      <pre
-        class="font-mono text-accent text-[10px] leading-[1.05] whitespace-pre select-none hidden sm:block"
-        aria-hidden="true"
-      >{{ ASCII_AVATAR }}</pre>
-
-      <!-- Name + tagline -->
-      <div class="min-w-0">
-        <AsciiHeader text="HELLO WORLD" />
-        <div class="mt-4 text-[10px] text-dim tracking-[0.12em] uppercase">{{ t.hero.role }}</div>
-        <div class="text-[10px] text-dim tracking-[0.12em] uppercase">{{ t.hero.location }}</div>
-        <h1 class="text-[30px] my-2.5 font-mono font-semibold leading-[1.05] text-fg">
-          <span class="text-dim">&gt; </span>{{ t.hero.name }}<span
-            class="animate-[blink_1s_steps(1)_infinite] text-accent"
-          >_</span>
-        </h1>
-      </div>
+    <!-- Name + tagline -->
+    <div class="mt-6">
+      <AsciiHeader text="HELLO WORLD" />
+      <div class="mt-4 text-[10px] text-dim tracking-[0.12em] uppercase">{{ t.hero.role }}</div>
+      <div class="text-[10px] text-dim tracking-[0.12em] uppercase">{{ t.hero.location }}</div>
+      <h1 class="text-[30px] my-2.5 font-mono font-semibold leading-[1.05] text-fg">
+        <span class="text-dim">&gt; </span>{{ t.hero.name
+        }}<span class="animate-[blink_1s_steps(1)_infinite] text-accent">_</span>
+      </h1>
     </div>
 
     <p class="text-[16px] text-fg mt-5 mb-1.5">{{ t.hero.tagline }}</p>
