@@ -3,7 +3,7 @@
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useBootScreen } from '@/composables/useBootScreen'
 
-const { visible, phase, init, finish, hide } = useBootScreen()
+const { visible, init, finish, hide } = useBootScreen()
 
 type Line = { text: string; delay: number; class?: string }
 
@@ -33,7 +33,8 @@ function skip() {
   shown.value = LINES.map((_, i) => i)
   finish()
   closing.value = true
-  setTimeout(() => hide(), 400)
+  const hideTimer = setTimeout(() => hide(), 400)
+  timers.push(hideTimer)
 }
 
 function startSequence() {
@@ -56,10 +57,12 @@ function startSequence() {
 
   const doneTimer = setTimeout(() => {
     finish()
-    setTimeout(() => {
+    const closeTimer = setTimeout(() => {
       closing.value = true
-      setTimeout(() => hide(), 400)
+      const hideTimer = setTimeout(() => hide(), 400)
+      timers.push(hideTimer)
     }, 600)
+    timers.push(closeTimer)
   }, lastDelay + 800)
   timers.push(doneTimer)
 }
@@ -81,8 +84,9 @@ onBeforeUnmount(() => {
 
 watch(visible, (val) => {
   if (val) {
-    startSequence()
+    window.removeEventListener('keydown', onKey)
     window.addEventListener('keydown', onKey)
+    startSequence()
   } else {
     window.removeEventListener('keydown', onKey)
   }
@@ -90,14 +94,13 @@ watch(visible, (val) => {
 </script>
 
 <template>
-  <Transition name="boot-fade">
-    <div
-      v-if="visible"
-      class="fixed inset-0 z-50 bg-bg flex items-start justify-start p-10 sm:p-16"
-      :class="{ 'pointer-events-none': closing }"
-      :style="closing ? 'opacity:0;transition:opacity 0.4s ease' : ''"
-      @click="skip"
-    >
+  <div
+    v-if="visible"
+    class="fixed inset-0 z-50 bg-bg flex items-start justify-start p-10 sm:p-16"
+    :class="{ 'pointer-events-none': closing }"
+    :style="closing ? 'opacity:0;transition:opacity 0.4s ease' : ''"
+    @click="skip"
+  >
       <div class="font-mono text-[13px] leading-[1.8] max-w-[520px] w-full">
         <div
           v-for="(line, i) in LINES"
@@ -120,6 +123,5 @@ watch(visible, (val) => {
           [ pressione qualquer tecla ou clique para pular ]
         </div>
       </div>
-    </div>
-  </Transition>
+  </div>
 </template>
