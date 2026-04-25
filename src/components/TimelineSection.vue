@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onBeforeUnmount } from 'vue'
 import { useT } from '@/i18n/useT'
 import SectionShell from './ui/SectionShell.vue'
 import AsciiHeader from './ui/AsciiHeader.vue'
@@ -11,8 +11,8 @@ function shortHash(index: number): string {
   return h.toString(16).slice(0, 7)
 }
 
-const itemRefs = ref<(Element | null)[]>([])
 const itemVisible = ref<boolean[]>([])
+const observers = new Map<number, IntersectionObserver>()
 
 function observeItem(el: Element | null, index: number) {
   if (!el) return
@@ -21,17 +21,28 @@ function observeItem(el: Element | null, index: number) {
       if (entry && entry.isIntersecting) {
         itemVisible.value[index] = true
         observer.disconnect()
+        observers.delete(index)
       }
     },
     { threshold: 0.2 },
   )
+  observers.set(index, observer)
   observer.observe(el)
 }
 
 function setItemRef(el: Element | null, index: number) {
-  itemRefs.value[index] = el
+  if (!el) {
+    observers.get(index)?.disconnect()
+    observers.delete(index)
+    return
+  }
   observeItem(el, index)
 }
+
+onBeforeUnmount(() => {
+  observers.forEach(obs => obs.disconnect())
+  observers.clear()
+})
 </script>
 
 <template>
