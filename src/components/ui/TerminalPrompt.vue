@@ -10,6 +10,7 @@ const props = defineProps<{
 
 const shown = ref(0)
 const root = ref<Element | null>(null)
+const hasEntered = ref(false)
 let timerId: ReturnType<typeof setTimeout> | null = null
 
 function typeNext() {
@@ -33,7 +34,13 @@ if (!props.lazy) {
     { immediate: true },
   )
 } else {
-  useIntersect(root, startTyping)
+  useIntersect(root, () => {
+    hasEntered.value = true
+    startTyping()
+  })
+  watch(() => props.cmd, () => {
+    if (hasEntered.value) startTyping()
+  })
 }
 
 onBeforeUnmount(() => {
@@ -47,7 +54,7 @@ onBeforeUnmount(() => {
       class="text-t-blue"
     >{{ path ?? '~/portfolio' }}</span><span class="text-dim">$ </span><span>{{ cmd.slice(0, shown) }}</span><span
       class="animate-[blink_1s_steps(1)_infinite]"
-      :class="{ 'opacity-0': shown >= cmd.length }"
+      :class="{ 'opacity-0': shown >= cmd.length || (lazy && !hasEntered) }"
     >▊</span>
   </div>
 </template>
