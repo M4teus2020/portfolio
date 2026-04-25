@@ -65,7 +65,7 @@ onBeforeUnmount(() => {
       >
         <span
           class="absolute text-accent text-[14px]"
-          style="left: -27px; top: 5px;"
+          style="left: -24.5px; top: 5px;"
         >●</span>
 
         <!-- git log header -->
