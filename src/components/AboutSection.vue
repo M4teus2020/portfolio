@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useT } from '@/i18n/useT'
 import { AVAILABILITY } from '@/config/availability'
+import { useIntersect } from '@/composables/useIntersect'
+import { useCountUp } from '@/composables/useCountUp'
 import SectionShell from './ui/SectionShell.vue'
 import AsciiHeader from './ui/AsciiHeader.vue'
 
@@ -12,6 +14,17 @@ const nowItems = computed(() =>
     ? [...t.value.about.nowItemsBase, t.value.about.nowItemLooking]
     : t.value.about.nowItemsBase,
 )
+
+const factsEl = ref<Element | null>(null)
+const { count: yearsCount, start: startYears } = useCountUp(3, 800)
+useIntersect(factsEl, startYears)
+
+function factValue(key: string, value: string): string {
+  if (key === 'Carreira' || key === 'Experience') {
+    return `${yearsCount.value} ${value.replace(/^\d+\s*/, '')}`
+  }
+  return value
+}
 </script>
 
 <template>
@@ -23,14 +36,14 @@ const nowItems = computed(() =>
     <p class="text-fg leading-relaxed text-[13px] max-w-[540px] mb-6">{{ t.about.body }}</p>
 
     <!-- Facts grid -->
-    <div class="grid grid-cols-2 gap-2.5 mb-6">
+    <div ref="factsEl" class="grid grid-cols-2 gap-2.5 mb-6">
       <div
         v-for="([k, v]) in t.about.facts"
         :key="k"
         class="border border-line px-3 py-2.5"
       >
         <div class="text-dim text-[10px] uppercase tracking-[0.1em]">{{ k }}</div>
-        <div class="text-fg text-[13px] mt-[3px]">{{ v }}</div>
+        <div class="text-fg text-[13px] mt-[3px]">{{ factValue(k, v) }}</div>
       </div>
     </div>
 
