@@ -7,7 +7,7 @@ const t = useT()
 </script>
 
 <template>
-  <SectionShell id="stack" cmd="which laravel vue node docker claude">
+  <SectionShell id="stack" cmd="which laravel vue node docker claude" lazy>
     <AsciiHeader :text="`# ${t.stack.kicker.toUpperCase()}`" />
     <h2 class="text-[22px] mt-[18px] mb-[18px] text-fg font-semibold">{{ t.stack.title }}</h2>
 

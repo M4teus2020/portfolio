@@ -63,7 +63,7 @@ const eloquent = computed(() => {
 </script>
 
 <template>
-  <SectionShell id="play" cmd="./run-demo">
+  <SectionShell id="play" cmd="./run-demo" lazy>
     <AsciiHeader :text="`# ${t.play.kicker.toUpperCase()}`" />
     <h2 class="text-[22px] mt-[18px] mb-1.5 text-fg font-semibold">{{ t.play.title }}</h2>
     <p class="text-dim2 text-[12px] mb-3.5">{{ t.play.sub }}</p>

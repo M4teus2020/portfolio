@@ -7,7 +7,7 @@ const t = useT()
 </script>
 
 <template>
-  <SectionShell id="timeline" cmd="git log --oneline --graph career">
+  <SectionShell id="timeline" cmd="git log --oneline --graph career" lazy>
     <AsciiHeader :text="`# ${t.timeline.kicker.toUpperCase()}`" />
     <h2 class="text-[22px] mt-[18px] mb-[18px] text-fg font-semibold">{{ t.timeline.title }}</h2>
 

@@ -15,7 +15,7 @@ const nowItems = computed(() =>
 </script>
 
 <template>
-  <SectionShell id="about" cmd="cat about.md">
+  <SectionShell id="about" cmd="cat about.md" lazy>
     <AsciiHeader :text="`# ${t.about.kicker.toUpperCase()}`" />
     <h2 class="text-[22px] mt-[18px] mb-2.5 text-fg font-semibold leading-snug">
       {{ t.about.title }}
