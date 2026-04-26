@@ -56,7 +56,7 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <SectionShell id="contact" :cmd="`mail ${CONTACTS.email}`" lazy>
+  <SectionShell id="contact" :cmd="`mail ${CONTACTS.email}`" lazy blink>
     <AsciiHeader :text="`# ${t.contact.kicker.toUpperCase()}`" />
     <h2 class="text-[22px] mt-[18px] mb-1.5 text-fg font-semibold">{{ t.contact.title }}</h2>
     <p class="text-dim2 text-[12px] mb-5">{{ t.contact.sub }}</p>

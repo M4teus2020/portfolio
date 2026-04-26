@@ -6,6 +6,7 @@ const props = defineProps<{
   cmd: string
   path?: string
   lazy?: boolean
+  blink?: boolean
 }>()
 
 const shown = ref(0)
@@ -39,7 +40,7 @@ if (!props.lazy) {
     startTyping()
   })
   watch(() => props.cmd, () => {
-    if (hasEntered.value) startTyping()
+      if (hasEntered.value) startTyping()
   })
 }
 
@@ -53,6 +54,7 @@ onBeforeUnmount(() => {
     <span class="text-accent">mateus@felini</span><span class="text-dim">:</span><span
       class="text-t-blue"
     >{{ path ?? '~/portfolio' }}</span><span class="text-dim">$ </span><span>{{ cmd.slice(0, shown) }}</span><span
+      v-if="props.blink || shown !== props.cmd.length"
       class="animate-[blink_1s_steps(1)_infinite]"
       :class="{ 'opacity-0': lazy && !hasEntered }"
     >▊</span>
