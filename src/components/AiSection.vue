@@ -7,7 +7,7 @@ const t = useT()
 </script>
 
 <template>
-  <SectionShell id="ai" cmd="./agent --pair-program">
+  <SectionShell id="ai" cmd="./agent --pair-program" lazy>
     <AsciiHeader :text="`# ${t.ai.kicker.toUpperCase()}`" />
     <h2 class="text-[22px] mt-[18px] mb-2 text-fg font-semibold leading-snug">{{ t.ai.title }}</h2>
     <p class="text-dim2 text-[13px] leading-relaxed mb-[18px] max-w-[540px]">{{ t.ai.sub }}</p>
