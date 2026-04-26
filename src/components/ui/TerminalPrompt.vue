@@ -54,7 +54,7 @@ onBeforeUnmount(() => {
       class="text-t-blue"
     >{{ path ?? '~/portfolio' }}</span><span class="text-dim">$ </span><span>{{ cmd.slice(0, shown) }}</span><span
       class="animate-[blink_1s_steps(1)_infinite]"
-      :class="{ 'opacity-0': shown >= cmd.length || (lazy && !hasEntered) }"
+      :class="{ 'opacity-0': lazy && !hasEntered }"
     >▊</span>
   </div>
 </template>

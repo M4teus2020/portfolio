@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useTheme } from '@/composables/useTheme'
 import { useLocale } from '@/i18n/useT'
 import { useT } from '@/i18n/useT'
@@ -9,11 +10,17 @@ const { locale, toggle: toggleLocale } = useLocale()
 const t = useT()
 const bootScreen = useBootScreen()
 
+const menuOpen = ref(false)
+
 const accentColors: Record<string, { dark: string; light: string }> = {
   green: { dark: '#7ee787', light: '#2a7a35' },
   amber: { dark: '#ffb86b', light: '#c96b1b' },
   cyan:  { dark: '#7ed9e7', light: '#1b7a8f' },
   pink:  { dark: '#ff9ec7', light: '#b0376f' },
+}
+
+function handleNavClick() {
+  menuOpen.value = false
 }
 </script>
 
@@ -30,7 +37,7 @@ const accentColors: Record<string, { dark: string; light: string }> = {
 
     <div class="flex-1" />
 
-    <!-- Nav links -->
+    <!-- Nav links (desktop) -->
     <nav class="hidden lg:flex gap-5 mr-4">
       <a
         v-for="(label, key) in t.nav"
@@ -40,8 +47,8 @@ const accentColors: Record<string, { dark: string; light: string }> = {
       >{{ label }}</a>
     </nav>
 
-    <!-- Accent swatches -->
-    <div class="flex gap-1 mr-1">
+    <!-- Accent swatches (desktop) -->
+    <div class="hidden lg:flex gap-1 mr-1">
       <button
         v-for="(colors, key) in accentColors"
         :key="key"
@@ -56,9 +63,9 @@ const accentColors: Record<string, { dark: string; light: string }> = {
       />
     </div>
 
-    <!-- Reboot -->
+    <!-- Reboot (desktop) -->
     <button
-      class="bg-transparent border border-line text-dim font-mono text-[10px] px-2 h-7 cursor-pointer hover:border-accent hover:text-accent transition-all tracking-wider hidden sm:flex items-center gap-1"
+      class="bg-transparent border border-line text-dim font-mono text-[10px] px-2 h-7 cursor-pointer hover:border-accent hover:text-accent transition-all tracking-wider hidden lg:flex items-center gap-1"
       title="reboot portfolio"
       @click="bootScreen.restart()"
     >
@@ -81,5 +88,71 @@ const accentColors: Record<string, { dark: string; light: string }> = {
     >
       {{ locale === 'pt' ? '» EN' : '» PT' }}
     </button>
+
+    <!-- Burger menu button (mobile) -->
+    <button
+      class="lg:hidden w-7 h-7 bg-transparent border border-line text-fg text-[14px] flex items-center justify-center cursor-pointer hover:border-accent hover:text-accent transition-all"
+      @click="menuOpen = !menuOpen"
+    >
+      {{ menuOpen ? '✕' : '☰' }}
+    </button>
   </header>
+
+  <!-- Mobile menu panel -->
+  <div
+    v-if="menuOpen"
+    class="lg:hidden sticky top-[45px] z-20 backdrop-blur-sm border-b border-dashed border-line p-4"
+    style="background: var(--bg-bar);"
+  >
+    <!-- Nav section -->
+    <nav class="mb-4 flex flex-col gap-3">
+      <a
+        v-for="(label, key) in t.nav"
+        :key="key"
+        :href="`#${key}`"
+        class="text-dim2 hover:text-fg transition-colors no-underline text-[11px] uppercase tracking-widest"
+        @click="handleNavClick"
+      >{{ label }}</a>
+    </nav>
+
+    <!-- Accent swatches row -->
+    <div class="flex gap-1 mb-4">
+      <button
+        v-for="(colors, key) in accentColors"
+        :key="key"
+        class="w-4 h-4 border border-line cursor-pointer p-0 transition-all"
+        :class="accent === key ? 'border-fg' : ''"
+        :style="{
+          background: colors[theme],
+          boxShadow: accent === key ? '0 0 0 1px var(--accent)' : 'none',
+        }"
+        :title="key"
+        @click="setAccent(key as any)"
+      />
+    </div>
+
+    <!-- Reboot + Theme + Language row -->
+    <div class="flex gap-2 items-center">
+      <button
+        class="bg-transparent border border-line text-dim font-mono text-[10px] px-2 h-7 cursor-pointer hover:border-accent hover:text-accent transition-all tracking-wider flex items-center gap-1"
+        title="reboot portfolio"
+        @click="bootScreen.restart()"
+      >
+        ⟳ reboot
+      </button>
+      <button
+        class="w-7 h-7 bg-transparent border border-line text-fg text-[12px] flex items-center justify-center cursor-pointer hover:border-accent hover:text-accent transition-all font-mono"
+        :title="theme === 'dark' ? 'Light mode' : 'Dark mode'"
+        @click="toggleTheme"
+      >
+        {{ theme === 'dark' ? '☀' : '☾' }}
+      </button>
+      <button
+        class="bg-transparent border border-line text-fg font-mono text-[11px] px-2.5 h-7 cursor-pointer hover:border-accent hover:text-accent transition-all uppercase tracking-wider"
+        @click="toggleLocale"
+      >
+        {{ locale === 'pt' ? '» EN' : '» PT' }}
+      </button>
+    </div>
+  </div>
 </template>

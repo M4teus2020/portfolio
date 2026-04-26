@@ -38,8 +38,6 @@ export interface Messages {
     sub: string
     cta: string
     cta2: string
-    available: string
-    busy: string
   }
   about: {
     kicker: string

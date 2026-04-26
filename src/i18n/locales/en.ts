@@ -17,8 +17,6 @@ const en: Messages = {
     sub: "Three years shipping interfaces that don't freeze, APIs that don't fall over, and code other people can still read next quarter.",
     cta: 'See timeline',
     cta2: 'Get in touch',
-    available: 'Open to new opportunities',
-    busy: 'Currently employed — open to conversations',
   },
   about: {
     kicker: 'About',

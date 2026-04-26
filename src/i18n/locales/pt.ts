@@ -17,8 +17,6 @@ const pt: Messages = {
     sub: 'Três anos entregando interfaces que não travam, APIs que não caem e código que outras pessoas conseguem ler depois.',
     cta: 'Ver trajetória',
     cta2: 'Fale comigo',
-    available: 'Disponível para oportunidades',
-    busy: 'Atualmente empregado — aberto a conversas',
   },
   about: {
     kicker: 'Sobre mim',

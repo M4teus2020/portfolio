@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useT } from '@/i18n/useT'
-import { AVAILABILITY } from '@/config/availability'
 import TerminalPrompt from './ui/TerminalPrompt.vue'
 import AsciiHeader from './ui/AsciiHeader.vue'
 
@@ -28,18 +27,6 @@ const t = useT()
     <div class="flex gap-2.5 flex-wrap mb-6">
       <a href="#timeline" class="va-btn">→ {{ t.hero.cta }}</a>
       <a href="#contact" class="va-btn">↗ {{ t.hero.cta2 }}</a>
-    </div>
-
-    <!-- Availability badge -->
-    <div class="flex items-center gap-2 text-[12px]">
-      <span
-        class="w-2 h-2 rounded-full inline-block"
-        :style="{
-          background: AVAILABILITY.available ? 'var(--accent)' : 'var(--amber)',
-          boxShadow: AVAILABILITY.available ? '0 0 8px var(--accent)' : 'none',
-        }"
-      />
-      <span class="text-dim2">{{ AVAILABILITY.available ? t.hero.available : t.hero.busy }}</span>
     </div>
   </section>
 </template>

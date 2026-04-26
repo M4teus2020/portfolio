@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
-const props = defineProps<{ text: string }>()
-
-const padded = computed(() => props.text.padEnd(52))
+defineProps<{ text: string }>()
 </script>
 
 <template>
-  <pre
-    class="font-mono text-accent text-[11px] leading-[1.15] m-0 whitespace-pre opacity-85 select-none overflow-x-auto"
-  >╭───────────────────────────────────────────────────────────╮
-│  {{ padded }}│
-╰───────────────────────────────────────────────────────────╯</pre>
+  <div class="border border-accent text-[11px] font-mono px-4 py-1.5 opacity-85 select-none">
+    <span>{{ text }}</span>
+  </div>
 </template>
