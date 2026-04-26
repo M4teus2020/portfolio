@@ -22,6 +22,7 @@ The portfolio features a **Terminal/CLI design philosophy** reminiscent of class
 ## ✨ Features
 
 ### Sections
+
 - **Hero** — Eye-catching introduction with status badge
 - **About** — Biography with theme toggle and availability indicator
 - **AI** — Custom LLM integration section
@@ -35,24 +36,23 @@ The portfolio features a **Terminal/CLI design philosophy** reminiscent of class
 - **Boot Screen** — Nostalgic terminal animation on page load
 
 ### Theme System
+
 - **Light/Dark Toggle**: Persistent theme preference with CSS variable overrides
 - **Accent Colors**: Switch between green, amber, cyan, or pink
 - **Responsive Design**: Adapts from desktop to mobile (burger menu)
 - **CSS Variables**: Seamlessly integrated with Tailwind v4 via `@theme inline`
 
 ### Internationalization
+
 - **Dual Language**: Portuguese and English support
 - **Type-Safe Messages**: Typed message objects in `src/i18n/locales/`
 - **Composable API**: `useT()` returns fully typed locale messages
 - **Locale Toggle**: `useLocale()` for switching languages
 
-### Configuration
-- **Availability Flag** (`src/config/availability.ts`): Toggle to show "looking for a role" badge and about section text
-- **Easy Customization**: Modify accent colors, add languages, or create new playground demos
-
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js ≥ 20.19.0 or ≥ 22.12.0
 - npm 10+
 
@@ -78,9 +78,9 @@ npm run format
 
 ## 📁 Project Structure
 
-```
+```text
 src/
-├── components/           # Vue components
+├── components/          # Vue components
 │   ├── ui/              # Reusable UI components (SectionShell, TerminalPrompt, etc.)
 │   ├── [Section]Section.vue  # Page sections (Hero, About, Stack, Timeline, etc.)
 │   ├── App*.vue         # App-level components (TopBar, Footer, BootScreen)
@@ -105,14 +105,10 @@ public/                  # Static assets
 
 ## 🎯 Key Files to Customize
 
-### 1. Availability Status
-Edit `src/config/availability.ts`:
-```typescript
-export const available = true; // Toggle role availability
-```
+### 12. Theme Colors
 
-### 2. Theme Colors
 CSS variables in your tailwind config or global styles:
+
 ```css
 :root {
   --bg: /* dark background */;
@@ -122,30 +118,12 @@ CSS variables in your tailwind config or global styles:
 }
 ```
 
-### 3. Translations
+### 2. Translations
+
 Add new languages or update existing ones in `src/i18n/locales/`:
+
 - `pt.ts` — Portuguese
 - `en.ts` — English
-
-### 4. Playground Demos
-Modify or add interactive demos in `src/components/` (e.g., `PlaygroundSection.vue`)
-
-## 🔧 Development Tips
-
-### IDE Setup
-- **VS Code** + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-  - Disable Vetur if installed
-- **Hot Module Replacement (HMR)**: Enabled by default in dev mode
-
-### Browser DevTools
-- **Chrome/Edge/Brave**: [Vue.js DevTools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) + Custom Object Formatter
-- **Firefox**: [Vue.js DevTools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/) + Custom Object Formatter
-
-### Type Checking
-TypeScript types for `.vue` files are handled by `vue-tsc`:
-```sh
-npm run type-check  # Full type check
-```
 
 ## 📦 Scripts
 
@@ -164,6 +142,7 @@ npm run type-check  # Full type check
 ## 🌐 Deployment
 
 This is a static SPA and can be deployed to:
+
 - **Vercel** — Zero-config deployment
 - **GitHub Pages** — Static hosting
 - **Netlify** — Drag-and-drop deployment
@@ -172,9 +151,3 @@ This is a static SPA and can be deployed to:
 ## 📝 License
 
 This project is personal work. See LICENSE file (if present) for details.
-
----
-
-**Author**: Mateus Felini  
-**Email**: mfelini7@gmail.com  
-**Repository**: [GitHub](https://github.com/mfelini/portifolio)
