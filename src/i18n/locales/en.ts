@@ -54,7 +54,7 @@ const en: Messages = {
     items: [
       {
         k: 'Claude Code as a senior pair',
-        d: "I use Claude Code for large refactors, legacy-code archaeology and architecture sketching. It picks up the whole repo context — perfect for \"why does this controller look like this?\" or \"let's extract this logic into a service\".",
+        d: "I use Claude Code for large refactors, legacy-code archaeology and architecture sketching.",
       },
       {
         k: 'Copilot in the flow',

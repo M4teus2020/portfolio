@@ -54,7 +54,7 @@ const pt: Messages = {
     items: [
       {
         k: 'Claude Code como pair sênior',
-        d: 'Uso Claude Code para refatorações grandes, exploração de código legado e desenho de arquitetura. Ele puxa o contexto do repo inteiro — ideal para "por que esse controller está assim?" ou "vamos extrair essa lógica para um service".',
+        d: 'Uso Claude Code para refatorações grandes, exploração de código legado e desenho de arquitetura.',
       },
       {
         k: 'Copilot no dia-a-dia',
