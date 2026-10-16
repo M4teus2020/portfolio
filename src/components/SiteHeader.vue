@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useT, useLocale } from '@/i18n/useT'
 import { cases } from '@/data/cases'
@@ -16,10 +16,31 @@ const links = computed(() => [
 ])
 
 const isCurrent = (path: string, hash?: string) => !hash && route.path === path
+
+// Header fixo: publica a altura em --head-h (âncoras descontam ela) e marca a rolagem pra mostrar a linha.
+const head = ref<HTMLElement>()
+const scrolled = ref(false)
+let ro: ResizeObserver | undefined
+const onScroll = () => (scrolled.value = window.scrollY > 4)
+
+const publishHeight = () =>
+  document.documentElement.style.setProperty('--head-h', `${head.value?.offsetHeight ?? 0}px`)
+
+onMounted(() => {
+  publishHeight()
+  ro = new ResizeObserver(publishHeight)
+  if (head.value) ro.observe(head.value)
+  onScroll()
+  window.addEventListener('scroll', onScroll, { passive: true })
+})
+onBeforeUnmount(() => {
+  ro?.disconnect()
+  window.removeEventListener('scroll', onScroll)
+})
 </script>
 
 <template>
-  <header class="head">
+  <header ref="head" class="head" :class="{ scrolled }">
     <div class="wrap head-row">
       <RouterLink to="/" class="mark">Mateus Felini</RouterLink>
       <nav class="nav" aria-label="Principal">
@@ -48,8 +69,17 @@ const isCurrent = (path: string, hash?: string) => !hash && route.path === path
 
 <style scoped>
 .head {
-  position: relative;
-  z-index: 5;
+  position: sticky;
+  /* top 0 + padding no lugar de top: env(): com notch, o recorte fica coberto de papel em vez de vazar conteúdo. */
+  top: 0;
+  padding-top: env(safe-area-inset-top);
+  z-index: 40;
+  background: var(--paper);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+.head.scrolled {
+  border-bottom-color: var(--line);
 }
 .head-row {
   display: flex;
@@ -58,6 +88,13 @@ const isCurrent = (path: string, hash?: string) => !hash && route.path === path
   justify-content: space-between;
   gap: 0.5rem 1.5rem;
   padding-block: 0.75rem;
+}
+/* No celular a nav quebra em 2 linhas: menos respiro pra o header fixo não comer a tela. */
+@media (max-width: 599px) {
+  .head-row {
+    row-gap: 0;
+    padding-block: 0.25rem;
+  }
 }
 .mark {
   display: inline-flex;

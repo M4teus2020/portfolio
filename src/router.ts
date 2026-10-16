@@ -23,7 +23,10 @@ export const router = createRouter({
   ],
   scrollBehavior(to, _from, saved) {
     if (saved) return saved
-    if (to.hash) return { el: to.hash, top: 24 }
+    // Desconta o header fixo (SiteHeader publica a altura em --head-h).
+    const head =
+      parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 72
+    if (to.hash) return { el: to.hash, top: head + 24 }
     return { top: 0 }
   },
 })
