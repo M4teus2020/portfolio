@@ -6,7 +6,9 @@ export const router = createRouter({
   routes: [
     { path: '/', name: 'home', component: HomeView },
     { path: '/sobre', name: 'about', component: () => import('@/views/AboutView.vue') },
-    { path: '/sites', name: 'sites', component: () => import('@/views/SitesView.vue') },
+    { path: '/servicos', name: 'services', component: () => import('@/views/ServicesView.vue') },
+    // Destino do crédito "Site por Mateus Felini" nos rodapés dos clientes: não mudar.
+    { path: '/sites', redirect: { path: '/servicos', hash: '#sites' } },
     {
       path: '/projetos/:slug',
       name: 'case',

@@ -11,7 +11,7 @@ const route = useRoute()
 const links = computed(() => [
   ...(cases.length ? [{ to: { path: '/', hash: '#projetos' }, label: t.value.nav.projects }] : []),
   { to: { path: '/sobre' }, label: t.value.nav.about },
-  { to: { path: '/sites' }, label: t.value.nav.sites },
+  { to: { path: '/servicos' }, label: t.value.nav.services },
   { to: { path: '/', hash: '#contato' }, label: t.value.nav.contact },
 ])
 

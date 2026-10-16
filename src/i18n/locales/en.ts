@@ -6,16 +6,16 @@ const en: Messages = {
     homeDescription:
       'Full-stack developer (Laravel and Vue). Three years building web systems for the financial sector, from credit unions to multi-tenant platforms.',
     aboutTitle: 'About · Mateus Felini',
-    sitesTitle: 'Websites for local businesses · Mateus Felini',
-    sitesDescription:
-      'A website for your restaurant or shop, live in a few days and looked after every month.',
+    servicesTitle: 'Services · Mateus Felini',
+    servicesDescription:
+      'Websites for local businesses and custom systems (dashboards, automations and integrations with WhatsApp, bank slips and email).',
     notFoundTitle: 'Page not found · Mateus Felini',
   },
   nav: {
     home: 'Home',
     projects: 'Projects',
     about: 'About',
-    sites: 'Websites',
+    services: 'Services',
     contact: 'Contact',
     switchLocale: 'Ler em português',
     skip: 'Skip to content',
@@ -80,6 +80,11 @@ const en: Messages = {
       ],
       more: 'The full story is in About',
     },
+    client: {
+      title: 'Have a project? I also work with companies.',
+      text: 'I build websites for local businesses and custom systems: management dashboards, automations and integrations. The same care I bring to my day job.',
+      cta: 'See services',
+    },
     contact: {
       title: 'Shall we talk?',
       text: 'I answer email within one business day.',
@@ -133,54 +138,130 @@ const en: Messages = {
     edu: 'Systems Analysis and Development, University of Passo Fundo (on hold)',
     ctaTalk: 'Get in touch',
   },
-  sites: {
+  services: {
+    kicker: 'Services',
+    title: 'From your shop website to your company system.',
+    lede: 'You work directly with me, from the first conversation until everything runs. Pick where to start:',
     pinLabel: 'Your business here',
-    kicker: 'Websites for local businesses',
-    title: 'Your business showing up on Google, looking like itself.',
-    lede: 'I build the website for your restaurant or shop, put it online and look after it every month. You keep taking orders on WhatsApp, only now more people find you.',
     whatsapp: 'Message me on WhatsApp',
     whatsappFallback: 'Send an email',
-    whatsappMessage: 'Hi Mateus, I saw the website and want to know how it works.',
-    whyTitle: 'Why have a website',
-    why: [
+    offers: [
       {
-        k: 'People find you on Google.',
-        d: 'Whoever searches "pizza near me" lands on whoever shows up.',
+        id: 'sites',
+        k: 'Websites for local businesses.',
+        d: 'Your business showing up on Google, looking like itself.',
+        cta: 'See websites',
       },
       {
-        k: 'Menu, hours and address in one place.',
-        d: 'No more customers scrolling through Instagram.',
-      },
-      {
-        k: 'Orders still arrive on WhatsApp.',
-        d: 'The website brings the customer to you, it does not change how you serve.',
+        id: 'sistemas',
+        k: 'Custom systems.',
+        d: 'The system your team needs, without spreadsheets and rework.',
+        cta: 'See systems',
       },
     ],
-    howTitle: 'How it works',
-    how: [
-      { k: 'We talk.', d: 'You tell me about the business, I ask what matters.' },
-      { k: 'I build a preview.', d: 'With your logo, your photos, your style. You see it before deciding.' },
-      { k: 'The site goes live.', d: 'With its own address (yourbusiness.com.br) and a map.' },
-      {
-        k: 'I look after it every month.',
-        d: 'New hours, dish or promotion? Send it to me and I update it.',
-      },
-    ],
-    examplesTitle: 'Made nearby.',
-    priceTitle: 'Price',
-    price: 'A fair price, agreed in conversation. No long lock-in.',
+    sites: {
+      kicker: 'Websites for local businesses',
+      title: 'Your business showing up on Google, looking like itself.',
+      lede: 'I build the website for your restaurant or shop, put it online and look after it every month. You keep taking orders on WhatsApp, only now more people find you.',
+      whatsappMessage: 'Hi Mateus, I saw the website and want to know how it works.',
+      whyTitle: 'Why have a website',
+      why: [
+        {
+          k: 'People find you on Google.',
+          d: 'Whoever searches "pizza near me" lands on whoever shows up.',
+        },
+        {
+          k: 'Menu, hours and address in one place.',
+          d: 'No more customers scrolling through Instagram.',
+        },
+        {
+          k: 'Orders still arrive on WhatsApp.',
+          d: 'The website brings the customer to you, it does not change how you serve.',
+        },
+      ],
+      howTitle: 'How it works',
+      how: [
+        { k: 'We talk.', d: 'You tell me about the business, I ask what matters.' },
+        {
+          k: 'I build a preview.',
+          d: 'With your logo, your photos, your style. You see it before deciding.',
+        },
+        { k: 'The site goes live.', d: 'With its own address (yourbusiness.com.br) and a map.' },
+        {
+          k: 'I look after it every month.',
+          d: 'New hours, dish or promotion? Send it to me and I update it.',
+        },
+      ],
+      examplesTitle: 'Made by me.',
+      priceTitle: 'Price',
+      price: 'A fair price, agreed in conversation. No long lock-in.',
+    },
+    systems: {
+      kicker: 'Custom systems',
+      title: 'Custom systems.',
+      lede: 'For when the spreadsheet can no longer keep up, or your team loses hours moving information from one place to another.',
+      whatsappMessage: 'Hi Mateus, I saw your website and want to talk about a system.',
+      whatTitle: 'What I build',
+      what: [
+        {
+          k: 'Management dashboards.',
+          d: 'Sales, collections and customer service in one place, updated on their own.',
+        },
+        {
+          k: 'Automations.',
+          d: 'The repetitive task someone does every day becomes an automatic routine: reports, reminders, work distribution.',
+        },
+        {
+          k: 'Integrations.',
+          d: 'Your system talking to WhatsApp, bank slips, email and whatever else the company already uses.',
+        },
+        {
+          k: 'Internal portals.',
+          d: 'Sign-ups, approvals and tracking in a system built around how your team works.',
+        },
+      ],
+      trustTitle: 'Why trust me',
+      trust:
+        'For more than three years I have built systems for the financial sector, where mistakes cost money. Today I work on a platform that processes over 150,000 records a day, with WhatsApp, telephony, email and bank slip integrations.',
+      howTitle: 'How it works',
+      how: [
+        { k: 'We talk.', d: 'I understand the problem and how the work gets done today.' },
+        { k: 'Written proposal.', d: 'What will be built, how long it takes and what it costs.' },
+        { k: 'Delivered in parts.', d: 'You start using it early and tell me what to adjust.' },
+        { k: 'I stay with you.', d: 'Once it is done, I handle adjustments and improvements.' },
+      ],
+      tech: 'Built with Laravel and Vue, technologies used by companies all over the world.',
+      priceTitle: 'Price',
+      price:
+        'Every system is its own project: the price comes from our conversation, with a written proposal.',
+    },
     faqTitle: 'Quick questions',
     faq: [
       {
-        q: 'Do I need to understand the internet?',
-        a: 'No. Send me the photos and information, I do the rest.',
+        q: 'Do I need to understand technology?',
+        a: 'No. Tell me what you need, I take care of the technical side.',
       },
-      { q: 'How long does it take?', a: 'A few days after we talk.' },
-      { q: 'What if I want to change something?', a: 'Message me on WhatsApp. It is part of the monthly fee.' },
+      {
+        q: 'Do you work with companies anywhere?',
+        a: 'Yes. Everything can be done remotely, over WhatsApp and video calls.',
+      },
+      {
+        q: 'How long does it take?',
+        a: 'Website: a few days after we talk. System: it depends on the size, and the deadline goes in the proposal.',
+      },
+      {
+        q: 'Can we start small?',
+        a: 'Yes. I start with the problem that weighs most today and the rest grows later.',
+      },
+      {
+        q: 'What if I want to change something later?',
+        a: 'Message me on WhatsApp. For websites it is part of the monthly fee; for systems, we agree on it in the proposal.',
+      },
       { q: 'Is the website mine?', a: 'The address (yourbusiness.com.br) is registered in your name.' },
     ],
-    closeTitle: 'Ready to put your business on the map?',
-    closeLine: 'All over WhatsApp, wherever your business is.',
+    closeTitle: 'Shall we talk about your project?',
+    closeMessage: 'Hi Mateus, I saw your website and want to talk about a project.',
+    closeLine: 'I reply on WhatsApp, wherever your business is.',
   },
   caseStudy: {
     back: 'Back to home',

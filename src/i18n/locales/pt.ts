@@ -4,16 +4,16 @@ const pt = {
     homeDescription:
       'Desenvolvedor full-stack (Laravel e Vue). Três anos construindo sistemas web para o setor financeiro, de cooperativas de crédito a plataformas multi-cliente.',
     aboutTitle: 'Sobre · Mateus Felini',
-    sitesTitle: 'Sites para comércio local · Mateus Felini',
-    sitesDescription:
-      'Site para o seu restaurante ou loja, no ar em poucos dias e cuidado todo mês.',
+    servicesTitle: 'Serviços · Mateus Felini',
+    servicesDescription:
+      'Sites para comércio local e sistemas sob medida (painéis, automações e integrações com WhatsApp, boleto e e-mail).',
     notFoundTitle: 'Página não encontrada · Mateus Felini',
   },
   nav: {
     home: 'Início',
     projects: 'Projetos',
     about: 'Sobre',
-    sites: 'Sites',
+    services: 'Serviços',
     contact: 'Contato',
     switchLocale: 'Read in English',
     skip: 'Pular para o conteúdo',
@@ -78,6 +78,11 @@ const pt = {
       ],
       more: 'A história inteira está em Sobre',
     },
+    client: {
+      title: 'Tem um projeto? Também atendo empresas.',
+      text: 'Faço sites para comércio local e sistemas sob medida: painéis de gestão, automações e integrações. O mesmo cuidado que levo pro trabalho do dia a dia.',
+      cta: 'Ver serviços',
+    },
     contact: {
       title: 'Vamos conversar?',
       text: 'Respondo e-mail em até um dia útil.',
@@ -131,54 +136,126 @@ const pt = {
     edu: 'Análise e Desenvolvimento de Sistemas, Universidade de Passo Fundo (trancado)',
     ctaTalk: 'Falar comigo',
   },
-  sites: {
+  services: {
+    kicker: 'Serviços',
+    title: 'Do site da sua loja ao sistema da sua empresa.',
+    lede: 'Trabalho direto com você, da primeira conversa até tudo funcionando. Escolha por onde começar:',
     pinLabel: 'Seu negócio aqui',
-    kicker: 'Sites para comércio local',
-    title: 'Seu negócio aparecendo no Google, com a cara dele.',
-    lede: 'Faço o site do seu restaurante ou loja, coloco no ar e cuido dele todo mês. Você continua atendendo pelo WhatsApp, só que agora mais gente te acha.',
     whatsapp: 'Chamar no WhatsApp',
     whatsappFallback: 'Mandar um e-mail',
-    whatsappMessage: 'Oi Mateus, vi o site e quero saber como funciona.',
-    whyTitle: 'Por que ter site',
-    why: [
-      { k: 'Te acham no Google.', d: 'Quem procura "pizzaria perto de mim" cai em quem aparece.' },
+    offers: [
       {
-        k: 'Cardápio, horário e endereço num lugar só.',
-        d: 'Sem depender do cliente rolar o Instagram.',
+        id: 'sites',
+        k: 'Sites para comércio local.',
+        d: 'Seu negócio aparecendo no Google, com a cara dele.',
+        cta: 'Ver sites',
       },
       {
-        k: 'O pedido continua chegando no WhatsApp.',
-        d: 'O site leva o cliente até você, não muda seu jeito de atender.',
-      },
-    ],
-    howTitle: 'Como funciona',
-    how: [
-      { k: 'A gente conversa.', d: 'Você me conta do negócio, eu pergunto o que importa.' },
-      {
-        k: 'Monto uma prévia.',
-        d: 'Com seu logo, suas fotos e seu jeito. Você vê antes de decidir.',
-      },
-      { k: 'O site entra no ar.', d: 'Com endereço próprio (seunegocio.com.br) e mapa.' },
-      {
-        k: 'Eu cuido todo mês.',
-        d: 'Mudou horário, prato ou promoção? Me manda que eu atualizo.',
+        id: 'sistemas',
+        k: 'Sistemas sob medida.',
+        d: 'O sistema que a sua equipe precisa, sem planilha e sem retrabalho.',
+        cta: 'Ver sistemas',
       },
     ],
-    examplesTitle: 'Feitos aqui perto.',
-    priceTitle: 'Preço',
-    price: 'Preço justo, combinado na conversa. Sem fidelidade longa.',
+    sites: {
+      kicker: 'Sites para comércio local',
+      title: 'Seu negócio aparecendo no Google, com a cara dele.',
+      lede: 'Faço o site do seu restaurante ou loja, coloco no ar e cuido dele todo mês. Você continua atendendo pelo WhatsApp, só que agora mais gente te acha.',
+      whatsappMessage: 'Oi Mateus, vi o site e quero saber como funciona.',
+      whyTitle: 'Por que ter site',
+      why: [
+        { k: 'Te acham no Google.', d: 'Quem procura "pizzaria perto de mim" cai em quem aparece.' },
+        {
+          k: 'Cardápio, horário e endereço num lugar só.',
+          d: 'Sem depender do cliente rolar o Instagram.',
+        },
+        {
+          k: 'O pedido continua chegando no WhatsApp.',
+          d: 'O site leva o cliente até você, não muda seu jeito de atender.',
+        },
+      ],
+      howTitle: 'Como funciona',
+      how: [
+        { k: 'A gente conversa.', d: 'Você me conta do negócio, eu pergunto o que importa.' },
+        {
+          k: 'Monto uma prévia.',
+          d: 'Com seu logo, suas fotos e seu jeito. Você vê antes de decidir.',
+        },
+        { k: 'O site entra no ar.', d: 'Com endereço próprio (seunegocio.com.br) e mapa.' },
+        {
+          k: 'Eu cuido todo mês.',
+          d: 'Mudou horário, prato ou promoção? Me manda que eu atualizo.',
+        },
+      ],
+      examplesTitle: 'Feitos por mim.',
+      priceTitle: 'Preço',
+      price: 'Preço justo, combinado na conversa. Sem fidelidade longa.',
+    },
+    systems: {
+      kicker: 'Sistemas sob medida',
+      title: 'Sistemas sob medida.',
+      lede: 'Pra quando a planilha não dá mais conta, ou a equipe perde horas passando informação de um lugar pro outro.',
+      whatsappMessage: 'Oi Mateus, vi seu site e quero conversar sobre um sistema.',
+      whatTitle: 'O que eu faço',
+      what: [
+        {
+          k: 'Painéis de gestão.',
+          d: 'Vendas, cobranças e atendimentos num lugar só, atualizados sozinhos.',
+        },
+        {
+          k: 'Automações.',
+          d: 'A tarefa repetitiva que alguém faz todo dia vira rotina automática: relatório, lembrete, distribuição de trabalho.',
+        },
+        {
+          k: 'Integrações.',
+          d: 'Seu sistema conversando com WhatsApp, boleto, e-mail e o que mais a empresa já usa.',
+        },
+        {
+          k: 'Portais internos.',
+          d: 'Cadastro, aprovação e acompanhamento num sistema feito pro jeito da sua equipe trabalhar.',
+        },
+      ],
+      trustTitle: 'Por que confiar',
+      trust:
+        'Há mais de três anos construo sistemas pro setor financeiro, onde erro custa dinheiro. Hoje trabalho numa plataforma que processa mais de 150 mil registros por dia, com integrações de WhatsApp, telefonia, e-mail e boleto.',
+      howTitle: 'Como funciona',
+      how: [
+        { k: 'A gente conversa.', d: 'Entendo o problema e como o trabalho é feito hoje.' },
+        { k: 'Proposta por escrito.', d: 'O que vai ser feito, em quanto tempo e quanto custa.' },
+        { k: 'Entrega em partes.', d: 'Você começa a usar cedo e me diz o que ajustar.' },
+        { k: 'Sigo junto.', d: 'Depois de pronto, cuido de ajustes e melhorias.' },
+      ],
+      tech: 'Feito em Laravel e Vue, tecnologias usadas por empresas no mundo todo.',
+      priceTitle: 'Preço',
+      price: 'Cada sistema é um projeto: o valor sai da conversa, com proposta por escrito.',
+    },
     faqTitle: 'Perguntas rápidas',
     faq: [
       {
         q: 'Preciso entender de internet?',
-        a: 'Não. Você me manda as fotos e as informações, eu faço o resto.',
+        a: 'Não. Você me conta o que precisa, eu cuido da parte técnica.',
       },
-      { q: 'Quanto tempo leva?', a: 'Poucos dias depois da conversa.' },
-      { q: 'E se eu quiser mudar algo?', a: 'Me chama no WhatsApp. Faz parte da mensalidade.' },
+      {
+        q: 'Atende empresa de qualquer lugar?',
+        a: 'Sim. Tudo pode ser feito a distância, por WhatsApp e chamada de vídeo.',
+      },
+      {
+        q: 'Quanto tempo leva?',
+        a: 'Site: poucos dias depois da conversa. Sistema: depende do tamanho, e o prazo vai na proposta.',
+      },
+      {
+        q: 'Dá pra começar pequeno?',
+        a: 'Sim. Começo pelo problema que mais pesa hoje e o resto cresce depois.',
+      },
+      {
+        q: 'E se eu quiser mudar algo depois?',
+        a: 'Me chama no WhatsApp. No site, faz parte da mensalidade; no sistema, combinamos na proposta.',
+      },
       { q: 'O site é meu?', a: 'O endereço (seunegocio.com.br) fica no seu nome.' },
     ],
-    closeTitle: 'Bora colocar seu negócio no mapa?',
-    closeLine: 'Tudo pelo WhatsApp, esteja seu negócio onde estiver.',
+    closeTitle: 'Bora conversar sobre o seu projeto?',
+    closeMessage: 'Oi Mateus, vi seu site e quero conversar sobre um projeto.',
+    closeLine: 'Respondo pelo WhatsApp, esteja seu negócio onde estiver.',
   },
   caseStudy: {
     back: 'Voltar para o início',

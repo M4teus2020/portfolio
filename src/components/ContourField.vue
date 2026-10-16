@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// Curvas de nível com um ponto marcado no topo; o rótulo é opcional (no /sites: o negócio).
+// Curvas de nível com um ponto marcado no topo; o rótulo é opcional (no /servicos: o negócio).
 // Geradas de forma determinística: mesmo desenho em todo carregamento.
 const props = withDefaults(defineProps<{ label?: string; rings?: number }>(), { rings: 12 })
 

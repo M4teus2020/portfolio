@@ -111,6 +111,16 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
     </div>
   </section>
 
+  <section class="band client">
+    <div class="wrap client-row">
+      <div>
+        <h2 class="client-title">{{ h.client.title }}</h2>
+        <p class="client-text">{{ h.client.text }}</p>
+      </div>
+      <RouterLink to="/servicos" class="btn btn-solid client-cta">{{ h.client.cta }}</RouterLink>
+    </div>
+  </section>
+
   <section id="contato" class="band contact">
     <div class="wrap">
       <h2 class="band-title">{{ h.contact.title }}</h2>
@@ -377,6 +387,51 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
   display: inline-block;
   margin-top: 1.5rem;
   font-weight: 600;
+}
+
+/* Faixa pro cliente */
+.client {
+  background: var(--ink);
+  color: var(--paper);
+  border-top: 0;
+  padding-block: clamp(3rem, 7vw, 5rem);
+}
+.client-row {
+  display: grid;
+  gap: 2rem;
+  align-items: end;
+}
+@media (min-width: 900px) {
+  .client-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4rem;
+  }
+}
+.client-title {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  max-width: 18ch;
+}
+.client-text {
+  margin: 1.25rem 0 0;
+  color: #b9c4bc;
+  font-size: 1.125rem;
+  max-width: 52ch;
+}
+.client .client-cta {
+  justify-self: start;
+  background: var(--broto);
+  color: var(--ink);
+  border-color: var(--broto);
+  min-height: 3.5rem;
+  padding-inline: 1.75rem;
+}
+.client .client-cta:hover {
+  background: var(--paper);
+  border-color: var(--paper);
 }
 
 /* Contato */
