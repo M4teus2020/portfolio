@@ -2,11 +2,11 @@ const pt = {
   meta: {
     homeTitle: 'Mateus Felini · Desenvolvedor full-stack (Laravel e Vue)',
     homeDescription:
-      'Desenvolvedor full-stack no interior do RS. Três anos construindo sistemas web para o setor financeiro, de cooperativas de crédito a plataformas multi-cliente.',
+      'Desenvolvedor full-stack (Laravel e Vue). Três anos construindo sistemas web para o setor financeiro, de cooperativas de crédito a plataformas multi-cliente.',
     aboutTitle: 'Sobre · Mateus Felini',
     sitesTitle: 'Sites para comércio local · Mateus Felini',
     sitesDescription:
-      'Site para o seu restaurante ou loja, no ar em poucos dias e cuidado todo mês. Ibiaçá, Tapejara, Sananduva e região.',
+      'Site para o seu restaurante ou loja, no ar em poucos dias e cuidado todo mês.',
     notFoundTitle: 'Página não encontrada · Mateus Felini',
   },
   nav: {
@@ -27,9 +27,8 @@ const pt = {
     kicker: 'Desenvolvedor full-stack, Laravel e Vue',
     title: 'Construo sistemas web que empresas usam o dia inteiro.',
     lede: 'Três anos em produção no setor financeiro: cobrança, atendimento, auditoria. Do banco de dados à tela, com código que o próximo dev consegue ler.',
-    facts: ['Ibiaçá, RS', 'Remoto ou híbrido', 'Português nativo, inglês avançado'],
+    facts: ['Remoto ou híbrido', 'Português nativo, inglês avançado'],
     ctaTimeline: 'Ver trajetória',
-    contourLabel: 'Ibiaçá, RS',
     proof: [
       { big: '3+ anos', small: 'em produção, desde abril de 2023' },
       { big: '150 mil+', small: 'registros por dia na plataforma em que trabalho hoje' },
@@ -69,13 +68,11 @@ const pt = {
         {
           years: '2024 até hoje',
           company: 'Soluct Soluções em Sistemas',
-          place: 'Tapejara, RS',
           text: 'Full-stack (Laravel e Vue) numa plataforma multi-cliente de operações financeiras: integrações, dashboards e fluxos que as equipes usam o dia todo.',
         },
         {
           years: '2023 a 2024',
           company: 'HGV Sistemas',
-          place: 'Tapejara, RS',
           text: 'Primeiro emprego como dev: PHP, MySQL e SQL Server em sistemas para o setor financeiro. Saí promovido, com ferramentas internas que aceleraram o time.',
         },
       ],
@@ -87,14 +84,14 @@ const pt = {
     },
   },
   about: {
-    title: 'Dev do interior, sistema de verdade.',
+    title: 'Do balcão da loja ao sistema financeiro.',
     intro:
-      'Sou o Mateus, de Ibiaçá, no norte do Rio Grande do Sul. Trabalho com desenvolvimento web desde 2023, sempre em sistemas que mexem com dinheiro de alguém: cobrança, atendimento, auditoria. Gosto desse tipo de software justamente porque erro ali tem custo, e isso obriga a fazer direito.',
+      'Sou o Mateus. Trabalho com desenvolvimento web desde 2023, sempre em sistemas que mexem com dinheiro de alguém: cobrança, atendimento, auditoria. Gosto desse tipo de software justamente porque erro ali tem custo, e isso obriga a fazer direito.',
     chapters: [
       {
         mark: 'Antes',
         title: 'Antes do código',
-        text: 'Antes de programar, trabalhei numa loja de informática da cidade e fazia de tudo: manutenção de computador e celular, vendas, instalação de internet. Foi ali que aprendi como funciona um negócio pequeno por dentro, e é por isso que hoje também faço sites para o comércio da região.',
+        text: 'Antes de programar, trabalhei numa loja de informática e fazia de tudo: manutenção de computador e celular, vendas, instalação de internet. Foi ali que aprendi como funciona um negócio pequeno por dentro, e é por isso que hoje também faço sites para o comércio local.',
       },
       {
         mark: '2023',
@@ -109,7 +106,7 @@ const pt = {
       {
         mark: 'Hoje',
         title: 'IA no método',
-        text: 'Uso IA como parte do método: Claude Code, agentes e testes automatizados no mesmo fluxo. Fora do trabalho, montei com essa abordagem um processo para criar sites para restaurantes e lojas da região.',
+        text: 'Uso IA como parte do método: Claude Code, agentes e testes automatizados no mesmo fluxo. Fora do trabalho, montei com essa abordagem um processo para criar sites para restaurantes e lojas.',
       },
     ],
     bringTitle: 'O que eu levo para um time',
@@ -144,7 +141,7 @@ const pt = {
     whatsappMessage: 'Oi Mateus, vi o site e quero saber como funciona.',
     whyTitle: 'Por que ter site',
     why: [
-      { k: 'Te acham no Google.', d: 'Quem procura "pizzaria em Sananduva" cai em quem aparece.' },
+      { k: 'Te acham no Google.', d: 'Quem procura "pizzaria perto de mim" cai em quem aparece.' },
       {
         k: 'Cardápio, horário e endereço num lugar só.',
         d: 'Sem depender do cliente rolar o Instagram.',
@@ -181,7 +178,7 @@ const pt = {
       { q: 'O site é meu?', a: 'O endereço (seunegocio.com.br) fica no seu nome.' },
     ],
     closeTitle: 'Bora colocar seu negócio no mapa?',
-    closeLine: 'Atendo Ibiaçá, Tapejara, Sananduva e região.',
+    closeLine: 'Tudo pelo WhatsApp, esteja seu negócio onde estiver.',
   },
   caseStudy: {
     back: 'Voltar para o início',
@@ -210,7 +207,7 @@ const pt = {
     cta: 'Ir para o início',
   },
   footer: {
-    line: 'Ibiaçá, RS. Feito com Vue e um pouco de teimosia.',
+    line: 'Desenvolvedor full-stack, Laravel e Vue.',
   },
 }
 

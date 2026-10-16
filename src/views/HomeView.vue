@@ -40,7 +40,7 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
       </div>
     </div>
     <div class="hero-art" :class="{ 'has-photo': PHOTO_URL }">
-      <ContourField :label="h.contourLabel" />
+      <ContourField />
       <img
         v-if="PHOTO_URL"
         class="photo"
@@ -102,7 +102,6 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
             <p class="tl-years">{{ it.years }}</p>
             <div>
               <h3 class="tl-company">{{ it.company }}</h3>
-              <p class="tl-place">{{ it.place }}</p>
               <p class="tl-text">{{ it.text }}</p>
             </div>
           </li>
@@ -149,13 +148,6 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
   top: 0;
   width: min(30rem, 88vw);
   opacity: 0.5;
-}
-/* No celular o mapa fica atrás do nome: sem rótulo pra não brigar com o texto. */
-@media (max-width: 899px) {
-  .hero-art :deep(.c-pin text),
-  .hero-art :deep(.c-pin line) {
-    display: none;
-  }
 }
 @media (min-width: 900px) {
   .hero {
@@ -376,11 +368,6 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.2;
-}
-.tl-place {
-  margin: 0.125rem 0 0;
-  font-size: 0.9375rem;
-  color: var(--muted);
 }
 .tl-text {
   margin: 0.75rem 0 0;

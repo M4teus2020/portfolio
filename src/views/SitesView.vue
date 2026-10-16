@@ -253,6 +253,10 @@ useMeta(() => ({ title: t.value.meta.sitesTitle, description: t.value.meta.sites
   max-width: 28ch;
 }
 
+.faq {
+  /* Deixa o navegador animar até "auto" (altura do conteúdo). */
+  interpolate-size: allow-keywords;
+}
 .faq details {
   border-bottom: 1px solid var(--line);
 }
@@ -267,25 +271,67 @@ useMeta(() => ({ title: t.value.meta.sitesTitle, description: t.value.meta.sites
   font-size: 1.125rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 1rem;
+  transition: color 0.2s;
+}
+.faq summary:hover {
+  color: var(--mato);
 }
 .faq summary::-webkit-details-marker {
   display: none;
 }
+/* O "+" gira e vira "x" ao abrir. */
 .faq summary::after {
   content: "+";
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--line);
   font-weight: 500;
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   line-height: 1;
   color: var(--mato);
+  transition:
+    transform 0.35s cubic-bezier(0.3, 1.4, 0.5, 1),
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
 }
 .faq details[open] summary::after {
-  content: "\2212";
+  transform: rotate(135deg);
+  background: var(--mato);
+  border-color: var(--mato);
+  color: var(--paper);
 }
+/* Altura abre e fecha suave (Chrome, Edge e Safari recentes). */
+.faq details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+    content-visibility 0.35s allow-discrete;
+}
+.faq details[open]::details-content {
+  block-size: auto;
+}
+/* A resposta desliza e aparece; funciona em qualquer navegador. */
 .faq details p {
   margin: 0 0 1.25rem;
   color: var(--muted);
   max-width: 56ch;
+}
+.faq details[open] p {
+  animation: answer-in 0.4s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+@keyframes answer-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
 }
 
 .close {

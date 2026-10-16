@@ -4,11 +4,11 @@ const en: Messages = {
   meta: {
     homeTitle: 'Mateus Felini · Full-stack developer (Laravel and Vue)',
     homeDescription:
-      'Full-stack developer from southern Brazil. Three years building web systems for the financial sector, from credit unions to multi-tenant platforms.',
+      'Full-stack developer (Laravel and Vue). Three years building web systems for the financial sector, from credit unions to multi-tenant platforms.',
     aboutTitle: 'About · Mateus Felini',
     sitesTitle: 'Websites for local businesses · Mateus Felini',
     sitesDescription:
-      'A website for your restaurant or shop, live in a few days and looked after every month. Ibiaçá, Tapejara, Sananduva and nearby.',
+      'A website for your restaurant or shop, live in a few days and looked after every month.',
     notFoundTitle: 'Page not found · Mateus Felini',
   },
   nav: {
@@ -29,9 +29,8 @@ const en: Messages = {
     kicker: 'Full-stack developer, Laravel and Vue',
     title: 'I build web systems that companies use all day long.',
     lede: 'Three years in production in the financial sector: collections, customer service, auditing. From the database to the screen, with code the next developer can actually read.',
-    facts: ['Ibiaçá, Brazil', 'Remote or hybrid', 'Native Portuguese, advanced English'],
+    facts: ['Remote or hybrid', 'Native Portuguese, advanced English'],
     ctaTimeline: 'See my path',
-    contourLabel: 'Ibiaçá, Brazil',
     proof: [
       { big: '3+ years', small: 'in production, since April 2023' },
       { big: '150k+', small: 'records a day on the platform I work on today' },
@@ -71,13 +70,11 @@ const en: Messages = {
         {
           years: '2024 to now',
           company: 'Soluct Soluções em Sistemas',
-          place: 'Tapejara, Brazil',
           text: 'Full-stack (Laravel and Vue) on a multi-tenant financial operations platform: integrations, dashboards and workflows teams use all day.',
         },
         {
           years: '2023 to 2024',
           company: 'HGV Sistemas',
-          place: 'Tapejara, Brazil',
           text: 'First developer job: PHP, MySQL and SQL Server on systems for the financial sector. Left after promotions, with internal tools that sped the team up.',
         },
       ],
@@ -89,14 +86,14 @@ const en: Messages = {
     },
   },
   about: {
-    title: 'Small-town developer, real-world systems.',
+    title: 'From the shop counter to financial systems.',
     intro:
-      "I'm Mateus, from Ibiaçá, in the north of Rio Grande do Sul, Brazil. I've worked in web development since 2023, always on systems that handle someone's money: collections, customer service, auditing. I like this kind of software precisely because mistakes there cost something, and that forces you to do it right.",
+      "I'm Mateus. I've worked in web development since 2023, always on systems that handle someone's money: collections, customer service, auditing. I like this kind of software precisely because mistakes there cost something, and that forces you to do it right.",
     chapters: [
       {
         mark: 'Before',
         title: 'Before code',
-        text: 'Before programming, I worked at a computer shop in town and did a bit of everything: computer and phone repair, sales, internet installs. That is where I learned how a small business works from the inside, and why I also build websites for local businesses today.',
+        text: 'Before programming, I worked at a computer shop and did a bit of everything: computer and phone repair, sales, internet installs. That is where I learned how a small business works from the inside, and why I also build websites for local businesses today.',
       },
       {
         mark: '2023',
@@ -111,7 +108,7 @@ const en: Messages = {
       {
         mark: 'Now',
         title: 'AI in the method',
-        text: 'AI is part of my method: Claude Code, agents and automated tests in the same flow. Outside work, I used that approach to build a process that creates websites for restaurants and shops in my region.',
+        text: 'AI is part of my method: Claude Code, agents and automated tests in the same flow. Outside work, I used that approach to build a process that creates websites for restaurants and shops.',
       },
     ],
     bringTitle: 'What I bring to a team',
@@ -148,7 +145,7 @@ const en: Messages = {
     why: [
       {
         k: 'People find you on Google.',
-        d: 'Whoever searches "pizza in Sananduva" lands on whoever shows up.',
+        d: 'Whoever searches "pizza near me" lands on whoever shows up.',
       },
       {
         k: 'Menu, hours and address in one place.',
@@ -183,7 +180,7 @@ const en: Messages = {
       { q: 'Is the website mine?', a: 'The address (yourbusiness.com.br) is registered in your name.' },
     ],
     closeTitle: 'Ready to put your business on the map?',
-    closeLine: 'Serving Ibiaçá, Tapejara, Sananduva and nearby towns.',
+    closeLine: 'All over WhatsApp, wherever your business is.',
   },
   caseStudy: {
     back: 'Back to home',
@@ -212,7 +209,7 @@ const en: Messages = {
     cta: 'Go home',
   },
   footer: {
-    line: 'Ibiaçá, Brazil. Built with Vue and a bit of stubbornness.',
+    line: 'Full-stack developer, Laravel and Vue.',
   },
 }
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-// Curvas de nível do planalto com um ponto marcado (Ibiaçá, ou o negócio no /sites).
+// Curvas de nível com um ponto marcado no topo; o rótulo é opcional (no /sites: o negócio).
 // Geradas de forma determinística: mesmo desenho em todo carregamento.
-const props = withDefaults(defineProps<{ label: string; rings?: number }>(), { rings: 12 })
+const props = withDefaults(defineProps<{ label?: string; rings?: number }>(), { rings: 12 })
 
 const CX = 330
 const CY = 300
@@ -43,8 +43,10 @@ const paths = Array.from({ length: props.rings }, (_, i) => ring(i))
       />
       <g class="c-pin">
         <circle :cx="CX" :cy="CY" r="7" />
-        <line :x1="CX" :y1="CY" :x2="CX + 92" :y2="CY - 58" />
-        <text :x="CX + 98" :y="CY - 62">{{ label }}</text>
+        <template v-if="label">
+          <line :x1="CX" :y1="CY" :x2="CX + 92" :y2="CY - 58" />
+          <text :x="CX + 98" :y="CY - 62">{{ label }}</text>
+        </template>
       </g>
     </svg>
   </figure>

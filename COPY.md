@@ -1,5 +1,6 @@
 # COPY.md · felini.dev v2
 
+> **Depois da aprovação, a fonte final é `src/i18n/locales/pt.ts`.** Ajustes de 2026-10-16: sem cidade em nenhum lugar, rodapé sem "teimosia", título do Sobre "Do balcão da loja ao sistema financeiro.".
 > Texto antes do código. PT é a fonte; o EN sai como tradução depois que o PT for aprovado.
 > Regras: só fatos verdadeiros (base: `carreira/ficha-profissional.md`), nada interno da Soluct, sem "procurando vaga", sem travessão.
 > `[A CONFIRMAR]` = dado que o Mateus precisa validar antes de ir pro ar.
