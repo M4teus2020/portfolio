@@ -1,141 +1,218 @@
-import type { Messages } from '../types'
-
-const pt: Messages = {
-  nav: {
-    about: 'Sobre',
-    stack: 'Stack',
-    ai: 'IA',
-    timeline: 'Trajetória',
-    play: 'Playground',
-    contact: 'Contato',
+const pt = {
+  meta: {
+    homeTitle: 'Mateus Felini · Desenvolvedor full-stack (Laravel e Vue)',
+    homeDescription:
+      'Desenvolvedor full-stack no interior do RS. Três anos construindo sistemas web para o setor financeiro, de cooperativas de crédito a plataformas multi-cliente.',
+    aboutTitle: 'Sobre · Mateus Felini',
+    sitesTitle: 'Sites para comércio local · Mateus Felini',
+    sitesDescription:
+      'Site para o seu restaurante ou loja, no ar em poucos dias e cuidado todo mês. Ibiaçá, Tapejara, Sananduva e região.',
+    notFoundTitle: 'Página não encontrada · Mateus Felini',
   },
-  hero: {
-    role: 'Dev Full-stack',
-    location: 'Rio Grande do Sul — Brasil',
-    name: 'Mateus Felini',
-    tagline: 'Construo produtos full-stack com Laravel & Vue.',
-    sub: 'Três anos entregando interfaces que não travam, APIs que não caem e código que outras pessoas conseguem ler depois.',
-    cta: 'Ver trajetória',
-    cta2: 'Fale comigo',
+  nav: {
+    home: 'Início',
+    projects: 'Projetos',
+    about: 'Sobre',
+    sites: 'Sites',
+    contact: 'Contato',
+    switchLocale: 'Read in English',
+    skip: 'Pular para o conteúdo',
+  },
+  common: {
+    resume: 'Baixar currículo',
+    copyEmail: 'Copiar e-mail',
+    copied: 'E-mail copiado',
+  },
+  home: {
+    kicker: 'Desenvolvedor full-stack, Laravel e Vue',
+    title: 'Construo sistemas web que empresas usam o dia inteiro.',
+    lede: 'Três anos em produção no setor financeiro: cobrança, atendimento, auditoria. Do banco de dados à tela, com código que o próximo dev consegue ler.',
+    facts: ['Ibiaçá, RS', 'Remoto ou híbrido', 'Português nativo, inglês avançado'],
+    ctaTimeline: 'Ver trajetória',
+    contourLabel: 'Ibiaçá, RS',
+    proof: [
+      { big: '3+ anos', small: 'em produção, desde abril de 2023' },
+      { big: '150 mil+', small: 'registros por dia na plataforma em que trabalho hoje' },
+      { big: 'IA no método', small: 'não no lugar dele: Claude Code com testes e revisão' },
+    ],
+    projects: {
+      title: 'Projetos',
+      sub: 'Problema, decisão e resultado. Um de cada vez, bem contado.',
+      read: 'Ler o case',
+    },
+    work: {
+      title: 'Como eu trabalho.',
+      items: [
+        {
+          k: 'Entendo o negócio antes do código.',
+          d: 'Sistema financeiro não perdoa regra mal entendida. Pergunto até saber por que a regra existe.',
+        },
+        {
+          k: 'Teste primeiro, agente depois.',
+          d: 'Escrevo o teste, deixo o Claude Code propor a implementação e reviso. O teste é a especificação que o agente não consegue contornar.',
+        },
+        {
+          k: 'Performance é parte da entrega.',
+          d: 'Query lenta, N+1 e relatório que trava viram tarefa, não detalhe pra depois.',
+        },
+        {
+          k: 'Segurança desde o primeiro SQL.',
+          d: 'Comecei em PHP puro, escrevendo SQL à mão. Desconfiar de toda entrada virou hábito.',
+        },
+      ],
+      close:
+        'IA não toma decisão de engenharia por mim. Ela tira a parte repetitiva do caminho e sobra tempo pro que importa.',
+    },
+    timeline: {
+      title: 'Trajetória.',
+      items: [
+        {
+          years: '2024 até hoje',
+          company: 'Soluct Soluções em Sistemas',
+          place: 'Tapejara, RS',
+          text: 'Full-stack (Laravel e Vue) numa plataforma multi-cliente de operações financeiras: integrações, dashboards e fluxos que as equipes usam o dia todo.',
+        },
+        {
+          years: '2023 a 2024',
+          company: 'HGV Sistemas',
+          place: 'Tapejara, RS',
+          text: 'Primeiro emprego como dev: PHP, MySQL e SQL Server em sistemas para o setor financeiro. Saí promovido, com ferramentas internas que aceleraram o time.',
+        },
+      ],
+      more: 'A história inteira está em Sobre',
+    },
+    contact: {
+      title: 'Vamos conversar?',
+      text: 'Respondo e-mail em até um dia útil.',
+    },
   },
   about: {
-    kicker: 'Sobre mim',
-    title: 'Engenheiro full-stack, pleno, com 3 anos de estrada.',
-    body: 'Trabalho principalmente com Laravel e Vue — essa dupla me deixa entregar features de ponta-a-ponta rápido e com confiança. Gosto de código legível, testes que importam e decisões de arquitetura que o time do próximo ano não vai me odiar.',
-    facts: [
-      ['Carreira', '3 anos'],
-      ['Base', 'RS · Brasil'],
-      ['Stack favorita', 'Laravel + Vue'],
-      ['Tipo de trabalho', 'CLT · Contract · Remoto'],
+    title: 'Dev do interior, sistema de verdade.',
+    intro:
+      'Sou o Mateus, de Ibiaçá, no norte do Rio Grande do Sul. Trabalho com desenvolvimento web desde 2023, sempre em sistemas que mexem com dinheiro de alguém: cobrança, atendimento, auditoria. Gosto desse tipo de software justamente porque erro ali tem custo, e isso obriga a fazer direito.',
+    chapters: [
+      {
+        mark: 'Antes',
+        title: 'Antes do código',
+        text: 'Antes de programar, trabalhei numa loja de informática da cidade e fazia de tudo: manutenção de computador e celular, vendas, instalação de internet. Foi ali que aprendi como funciona um negócio pequeno por dentro, e é por isso que hoje também faço sites para o comércio da região.',
+      },
+      {
+        mark: '2023',
+        title: 'HGV Sistemas',
+        text: 'Meu primeiro emprego como dev. PHP sem framework, SQL escrito à mão, sistemas para o setor financeiro. Ali aprendi o peso de mexer com dado financeiro: encontrei e reportei uma falha de segurança crítica no sistema, e criei um gerador de código que acabou com o copia e cola no início de cada funcionalidade. Também ajudei a integrar os devs que chegaram depois de mim.',
+      },
+      {
+        mark: '2024',
+        title: 'Soluct',
+        text: 'Saí da HGV por escolha: queria uma stack moderna e mais espaço pra crescer, e aceitei recomeçar por isso. Na Soluct trabalho com Laravel, Vue e TypeScript numa plataforma multi-cliente de operações financeiras, com integrações (WhatsApp, telefonia, e-mail, boletos), filas, relatórios e otimização de performance.',
+      },
+      {
+        mark: 'Hoje',
+        title: 'IA no método',
+        text: 'Uso IA como parte do método: Claude Code, agentes e testes automatizados no mesmo fluxo. Fora do trabalho, montei com essa abordagem um processo para criar sites para restaurantes e lojas da região.',
+      },
     ],
-    now: 'No momento',
-    nowItemsBase: [
-      'Explorando TDD combinado com agentes de IA — testes guiam o pair programming',
-      'Aprofundando em arquitetura hexagonal em PHP',
-      'Lendo sobre DDD aplicado a sistemas legados',
+    bringTitle: 'O que eu levo para um time',
+    bring: [
+      'Entendo regra de negócio e faço a pergunta que falta.',
+      'Cuido de performance e segurança sem precisar de ticket pra isso.',
+      'Escrevo código pensando em quem vai mantê-lo.',
+      'Uso IA com critério: rápido sem ser descuidado.',
     ],
-    nowItemLooking: 'Procurando a próxima posição — remoto global ou BR',
+    toolsTitle: 'Ferramentas',
+    tools: [
+      {
+        h: 'Uso todo dia',
+        items:
+          'PHP, Laravel, Vue 3, TypeScript, PostgreSQL, MySQL, Redis, Docker, Git, GitHub Actions, Linux',
+      },
+      { h: 'Testes', items: 'PHPUnit, Pest, Vitest' },
+      { h: 'IA', items: 'Claude Code, agentes e MCPs, GitHub Copilot, Ollama' },
+      { h: 'Arquitetura', items: 'Multi-tenant, Clean Architecture, SOLID, DDD' },
+    ],
+    eduTitle: 'Formação',
+    edu: 'Análise e Desenvolvimento de Sistemas, Universidade de Passo Fundo (trancado)',
+    ctaTalk: 'Falar comigo',
   },
-  stack: {
-    kicker: 'Stack',
-    title: 'Ferramentas que uso todo dia.',
-    groups: [
-      { h: 'Backend', items: ['Laravel', 'PHP 8.3', 'Node', 'Postgres', 'MySQL', 'Redis', 'Docker'] },
-      { h: 'Frontend', items: ['Vue 3', 'Nuxt', 'Inertia', 'TypeScript', 'TailwindCSS', 'Vite'] },
-      { h: 'Infra & Ops', items: ['AWS', 'GitHub Actions', 'Linux', 'nginx'] },
-      { h: 'IA / Agentes', items: ['Claude Code', 'GitHub Copilot', 'Anthropic API', 'OpenAI API'] },
-      { h: 'Disciplina', items: ['TDD', 'Clean Architecture', 'Code Review', 'Pair Programming'] },
-    ],
-  },
-  ai: {
-    kicker: 'IA no fluxo',
-    title: 'Como eu trabalho com IA.',
-    sub: 'Não sou um "dev que usa ChatGPT" — IA virou parte do meu setup, igual Git. Uso Claude Code e GitHub Copilot como parceiros de pensamento, não como muleta.',
-    items: [
+  sites: {
+    pinLabel: 'Seu negócio aqui',
+    kicker: 'Sites para comércio local',
+    title: 'Seu negócio aparecendo no Google, com a cara dele.',
+    lede: 'Faço o site do seu restaurante ou loja, coloco no ar e cuido dele todo mês. Você continua atendendo pelo WhatsApp, só que agora mais gente te acha.',
+    whatsapp: 'Chamar no WhatsApp',
+    whatsappFallback: 'Mandar um e-mail',
+    whatsappMessage: 'Oi Mateus, vi o site e quero saber como funciona.',
+    whyTitle: 'Por que ter site',
+    why: [
+      { k: 'Te acham no Google.', d: 'Quem procura "pizzaria em Sananduva" cai em quem aparece.' },
       {
-        k: 'Claude Code como pair sênior',
-        d: 'Uso Claude Code para refatorações grandes, exploração de código legado e desenho de arquitetura.',
+        k: 'Cardápio, horário e endereço num lugar só.',
+        d: 'Sem depender do cliente rolar o Instagram.',
       },
       {
-        k: 'Copilot no dia-a-dia',
-        d: 'GitHub Copilot como autocomplete turbinado — boilerplate de testes, resources do Laravel, tipagens de props no Vue. Fricção zero no fluxo, nunca tiro as mãos do teclado.',
-      },
-      {
-        k: 'TDD + agente = ciclo rápido',
-        d: 'Escrevo o teste primeiro, deixo o agente sugerir a implementação, ajusto. Os testes funcionam como especificação executável — o agente não consegue "enganar" o resultado.',
-      },
-      {
-        k: 'Revisão assistida antes do PR',
-        d: 'Passo o diff por um agente antes de abrir PR — pega inconsistências de naming, N+1 queries esquecidas e aquele TODO que ficou no código. Smells que eu deixaria escapar às 18h de sexta.',
-      },
-      {
-        k: 'Prototipação absurdamente rápida',
-        d: 'Mock de endpoints, seeds realistas, playgrounds interativos e POCs saem em minutos. O que antes era "vou ver no fim de semana" vira "deixa eu te mostrar agora".',
-      },
-      {
-        k: 'Features com LLM em produto',
-        d: 'Já integrei LLMs em fluxos reais: extração estruturada de documentos, resumo automático de tickets, enriquecimento de cadastro. Entender prompt-engineering e limites do modelo faz parte do job.',
+        k: 'O pedido continua chegando no WhatsApp.',
+        d: 'O site leva o cliente até você, não muda seu jeito de atender.',
       },
     ],
-    quote: '"IA não substitui decisão de engenharia. Substitui a parte chata dela — e me deixa gastar energia no que importa."',
-  },
-  timeline: {
-    kicker: 'Trajetória',
-    title: 'Onde estive.',
-    items: [
+    howTitle: 'Como funciona',
+    how: [
+      { k: 'A gente conversa.', d: 'Você me conta do negócio, eu pergunto o que importa.' },
       {
-        year: 'jun 2024 — hoje',
-        role: 'Desenvolvedor Full-stack',
-        company: 'Soluct Soluções em Sistemas',
-        location: 'Tapejara, RS · Híbrido',
-        bullets: [
-          'Comecei como front-end e evoluí para full-stack (Vue 3 + Laravel), entregando sistemas de gestão interna para o setor financeiro e cooperativas de crédito.',
-          'Engenharia de CRMs, dashboards analíticos e fluxos de cadastro — foco em eficiência operacional do usuário final.',
-          'Módulos avançados de gestão documental e integração com APIs externas de terceiros.',
-          'TypeScript + Vue Router em arquitetura tipada e escalável, conectada a back-ends Laravel.',
-        ],
+        k: 'Monto uma prévia.',
+        d: 'Com seu logo, suas fotos e seu jeito. Você vê antes de decidir.',
       },
+      { k: 'O site entra no ar.', d: 'Com endereço próprio (seunegocio.com.br) e mapa.' },
       {
-        year: 'abr 2023 — jun 2024',
-        role: 'Desenvolvedor Web',
-        company: 'HGV Sistemas',
-        location: 'Tapejara, RS · Presencial',
-        bullets: [
-          'Desenvolvimento e manutenção de sistemas de gestão interna para instituições financeiras e cooperativas de crédito.',
-          'Ferramentas de controle, relatórios e painéis em PHP 7 com MVC sobre framework interno.',
-          'Atuação no ciclo completo — do processamento seguro das informações às regras de negócio do setor.',
-        ],
+        k: 'Eu cuido todo mês.',
+        d: 'Mudou horário, prato ou promoção? Me manda que eu atualizo.',
       },
     ],
-  },
-  play: {
-    kicker: 'Playground',
-    title: 'Demos interativos.',
-    sub: 'Experimentos pequenos. Clique para brincar. (Em expansão — mais demos em breve.)',
-    items: [
-      { t: 'Conversor de moedas', d: 'Conversão entre moedas com cotações locais.' },
-      { t: 'Gerador de slug', d: 'Input → slug amigável, em tempo real.' },
-      { t: 'SQL → Eloquent', d: 'Cola um SELECT, devolve uma query Eloquent.' },
+    examplesTitle: 'Feitos aqui perto.',
+    priceTitle: 'Preço',
+    price: 'Preço justo, combinado na conversa. Sem fidelidade longa.',
+    faqTitle: 'Perguntas rápidas',
+    faq: [
+      {
+        q: 'Preciso entender de internet?',
+        a: 'Não. Você me manda as fotos e as informações, eu faço o resto.',
+      },
+      { q: 'Quanto tempo leva?', a: 'Poucos dias depois da conversa.' },
+      { q: 'E se eu quiser mudar algo?', a: 'Me chama no WhatsApp. Faz parte da mensalidade.' },
+      { q: 'O site é meu?', a: 'O endereço (seunegocio.com.br) fica no seu nome.' },
     ],
-    outputLabel: 'Saída',
+    closeTitle: 'Bora colocar seu negócio no mapa?',
+    closeLine: 'Atendo Ibiaçá, Tapejara, Sananduva e região.',
   },
-  contact: {
-    kicker: 'Contato',
-    title: 'Vamos trocar uma ideia?',
-    sub: 'Respondo em até 24h em dias úteis. Prefiro email, mas aceito pombo-correio.',
-    name: 'Nome',
-    email: 'E-mail',
-    msg: 'Mensagem',
-    send: 'Enviar mensagem',
-    or: 'ou me chame em',
-    placeholderName: 'Como devo te chamar?',
-    placeholderEmail: 'voce@empresa.com',
-    placeholderMsg: 'Conte um pouco do projeto, contexto e prazo.',
-    sent: 'Mensagem enviada. Vou responder logo!',
+  caseStudy: {
+    back: 'Voltar para o início',
+    next: 'Próximo case',
+    live: 'Ver no ar',
+    code: 'Código',
+    year: 'Ano',
+    role: 'Meu papel',
+    stack: 'Stack',
+    reading: 'Leitura',
+    minutes: 'min',
+    sections: {
+      problem: 'Problema',
+      role: 'Meu papel',
+      decisions: 'Decisões',
+      result: 'Resultado',
+      next: 'Próximo passo',
+    },
+    chose: 'Escolhi',
+    discarded: 'Descartei',
+    why: 'Por quê',
+  },
+  notFound: {
+    title: 'Essa página não existe.',
+    text: 'O endereço pode ter mudado. Volte pro início e siga por lá.',
+    cta: 'Ir para o início',
   },
   footer: {
-    built: 'Feito em 2026 por Mateus Felini — Laravel + Vue, como sempre.',
+    line: 'Ibiaçá, RS. Feito com Vue e um pouco de teimosia.',
   },
 }
 
+export type Messages = typeof pt
 export default pt

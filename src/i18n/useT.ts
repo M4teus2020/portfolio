@@ -1,6 +1,6 @@
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { locales } from './index'
+import { locales, saveLocale } from './index'
 import type { Locale } from './index'
 
 export function useT() {
@@ -10,10 +10,20 @@ export function useT() {
 
 export function useLocale() {
   const { locale } = useI18n()
+  const current = computed(() => locale.value as Locale)
+  watch(
+    current,
+    (l) => {
+      document.documentElement.lang = l === 'pt' ? 'pt-BR' : 'en'
+    },
+    { immediate: true },
+  )
   return {
-    locale,
+    locale: current,
     toggle: () => {
-      locale.value = locale.value === 'pt' ? 'en' : 'pt'
+      const next: Locale = current.value === 'pt' ? 'en' : 'pt'
+      locale.value = next
+      saveLocale(next)
     },
   }
 }
