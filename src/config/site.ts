@@ -6,9 +6,9 @@ export const CONTACT = {
   github: 'https://github.com/M4teus2020',
 }
 
-// [A CONFIRMAR] número do WhatsApp do /sites, só dígitos com DDI (ex.: '5554999999999').
+// WhatsApp do /sites, só dígitos com DDI (formato wa.me).
 // Vazio: os botões do /sites caem para e-mail.
-export const WHATSAPP = ''
+export const WHATSAPP = '5554996456304' // (54) 99645-6304
 
 // Currículo em PDF dentro de /public. null esconde os botões até o arquivo existir.
 export const RESUME_URL: string | null = null
