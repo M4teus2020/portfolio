@@ -1,153 +1,29 @@
-# Portfólio — Mateus Felini
+# felini.dev
 
-A modern, interactive portfolio showcasing skills, experience, and projects with a distinctive **Terminal/CLI aesthetic**. Built with Vue 3, TypeScript, and Tailwind CSS v4.
+Portfólio de Mateus Felini, desenvolvedor full-stack (Laravel e Vue) em Ibiaçá, RS.
 
-## 🎨 Design & Aesthetic
+## Páginas
 
-The portfolio features a **Terminal/CLI design philosophy** reminiscent of classic command-line interfaces, with:
+| Rota | Pra quem | O que faz |
+|---|---|---|
+| `/` | Recrutador | Quem é, como trabalha, trajetória e contato |
+| `/sobre` | RH, gestor | A história completa |
+| `/sites` | Dono de comércio local | Site + cuidado mensal, contato direto |
+| `/projetos/<slug>` | Tech lead | Estudo de caso: problema, papel, decisões, resultado |
 
-- **Font**: JetBrains Mono for authentic code aesthetics
-- **Default Theme**: Dark mode with optional light mode toggle
-- **Accent Colors**: Four selectable color schemes (green, amber, cyan, pink)
-- **Theme System**: CSS variables applied at runtime via `document.documentElement`
+## Onde mexer
 
-## 🛠 Tech Stack
+- Textos: `src/i18n/locales/pt.ts` (fonte) e `en.ts`. Rascunho aprovado em `COPY.md`.
+- Contato, WhatsApp, currículo e foto: `src/config/site.ts`.
+- Cases: `src/data/cases.ts`. Vazio, a seção Projetos fica escondida.
+- Exemplos do `/sites`: `src/data/siteExamples.ts`. Vazio, a seção fica escondida.
 
-- **Framework**: Vue 3 with TypeScript
-- **Styling**: Tailwind CSS v4
-- **Internationalization**: vue-i18n v9 (EN/PT)
-- **Build Tool**: Vite
-- **Quality**: ESLint, Oxlint, Prettier, TypeScript strict mode
+## Stack
 
-## ✨ Features
+Vue 3, TypeScript, Vue Router, vue-i18n, Tailwind CSS v4, Vite. Deploy no GitHub Pages pelo push na `main` (o build copia `index.html` para `404.html` pra as rotas abrirem direto).
 
-### Sections
-
-- **Hero** — Eye-catching introduction with status badge
-- **About** — Biography with theme toggle and availability indicator
-- **AI** — Custom LLM integration section
-- **Stack** — Tech skills showcase with categories
-- **Timeline** — Career journey with animated counter
-- **Playground** — Interactive demos:
-  - Currency converter (6 currencies)
-  - URL slug generator
-  - SQL to Laravel Eloquent parser
-- **Contact** — Email integration section
-- **Boot Screen** — Nostalgic terminal animation on page load
-
-### Theme System
-
-- **Light/Dark Toggle**: Persistent theme preference with CSS variable overrides
-- **Accent Colors**: Switch between green, amber, cyan, or pink
-- **Responsive Design**: Adapts from desktop to mobile (burger menu)
-- **CSS Variables**: Seamlessly integrated with Tailwind v4 via `@theme inline`
-
-### Internationalization
-
-- **Dual Language**: Portuguese and English support
-- **Type-Safe Messages**: Typed message objects in `src/i18n/locales/`
-- **Composable API**: `useT()` returns fully typed locale messages
-- **Locale Toggle**: `useLocale()` for switching languages
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js ≥ 20.19.0 or ≥ 22.12.0
-- npm 10+
-
-### Installation & Development
-
-```sh
-# Install dependencies
+```bash
 npm install
-
-# Start development server with hot reload
 npm run dev
-
-# Type-check, build, and minify for production
 npm run build
-
-# Preview production build locally
-npm preview
-
-# Linting and formatting
-npm run lint
-npm run format
 ```
-
-## 📁 Project Structure
-
-```text
-src/
-├── components/          # Vue components
-│   ├── ui/              # Reusable UI components (SectionShell, TerminalPrompt, etc.)
-│   ├── [Section]Section.vue  # Page sections (Hero, About, Stack, Timeline, etc.)
-│   ├── App*.vue         # App-level components (TopBar, Footer, BootScreen)
-│   └── Playground*.vue  # Interactive demo components
-├── composables/         # Reusable Vue composables
-│   ├── useTheme.ts      # Theme & accent color management
-│   ├── useCountUp.ts    # Animated counter effect
-│   ├── useIntersect.ts  # Scroll-triggered animations
-│   └── useBootScreen.ts # Boot screen animation
-├── i18n/                # Internationalization
-│   ├── locales/         # Translation files (pt.ts, en.ts)
-│   ├── types.ts         # Type definitions for messages
-│   ├── useT.ts          # Typed i18n composable
-│   └── index.ts         # i18n configuration
-├── config/              # Configuration files
-│   └── availability.ts  # Role availability toggle
-├── App.vue              # Root component
-└── main.ts              # Entry point
-
-public/                  # Static assets
-```
-
-## 🎯 Key Files to Customize
-
-### 12. Theme Colors
-
-CSS variables in your tailwind config or global styles:
-
-```css
-:root {
-  --bg: /* dark background */;
-  --surface: /* card/surface color */;
-  --text: /* text color */;
-  --accent: /* accent color */;
-}
-```
-
-### 2. Translations
-
-Add new languages or update existing ones in `src/i18n/locales/`:
-
-- `pt.ts` — Portuguese
-- `en.ts` — English
-
-## 📦 Scripts
-
-| Command | Purpose |
-|---------|---------|
-| `npm run dev` | Start development server |
-| `npm run build` | Type-check, build & minify |
-| `npm run build-only` | Build without type-checking |
-| `npm run preview` | Preview production build |
-| `npm run type-check` | Run TypeScript type-checking |
-| `npm run lint` | Lint with ESLint & Oxlint |
-| `npm run lint:oxlint` | Run Oxlint fixer |
-| `npm run lint:eslint` | Run ESLint fixer |
-| `npm run format` | Format code with Prettier |
-
-## 🌐 Deployment
-
-This is a static SPA and can be deployed to:
-
-- **Vercel** — Zero-config deployment
-- **GitHub Pages** — Static hosting
-- **Netlify** — Drag-and-drop deployment
-- **Any static host** — Contents of `dist/` after `npm run build`
-
-## 📝 License
-
-This project is personal work. See LICENSE file (if present) for details.
