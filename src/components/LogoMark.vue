@@ -33,10 +33,11 @@
   opacity: 0;
   animation: close-in 0.9s var(--ease) forwards;
 }
+/* Respiração no hover da marca: o anel de fora abre um pouco e o de dentro fecha, só isso. */
 .spin {
-  transform-box: view-box;
-  transform-origin: 16px 16px;
-  transition: transform 0.9s var(--ease);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.6s var(--ease);
 }
 .ring ellipse {
   fill: none;
@@ -68,10 +69,10 @@
   animation: ping 3s ease-out 1.4s infinite;
 }
 :global(.brand:hover) .r1 .spin {
-  transform: rotate(24deg);
+  transform: scale(1.06);
 }
 :global(.brand:hover) .r2 .spin {
-  transform: rotate(-30deg);
+  transform: scale(0.92);
 }
 @keyframes close-in {
   from {
