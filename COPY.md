@@ -15,7 +15,7 @@ Links: e-mail · LinkedIn · GitHub · Currículo (PDF)
 
 **Meta (SEO/compartilhamento)**
 - Título: Mateus Felini · Desenvolvedor full-stack (Laravel e Vue)
-- Descrição: Desenvolvedor full-stack no interior do RS. Três anos construindo sistemas web para o setor financeiro, de cooperativas de crédito a plataformas multi-cliente.
+- Descrição: Desenvolvedor full-stack (Laravel e Vue). Três anos construindo sistemas web para o setor financeiro: cobrança, atendimento e auditoria.
 
 ---
 
@@ -30,14 +30,14 @@ Links: e-mail · LinkedIn · GitHub · Currículo (PDF)
 
 **Ficha (linha discreta):** Ibiaçá, RS · remoto ou híbrido · português nativo, inglês avançado
 
-**Botões:** [Ver trajetória] [Baixar currículo] · LinkedIn
+**Botões:** [Falar comigo] (leva ao contato) [Ver trajetória] [Baixar currículo] · LinkedIn como link de texto
 
 > Espaço reservado à direita pra foto real. Sem foto: hero só tipográfico (o nome grande vira o elemento visual).
 
 ### 1.2 Faixa de prova (3 itens, números verdadeiros)
 - **3+ anos** em produção, desde abril de 2023
 - **150 mil+** registros por dia na plataforma em que trabalho hoje
-- **IA no método**, não no lugar dele: Claude Code com testes e revisão
+- **4 integrações**: WhatsApp, telefonia, e-mail e boleto em produção
 
 > O "150 mil+ por dia" já está no LinkedIn público. Se preferir não usar, troca por "setor financeiro desde o primeiro dia".
 
@@ -62,7 +62,7 @@ Links: e-mail · LinkedIn · GitHub · Currículo (PDF)
 - **2024 até hoje · Soluct Soluções em Sistemas** · Tapejara, RS
   Full-stack (Laravel e Vue) numa plataforma multi-cliente de operações financeiras: integrações, dashboards e fluxos que as equipes usam o dia todo.
 - **2023 a 2024 · HGV Sistemas** · Tapejara, RS
-  Primeiro emprego como dev: PHP, MySQL e SQL Server em sistemas para o setor financeiro. Saí promovido, com ferramentas internas que aceleraram o time.
+  Primeiro emprego como dev: PHP, MySQL e SQL Server em sistemas para o setor financeiro. Fui promovido mais de uma vez e deixei ferramentas internas que aceleraram o time.
 
 **Link:** A história inteira está em [Sobre](/sobre).
 
@@ -100,7 +100,7 @@ Uso IA como parte do método: Claude Code, agentes e testes automatizados no mes
 ### O que eu levo para um time
 - Entendo regra de negócio e faço a pergunta que falta.
 - Cuido de performance e segurança sem precisar de ticket pra isso.
-- Escrevo código pensando em quem vai mantê-lo.
+- Escrevo código pensando em quem vem depois.
 - Uso IA com critério: rápido sem ser descuidado.
 
 ### Ferramentas (compacto, no fim da página)
@@ -127,7 +127,7 @@ Análise e Desenvolvimento de Sistemas · Universidade de Passo Fundo [A CONFIRM
 > Número [A CONFIRMAR com o Mestre/Mateus]. Mensagem pronta do link: "Oi Mateus, vi o site e quero saber como funciona."
 
 ### 3.2 Por que ter site
-- **Te acham no Google.** Quem procura "pizzaria em Sananduva" cai em quem aparece.
+- **Fica mais fácil te achar no Google.** Quem procura "pizzaria perto de mim" encontra quem tem endereço, horário e cardápio na internet.
 - **Cardápio, horário e endereço num lugar só.** Sem depender do cliente rolar o Instagram.
 - **O pedido continua chegando no WhatsApp.** O site leva o cliente até você, não muda seu jeito de atender.
 
@@ -189,7 +189,7 @@ Sobre · Serviços · Contato · [EN]
 Rodapé ganha o link "Serviços".
 
 ### 5.2 Home: faixa nova pro cliente (entre Trajetória e Contato)
-**Título:** Tem um projeto? Também atendo empresas.
+**Título:** Tem um projeto?
 **Texto:** Faço sites para comércio local e sistemas sob medida: painéis de gestão, automações e integrações. O mesmo cuidado que levo pro trabalho do dia a dia.
 **Botão:** [Ver serviços]
 
@@ -207,7 +207,8 @@ Conteúdo atual do /sites, sem mudança de texto: título "Seu negócio aparecen
 Exemplos continuam escondidos até o 1º cliente.
 
 ### 5.5 `/servicos#sistemas` (novo)
-**Título:** Sistemas sob medida.
+**Kicker:** Sistemas sob medida
+**Título:** Quando a planilha não dá mais conta.
 **Texto:** Pra quando a planilha não dá mais conta, ou a equipe perde horas passando informação de um lugar pro outro.
 
 **O que eu faço**
@@ -226,7 +227,7 @@ Há mais de três anos construo sistemas pro setor financeiro, onde erro custa d
 4. **Sigo junto.** Depois de pronto, cuido de ajustes e melhorias.
 
 **Pra quem quer saber a tecnologia** (uma linha, discreta)
-Feito em Laravel e Vue, tecnologias usadas por empresas no mundo todo.
+Feito em Laravel e Vue: tecnologia madura, fácil de manter e de achar outro dev se um dia precisar.
 
 **Preço:** Cada sistema é um projeto: o valor sai da conversa, com proposta por escrito.
 **Botão:** [Chamar no WhatsApp] com a mensagem "Oi Mateus, vi seu site e quero conversar sobre um sistema."
@@ -249,6 +250,36 @@ Feito em Laravel e Vue, tecnologias usadas por empresas no mundo todo.
 - Descrição: Sites para comércio local e sistemas sob medida (painéis, automações e integrações com WhatsApp, boleto e e-mail).
 
 > Decisões: "código e dados são seus" ficou de fora (termo comercial, combinar caso a caso). Sem preço nos dois. Sem cidade.
+
+## 6. Rodada do Juiz (nota 7,0, 2026-10-16) · vale sobre as seções acima
+
+> Relatório: `Segundo Cerebro/projetos/2026-10-16-juiz-portfolio-v2.md`. Texto final em `src/i18n/locales/pt.ts` e `en.ts`.
+
+**Home**
+- Hero: botão primário **Falar comigo** (#contato), secundário Ver trajetória, LinkedIn como link de texto. No celular o texto sobe (sem espaço vazio) e o mapa fica atrás, bem claro.
+- Faixa de prova: o 3º item vira **4 integrações** · "WhatsApp, telefonia, e-mail e boleto em produção".
+- Seção nova, logo após a faixa de prova, em largura total: **O que já entreguei.**
+  - **E-mail que vira demanda sozinho.** Liderei um módulo que lê e-mails pelo Microsoft Graph e cria demandas para a equipe, com kanban por cliente e um motor de regras visual em nodes (condições sobre o texto e os anexos).
+  - **Ligação direto do navegador.** Fiz a parte principal de um discador web integrado à API de telefonia: o atendente liga para o cliente sem sair do sistema.
+  - **Relatório que parou de travar.** Reescrevi consultas pesadas com CTE e eliminei N+1 com eager loading numa plataforma com mais de 150 mil registros por dia.
+  - **Falha crítica fechada antes de virar problema.** Encontrei e reportei uma brecha que permitia executar SQL a partir do front-end num sistema financeiro.
+- Como eu trabalho, item 2: "Começo pelos testes sempre que dá: escrevo o teste, deixo o Claude Code propor a implementação e reviso..."
+- Faixa do cliente sai do fundo escuro, título do tamanho dos outros: **Tem um projeto?** Também faço sites para comércio local e sistemas sob medida. [Ver serviços]
+
+**/servicos#sites**
+- Linha ao lado do botão: **Sou o Mateus, desenvolvedor há mais de três anos. Você fala direto comigo.**
+- Quando houver o 1º cliente com crédito no rodapé, o lede troca sozinho para: **Viu o site de onde você veio? Fui eu que fiz. Faço o do seu restaurante ou loja, coloco no ar e cuido dele todo mês.**
+
+**/servicos#sistemas**
+- Título: **Quando a planilha não dá mais conta.** Lede: Ou quando a equipe perde horas passando informação de um lugar pro outro. Faço o sistema que tira esse trabalho do caminho.
+- Por que confiar ganha: Já fiz, por exemplo, um sistema que transforma e-mails em demandas para a equipe com regras automáticas, e um discador que liga para o cliente direto do navegador.
+
+**Meta e compartilhamento**
+- Descrição só com o que está na ficha (cobrança, atendimento e auditoria). Cartão com imagem (`og.png`, `og-servicos.png`), `og:description`, `twitter:card`, `canonical`. /sobre, /servicos e /sites com metas próprias no HTML (gerado no build).
+
+**EN:** See experience / Experience. · Your business on Google, looking like you. · From your shop's website to your company's systems. · boleto payments no lugar de bank slips.
+
+**Fica com o Mateus:** nível no kicker ("pleno"?), foto, bio e repo fixado no GitHub.
 
 ## Decisões que tomei no texto (pra revisar)
 1. Tirei do esboço "sites no ar" e "nota 7,6": as demos não são clientes ainda e a nota é avaliação interna. Não aparece em lugar nenhum.

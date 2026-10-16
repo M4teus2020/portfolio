@@ -11,7 +11,7 @@
   --mato-soft: #dfe8db;
   --broto: #9fc48a;
 
-  --sans: "Schibsted Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --sans: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, sans-serif;
   --serif: "Newsreader", ui-serif, Georgia, serif;
 
   --gutter: clamp(1rem, 4vw, 3rem);

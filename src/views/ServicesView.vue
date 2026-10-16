@@ -49,14 +49,18 @@ useMeta(() => ({
     <header class="wrap sec-head">
       <p class="kicker">{{ s.sites.kicker }}</p>
       <h2 id="sites-title" class="sec-title">{{ s.sites.title }}</h2>
-      <p class="sec-lede">{{ s.sites.lede }}</p>
-      <a
-        class="btn btn-solid big"
-        :href="contactHref(s.sites.whatsappMessage)"
-        :target="contactTarget"
-        rel="noreferrer"
-        >{{ contactLabel }}</a
-      >
+      <!-- Com o 1º cliente no ar, o lede fala com quem veio do rodapé dele. -->
+      <p class="sec-lede">{{ siteExamples.length ? s.sites.ledeFromClient : s.sites.lede }}</p>
+      <div class="cta-row">
+        <a
+          class="btn btn-solid big"
+          :href="contactHref(s.sites.whatsappMessage)"
+          :target="contactTarget"
+          rel="noreferrer"
+          >{{ contactLabel }}</a
+        >
+        <p class="identity">{{ s.sites.identity }}</p>
+      </div>
     </header>
 
     <div class="wrap band-grid sub">
@@ -305,6 +309,18 @@ useMeta(() => ({
   font-size: clamp(1.125rem, 2vw, 1.3125rem);
   max-width: 48ch;
   color: var(--muted);
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+.identity {
+  margin: 0;
+  max-width: 30ch;
+  font-weight: 500;
+  line-height: 1.4;
 }
 .sub {
   padding-block: 2.5rem;

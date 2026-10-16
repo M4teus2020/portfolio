@@ -4,11 +4,11 @@ const en: Messages = {
   meta: {
     homeTitle: 'Mateus Felini · Full-stack developer (Laravel and Vue)',
     homeDescription:
-      'Full-stack developer (Laravel and Vue). Three years building web systems for the financial sector, from credit unions to multi-tenant platforms.',
+      'Full-stack developer (Laravel and Vue). Three years building web systems for the financial sector: collections, customer service and auditing.',
     aboutTitle: 'About · Mateus Felini',
     servicesTitle: 'Services · Mateus Felini',
     servicesDescription:
-      'Websites for local businesses and custom systems (dashboards, automations and integrations with WhatsApp, bank slips and email).',
+      'Websites for local businesses and custom systems (dashboards, automations and integrations with WhatsApp, boleto payments and email).',
     notFoundTitle: 'Page not found · Mateus Felini',
   },
   nav: {
@@ -30,16 +30,38 @@ const en: Messages = {
     title: 'I build web systems that companies use all day long.',
     lede: 'Three years in production in the financial sector: collections, customer service, auditing. From the database to the screen, with code the next developer can actually read.',
     facts: ['Remote or hybrid', 'Native Portuguese, advanced English'],
-    ctaTimeline: 'See my path',
+    ctaTalk: 'Get in touch',
+    ctaTimeline: 'See experience',
     proof: [
       { big: '3+ years', small: 'in production, since April 2023' },
       { big: '150k+', small: 'records a day on the platform I work on today' },
-      { big: 'AI in the method', small: 'not instead of it: Claude Code with tests and review' },
+      { big: '4 integrations', small: 'WhatsApp, telephony, email and boleto payments in production' },
     ],
     projects: {
       title: 'Projects',
       sub: 'Problem, decision and result. One at a time, told well.',
       read: 'Read the case',
+    },
+    delivered: {
+      title: "What I've shipped.",
+      items: [
+        {
+          k: 'Email that turns into a ticket on its own.',
+          d: 'I led a module that reads emails through Microsoft Graph and creates tickets for the team, with a kanban per client and a visual node-based rules engine (conditions on the text and attachments).',
+        },
+        {
+          k: 'Calls straight from the browser.',
+          d: 'I built the core of a web dialer integrated with a telephony API: agents call customers without leaving the system.',
+        },
+        {
+          k: 'Reports that stopped hanging.',
+          d: 'I rewrote heavy queries with CTEs and removed N+1 with eager loading on a platform handling over 150,000 records a day.',
+        },
+        {
+          k: 'A critical hole closed before it became a problem.',
+          d: 'I found and reported a flaw that allowed running SQL from the front end of a financial system.',
+        },
+      ],
     },
     work: {
       title: 'How I work.',
@@ -50,7 +72,7 @@ const en: Messages = {
         },
         {
           k: 'Test first, agent second.',
-          d: 'I write the test, let Claude Code propose the implementation and review it. The test is the spec the agent cannot talk its way around.',
+          d: 'I start with tests whenever I can: I write the test, let Claude Code propose the implementation and review it. The test is the spec the agent cannot talk its way around.',
         },
         {
           k: 'Performance is part of shipping.',
@@ -65,7 +87,7 @@ const en: Messages = {
         'AI does not make engineering decisions for me. It clears the repetitive part out of the way and leaves time for what matters.',
     },
     timeline: {
-      title: 'Path.',
+      title: 'Experience.',
       items: [
         {
           years: '2024 to now',
@@ -75,14 +97,14 @@ const en: Messages = {
         {
           years: '2023 to 2024',
           company: 'HGV Sistemas',
-          text: 'First developer job: PHP, MySQL and SQL Server on systems for the financial sector. Left after promotions, with internal tools that sped the team up.',
+          text: 'First developer job: PHP, MySQL and SQL Server on systems for the financial sector. Promoted more than once, and left internal tools that sped the team up.',
         },
       ],
       more: 'The full story is in About',
     },
     client: {
-      title: 'Have a project? I also work with companies.',
-      text: 'I build websites for local businesses and custom systems: management dashboards, automations and integrations. The same care I bring to my day job.',
+      title: 'Have a project?',
+      text: 'I also build websites for local businesses and custom systems.',
       cta: 'See services',
     },
     contact: {
@@ -108,7 +130,7 @@ const en: Messages = {
       {
         mark: '2024',
         title: 'Soluct',
-        text: 'I left HGV by choice: I wanted a modern stack and more room to grow, and I was willing to start over for it. At Soluct I work with Laravel, Vue and TypeScript on a multi-tenant financial operations platform, with integrations (WhatsApp, telephony, email, bank slips), queues, reports and performance work.',
+        text: 'I left HGV by choice: I wanted a modern stack and more room to grow, and I was willing to start over for it. At Soluct I work with Laravel, Vue and TypeScript on a multi-tenant financial operations platform, with integrations (WhatsApp, telephony, email, boleto payments), queues, reports and performance work.',
       },
       {
         mark: 'Now',
@@ -120,7 +142,7 @@ const en: Messages = {
     bring: [
       'I understand business rules and ask the missing question.',
       'I take care of performance and security without needing a ticket for it.',
-      'I write code with whoever maintains it next in mind.',
+      'I write code with whoever comes next in mind.',
       'I use AI with judgment: fast without being careless.',
     ],
     toolsTitle: 'Tools',
@@ -140,7 +162,7 @@ const en: Messages = {
   },
   services: {
     kicker: 'Services',
-    title: 'From your shop website to your company system.',
+    title: "From your shop's website to your company's systems.",
     lede: 'You work directly with me, from the first conversation until everything runs. Pick where to start:',
     pinLabel: 'Your business here',
     whatsapp: 'Message me on WhatsApp',
@@ -149,7 +171,7 @@ const en: Messages = {
       {
         id: 'sites',
         k: 'Websites for local businesses.',
-        d: 'Your business showing up on Google, looking like itself.',
+        d: 'Your business on Google, looking like you.',
         cta: 'See websites',
       },
       {
@@ -161,14 +183,17 @@ const en: Messages = {
     ],
     sites: {
       kicker: 'Websites for local businesses',
-      title: 'Your business showing up on Google, looking like itself.',
+      title: 'Your business on Google, looking like you.',
       lede: 'I build the website for your restaurant or shop, put it online and look after it every month. You keep taking orders on WhatsApp, only now more people find you.',
+      ledeFromClient:
+        'Saw the website you came from? I built it. I build one for your restaurant or shop, put it online and look after it every month.',
+      identity: "I'm Mateus, a developer for more than three years. You talk directly to me.",
       whatsappMessage: 'Hi Mateus, I saw the website and want to know how it works.',
       whyTitle: 'Why have a website',
       why: [
         {
-          k: 'People find you on Google.',
-          d: 'Whoever searches "pizza near me" lands on whoever shows up.',
+          k: 'Easier to find you on Google.',
+          d: 'Whoever searches "pizza near me" finds the places with address, hours and menu online.',
         },
         {
           k: 'Menu, hours and address in one place.',
@@ -198,8 +223,8 @@ const en: Messages = {
     },
     systems: {
       kicker: 'Custom systems',
-      title: 'Custom systems.',
-      lede: 'For when the spreadsheet can no longer keep up, or your team loses hours moving information from one place to another.',
+      title: 'When the spreadsheet can no longer keep up.',
+      lede: 'Or when your team loses hours moving information from one place to another. I build the system that takes that work out of the way.',
       whatsappMessage: 'Hi Mateus, I saw your website and want to talk about a system.',
       whatTitle: 'What I build',
       what: [
@@ -213,7 +238,7 @@ const en: Messages = {
         },
         {
           k: 'Integrations.',
-          d: 'Your system talking to WhatsApp, bank slips, email and whatever else the company already uses.',
+          d: 'Your system talking to WhatsApp, boleto payments, email and whatever else the company already uses.',
         },
         {
           k: 'Internal portals.',
@@ -222,7 +247,7 @@ const en: Messages = {
       ],
       trustTitle: 'Why trust me',
       trust:
-        'For more than three years I have built systems for the financial sector, where mistakes cost money. Today I work on a platform that processes over 150,000 records a day, with WhatsApp, telephony, email and bank slip integrations.',
+        'For more than three years I have built systems for the financial sector, where mistakes cost money. Today I work on a platform that processes over 150,000 records a day, with WhatsApp, telephony, email and boleto payment integrations. For example, I built a system that turns emails into tickets for the team with automatic rules, and a dialer that calls customers straight from the browser.',
       howTitle: 'How it works',
       how: [
         { k: 'We talk.', d: 'I understand the problem and how the work gets done today.' },
@@ -230,7 +255,7 @@ const en: Messages = {
         { k: 'Delivered in parts.', d: 'You start using it early and tell me what to adjust.' },
         { k: 'I stay with you.', d: 'Once it is done, I handle adjustments and improvements.' },
       ],
-      tech: 'Built with Laravel and Vue, technologies used by companies all over the world.',
+      tech: 'Built with Laravel and Vue: mature technology, easy to maintain, and easy to find another developer for if you ever need one.',
       priceTitle: 'Price',
       price:
         'Every system is its own project: the price comes from our conversation, with a written proposal.',

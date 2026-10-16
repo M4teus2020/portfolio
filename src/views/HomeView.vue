@@ -30,7 +30,8 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
         <li v-for="f in h.facts" :key="f">{{ f }}</li>
       </ul>
       <div class="actions">
-        <a class="btn btn-solid" href="#trajetoria">{{ h.ctaTimeline }}</a>
+        <a class="btn btn-solid" href="#contato">{{ h.ctaTalk }}</a>
+        <a class="btn btn-line" href="#trajetoria">{{ h.ctaTimeline }}</a>
         <a v-if="RESUME_URL" class="btn btn-line" :href="RESUME_URL" download>{{
           t.common.resume
         }}</a>
@@ -56,6 +57,18 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
     <div v-for="p in h.proof" :key="p.big" class="proof-item">
       <p class="proof-big">{{ p.big }}</p>
       <p class="proof-small">{{ p.small }}</p>
+    </div>
+  </section>
+
+  <section class="band delivered">
+    <div class="wrap">
+      <h2 class="band-title">{{ h.delivered.title }}</h2>
+      <ul class="dl-list">
+        <li v-for="d in h.delivered.items" :key="d.k" class="dl-item">
+          <h3 class="dl-k">{{ d.k }}</h3>
+          <p class="dl-d">{{ d.d }}</p>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -114,7 +127,7 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
   <section class="band client">
     <div class="wrap client-row">
       <div>
-        <h2 class="client-title">{{ h.client.title }}</h2>
+        <h2 class="band-title">{{ h.client.title }}</h2>
         <p class="client-text">{{ h.client.text }}</p>
       </div>
       <RouterLink to="/servicos" class="btn btn-solid client-cta">{{ h.client.cta }}</RouterLink>
@@ -154,10 +167,18 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
 }
 .hero-art {
   position: absolute;
-  right: 0;
-  top: 0;
-  width: min(30rem, 88vw);
-  opacity: 0.5;
+  right: -20%;
+  bottom: 0;
+  width: min(26rem, 80vw);
+  opacity: 0.25;
+}
+@media (max-width: 899px) {
+  .hero {
+    align-items: start;
+    min-height: auto;
+    padding-top: 1.5rem;
+    overflow-x: clip;
+  }
 }
 @media (min-width: 900px) {
   .hero {
@@ -166,7 +187,11 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
   }
   .hero-art {
     position: relative;
+    right: auto;
+    bottom: auto;
     width: 100%;
+    max-width: 26rem;
+    justify-self: end;
     opacity: 1;
   }
 }
@@ -240,7 +265,11 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
   gap: 0.75rem 1.25rem;
   margin-top: 2rem;
 }
-.actions-link {
+.actions-link,
+.tl-more {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-weight: 600;
 }
 
@@ -384,22 +413,18 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
   max-width: 58ch;
 }
 .tl-more {
-  display: inline-block;
-  margin-top: 1.5rem;
-  font-weight: 600;
+  margin-top: 1rem;
 }
 
-/* Faixa pro cliente */
+/* Faixa pro cliente: discreta, pra não competir com a trajetória */
 .client {
-  background: var(--ink);
-  color: var(--paper);
-  border-top: 0;
-  padding-block: clamp(3rem, 7vw, 5rem);
+  background: var(--paper-2);
+  padding-block: clamp(2.5rem, 6vw, 4rem);
 }
 .client-row {
   display: grid;
-  gap: 2rem;
-  align-items: end;
+  gap: 1.5rem;
+  align-items: center;
 }
 @media (min-width: 900px) {
   .client-row {
@@ -407,31 +432,47 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
     gap: 4rem;
   }
 }
-.client-title {
-  margin: 0;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  max-width: 18ch;
-}
 .client-text {
-  margin: 1.25rem 0 0;
-  color: #b9c4bc;
+  margin: 0.5rem 0 0;
+  color: var(--muted);
   font-size: 1.125rem;
   max-width: 52ch;
 }
-.client .client-cta {
+.client-cta {
   justify-self: start;
-  background: var(--broto);
-  color: var(--ink);
-  border-color: var(--broto);
-  min-height: 3.5rem;
-  padding-inline: 1.75rem;
 }
-.client .client-cta:hover {
-  background: var(--paper);
-  border-color: var(--paper);
+
+/* O que já entreguei: largura total, quebra a espinha título/coluna */
+.dl-list {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+}
+.dl-item {
+  display: grid;
+  gap: 0.5rem 3rem;
+  padding-block: 1.75rem;
+  border-top: 1px solid var(--line);
+}
+@media (min-width: 900px) {
+  .dl-item {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: baseline;
+  }
+}
+.dl-k {
+  margin: 0;
+  font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  max-width: 20ch;
+}
+.dl-d {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.0625rem;
+  max-width: 52ch;
 }
 
 /* Contato */
@@ -442,10 +483,15 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
   margin: 0.75rem 0 2rem;
   color: var(--muted);
 }
+.contact-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 .contact-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1.5rem;
+  gap: 0 1.5rem;
   list-style: none;
   margin: 2rem 0 0;
   padding: 0;

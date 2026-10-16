@@ -39,10 +39,15 @@ const t = useT()
 .foot-line strong {
   color: var(--ink);
 }
+.foot-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 .foot-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 1.25rem;
+  gap: 0 1.25rem;
   list-style: none;
   margin: 0;
   padding: 0;

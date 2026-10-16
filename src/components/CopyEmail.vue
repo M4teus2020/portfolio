@@ -37,6 +37,9 @@ async function copy() {
   gap: 1rem 1.5rem;
 }
 .mail-addr {
+  display: inline-block;
+  padding-block: 0.25em;
+  min-height: 44px;
   font-size: clamp(1.5rem, 6.2vw, 4rem);
   font-weight: 800;
   letter-spacing: -0.035em;

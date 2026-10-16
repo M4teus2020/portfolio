@@ -57,9 +57,12 @@ const isCurrent = (path: string, hash?: string) => !hash && route.path === path
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem 1.5rem;
-  padding-block: 1.25rem;
+  padding-block: 0.75rem;
 }
 .mark {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font-weight: 800;
   letter-spacing: -0.02em;
   font-size: 1.0625rem;
@@ -72,6 +75,9 @@ const isCurrent = (path: string, hash?: string) => !hash && route.path === path
   flex-wrap: wrap;
 }
 .nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   font: 500 0.9375rem/1 var(--sans);
   color: var(--muted);
   text-decoration: none;
@@ -95,6 +101,8 @@ const isCurrent = (path: string, hash?: string) => !hash && route.path === path
   color: var(--ink);
   border: 1.5px solid var(--line);
   border-radius: 4px;
+  min-width: 44px;
+  justify-content: center;
   padding: 0.375rem 0.5rem;
   font-size: 0.8125rem;
   letter-spacing: 0.04em;

@@ -2,7 +2,7 @@ const pt = {
   meta: {
     homeTitle: 'Mateus Felini · Desenvolvedor full-stack (Laravel e Vue)',
     homeDescription:
-      'Desenvolvedor full-stack (Laravel e Vue). Três anos construindo sistemas web para o setor financeiro, de cooperativas de crédito a plataformas multi-cliente.',
+      'Desenvolvedor full-stack (Laravel e Vue). Três anos construindo sistemas web para o setor financeiro: cobrança, atendimento e auditoria.',
     aboutTitle: 'Sobre · Mateus Felini',
     servicesTitle: 'Serviços · Mateus Felini',
     servicesDescription:
@@ -28,16 +28,38 @@ const pt = {
     title: 'Construo sistemas web que empresas usam o dia inteiro.',
     lede: 'Três anos em produção no setor financeiro: cobrança, atendimento, auditoria. Do banco de dados à tela, com código que o próximo dev consegue ler.',
     facts: ['Remoto ou híbrido', 'Português nativo, inglês avançado'],
+    ctaTalk: 'Falar comigo',
     ctaTimeline: 'Ver trajetória',
     proof: [
       { big: '3+ anos', small: 'em produção, desde abril de 2023' },
       { big: '150 mil+', small: 'registros por dia na plataforma em que trabalho hoje' },
-      { big: 'IA no método', small: 'não no lugar dele: Claude Code com testes e revisão' },
+      { big: '4 integrações', small: 'WhatsApp, telefonia, e-mail e boleto em produção' },
     ],
     projects: {
       title: 'Projetos',
       sub: 'Problema, decisão e resultado. Um de cada vez, bem contado.',
       read: 'Ler o case',
+    },
+    delivered: {
+      title: 'O que já entreguei.',
+      items: [
+        {
+          k: 'E-mail que vira demanda sozinho.',
+          d: 'Liderei um módulo que lê e-mails pelo Microsoft Graph e cria demandas para a equipe, com kanban por cliente e um motor de regras visual em nodes (condições sobre o texto e os anexos).',
+        },
+        {
+          k: 'Ligação direto do navegador.',
+          d: 'Fiz a parte principal de um discador web integrado à API de telefonia: o atendente liga para o cliente sem sair do sistema.',
+        },
+        {
+          k: 'Relatório que parou de travar.',
+          d: 'Reescrevi consultas pesadas com CTE e eliminei N+1 com eager loading numa plataforma com mais de 150 mil registros por dia.',
+        },
+        {
+          k: 'Falha crítica fechada antes de virar problema.',
+          d: 'Encontrei e reportei uma brecha que permitia executar SQL a partir do front-end num sistema financeiro.',
+        },
+      ],
     },
     work: {
       title: 'Como eu trabalho.',
@@ -48,7 +70,7 @@ const pt = {
         },
         {
           k: 'Teste primeiro, agente depois.',
-          d: 'Escrevo o teste, deixo o Claude Code propor a implementação e reviso. O teste é a especificação que o agente não consegue contornar.',
+          d: 'Começo pelos testes sempre que dá: escrevo o teste, deixo o Claude Code propor a implementação e reviso. O teste é a especificação que o agente não consegue contornar.',
         },
         {
           k: 'Performance é parte da entrega.',
@@ -73,14 +95,14 @@ const pt = {
         {
           years: '2023 a 2024',
           company: 'HGV Sistemas',
-          text: 'Primeiro emprego como dev: PHP, MySQL e SQL Server em sistemas para o setor financeiro. Saí promovido, com ferramentas internas que aceleraram o time.',
+          text: 'Primeiro emprego como dev: PHP, MySQL e SQL Server em sistemas para o setor financeiro. Fui promovido mais de uma vez e deixei ferramentas internas que aceleraram o time.',
         },
       ],
       more: 'A história inteira está em Sobre',
     },
     client: {
-      title: 'Tem um projeto? Também atendo empresas.',
-      text: 'Faço sites para comércio local e sistemas sob medida: painéis de gestão, automações e integrações. O mesmo cuidado que levo pro trabalho do dia a dia.',
+      title: 'Tem um projeto?',
+      text: 'Também faço sites para comércio local e sistemas sob medida.',
       cta: 'Ver serviços',
     },
     contact: {
@@ -118,7 +140,7 @@ const pt = {
     bring: [
       'Entendo regra de negócio e faço a pergunta que falta.',
       'Cuido de performance e segurança sem precisar de ticket pra isso.',
-      'Escrevo código pensando em quem vai mantê-lo.',
+      'Escrevo código pensando em quem vem depois.',
       'Uso IA com critério: rápido sem ser descuidado.',
     ],
     toolsTitle: 'Ferramentas',
@@ -161,10 +183,16 @@ const pt = {
       kicker: 'Sites para comércio local',
       title: 'Seu negócio aparecendo no Google, com a cara dele.',
       lede: 'Faço o site do seu restaurante ou loja, coloco no ar e cuido dele todo mês. Você continua atendendo pelo WhatsApp, só que agora mais gente te acha.',
+      ledeFromClient:
+        'Viu o site de onde você veio? Fui eu que fiz. Faço o do seu restaurante ou loja, coloco no ar e cuido dele todo mês.',
+      identity: 'Sou o Mateus, desenvolvedor há mais de três anos. Você fala direto comigo.',
       whatsappMessage: 'Oi Mateus, vi o site e quero saber como funciona.',
       whyTitle: 'Por que ter site',
       why: [
-        { k: 'Te acham no Google.', d: 'Quem procura "pizzaria perto de mim" cai em quem aparece.' },
+        {
+          k: 'Fica mais fácil te achar no Google.',
+          d: 'Quem procura "pizzaria perto de mim" encontra quem tem endereço, horário e cardápio na internet.',
+        },
         {
           k: 'Cardápio, horário e endereço num lugar só.',
           d: 'Sem depender do cliente rolar o Instagram.',
@@ -193,8 +221,8 @@ const pt = {
     },
     systems: {
       kicker: 'Sistemas sob medida',
-      title: 'Sistemas sob medida.',
-      lede: 'Pra quando a planilha não dá mais conta, ou a equipe perde horas passando informação de um lugar pro outro.',
+      title: 'Quando a planilha não dá mais conta.',
+      lede: 'Ou quando a equipe perde horas passando informação de um lugar pro outro. Faço o sistema que tira esse trabalho do caminho.',
       whatsappMessage: 'Oi Mateus, vi seu site e quero conversar sobre um sistema.',
       whatTitle: 'O que eu faço',
       what: [
@@ -217,7 +245,7 @@ const pt = {
       ],
       trustTitle: 'Por que confiar',
       trust:
-        'Há mais de três anos construo sistemas pro setor financeiro, onde erro custa dinheiro. Hoje trabalho numa plataforma que processa mais de 150 mil registros por dia, com integrações de WhatsApp, telefonia, e-mail e boleto.',
+        'Há mais de três anos construo sistemas pro setor financeiro, onde erro custa dinheiro. Hoje trabalho numa plataforma que processa mais de 150 mil registros por dia, com integrações de WhatsApp, telefonia, e-mail e boleto. Já fiz, por exemplo, um sistema que transforma e-mails em demandas para a equipe com regras automáticas, e um discador que liga para o cliente direto do navegador.',
       howTitle: 'Como funciona',
       how: [
         { k: 'A gente conversa.', d: 'Entendo o problema e como o trabalho é feito hoje.' },
@@ -225,7 +253,7 @@ const pt = {
         { k: 'Entrega em partes.', d: 'Você começa a usar cedo e me diz o que ajustar.' },
         { k: 'Sigo junto.', d: 'Depois de pronto, cuido de ajustes e melhorias.' },
       ],
-      tech: 'Feito em Laravel e Vue, tecnologias usadas por empresas no mundo todo.',
+      tech: 'Feito em Laravel e Vue: tecnologia madura, fácil de manter e de achar outro dev se um dia precisar.',
       priceTitle: 'Preço',
       price: 'Cada sistema é um projeto: o valor sai da conversa, com proposta por escrito.',
     },

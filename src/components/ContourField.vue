@@ -67,9 +67,10 @@ svg {
   fill: none;
   stroke: var(--line);
   stroke-width: 1.25;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 1.6s cubic-bezier(0.55, 0, 0.25, 1) forwards;
+  transform-box: view-box;
+  transform-origin: 330px 300px;
+  opacity: 0;
+  animation: close-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .c-top {
   stroke: var(--mato);
@@ -77,7 +78,7 @@ svg {
 }
 .c-pin {
   opacity: 0;
-  animation: pin 0.5s ease-out 1.5s forwards;
+  animation: pin 0.5s ease-out 1.3s forwards;
 }
 .c-pin circle {
   fill: var(--mato);
@@ -90,9 +91,15 @@ svg {
   font: 600 19px var(--sans);
   fill: var(--ink);
 }
-@keyframes draw {
+/* Cada curva chega de fora e se fecha em volta do ponto, da mais larga pra mais estreita. */
+@keyframes close-in {
+  from {
+    opacity: 0;
+    transform: scale(1.35);
+  }
   to {
-    stroke-dashoffset: 0;
+    opacity: 1;
+    transform: scale(1);
   }
 }
 @keyframes pin {
@@ -102,7 +109,7 @@ svg {
 }
 @media (prefers-reduced-motion: reduce) {
   .c-ring {
-    stroke-dashoffset: 0;
+    opacity: 1;
     animation: none;
   }
   .c-pin {
