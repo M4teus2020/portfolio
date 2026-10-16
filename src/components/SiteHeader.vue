@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter, type RouteLocationRaw } from 'vue-router'
+import { anchorOffset, scrollMotion, skipScroll } from '@/router'
 import { useT, useLocale } from '@/i18n/useT'
 import { cases } from '@/data/cases'
 
@@ -16,6 +17,23 @@ const links = computed(() => [
 ])
 
 const isCurrent = (path: string, hash?: string) => !hash && route.path === path
+
+// Mesma rota (ex.: em /servicos#sites clicar Serviços, ou Contato duas vezes): o router não rola
+// ou pularia seco, então a rolagem suave é feita aqui e a navegação só acerta a URL.
+const router = useRouter()
+const go = (e: MouseEvent, to: RouteLocationRaw, navigate: (e: MouseEvent) => unknown) => {
+  const target = router.resolve(to)
+  const modified = e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0
+  if (modified || target.path !== route.path) return navigate(e)
+  e.preventDefault()
+  const el = target.hash ? document.querySelector(target.hash) : null
+  const top = el ? el.getBoundingClientRect().top + window.scrollY - anchorOffset() : 0
+  window.scrollTo({ top, behavior: scrollMotion() })
+  if (target.fullPath !== route.fullPath) {
+    skipScroll()
+    router.replace(target)
+  }
+}
 
 // Header fixo: publica a altura em --head-h (âncoras descontam ela) e marca a rolagem pra mostrar a linha.
 const head = ref<HTMLElement>()
@@ -42,16 +60,19 @@ onBeforeUnmount(() => {
 <template>
   <header ref="head" class="head" :class="{ scrolled }">
     <div class="wrap head-row">
-      <RouterLink to="/" class="mark">Mateus Felini</RouterLink>
+      <RouterLink v-slot="{ href, navigate }" to="/" custom>
+        <a :href="href" class="mark" @click="go($event, '/', navigate)">Mateus Felini</a>
+      </RouterLink>
       <nav class="nav" aria-label="Principal">
-        <RouterLink
-          v-for="l in links"
-          :key="l.label"
-          :to="l.to"
-          class="nav-link"
-          :aria-current="isCurrent(l.to.path, l.to.hash) ? 'page' : undefined"
-        >
-          {{ l.label }}
+        <RouterLink v-for="l in links" :key="l.label" v-slot="{ href, navigate }" :to="l.to" custom>
+          <a
+            :href="href"
+            class="nav-link"
+            :aria-current="isCurrent(l.to.path, l.to.hash) ? 'page' : undefined"
+            @click="go($event, l.to, navigate)"
+          >
+            {{ l.label }}
+          </a>
         </RouterLink>
         <button
           type="button"

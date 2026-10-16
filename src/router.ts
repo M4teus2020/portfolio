@@ -1,6 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 
+// Desconta o header fixo (SiteHeader publica a altura em --head-h) e um respiro.
+export const anchorOffset = () =>
+  (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 72) + 24
+
+export const scrollMotion = (): ScrollBehavior =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
+
+// O header rola na mão quando o destino é a rota atual; aí a navegação só atualiza a URL.
+let skipNextScroll = false
+export const skipScroll = () => (skipNextScroll = true)
+
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -22,15 +33,13 @@ export const router = createRouter({
     },
   ],
   scrollBehavior(to, _from, saved) {
+    if (skipNextScroll) {
+      skipNextScroll = false
+      return false
+    }
     // 'instant' explícito: o html tem scroll-behavior: smooth, e 'auto' herdaria a animação.
     if (saved) return { ...saved, behavior: 'instant' }
-    if (to.hash) {
-      // Desconta o header fixo (SiteHeader publica a altura em --head-h).
-      const head =
-        parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 72
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      return { el: to.hash, top: head + 24, behavior: reduce ? 'instant' : 'smooth' }
-    }
+    if (to.hash) return { el: to.hash, top: anchorOffset(), behavior: scrollMotion() }
     return { top: 0, behavior: 'instant' }
   },
 })
