@@ -19,6 +19,8 @@ const en: Messages = {
     contact: 'Contact',
     switchLocale: 'Ler em português',
     switchTheme: 'Switch between light and dark theme',
+    menu: 'Open menu',
+    close: 'Close menu',
     skip: 'Skip to content',
   },
   common: {
@@ -31,6 +33,14 @@ const en: Messages = {
     title: 'I build web systems that companies use all day long.',
     lede: 'Three years in production in the financial sector: collections, customer service, auditing. From the database to the screen, with code the next developer can actually read.',
     facts: ['Remote or hybrid', 'Native Portuguese, advanced English'],
+    labels: {
+      stack: 'stack',
+      delivered: 'shipped',
+      work: 'method',
+      timeline: 'timeline',
+      contact: 'contact',
+      scroll: 'scroll',
+    },
     ctaTalk: 'Get in touch',
     ctaTimeline: 'See experience',
     proof: [

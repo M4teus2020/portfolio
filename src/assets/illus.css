@@ -1,0 +1,54 @@
+/* Base das ilustrações animadas. Vivem dentro de <IllusFrame>, que é escuro (.deep) e liga/desliga
+   a animação conforme está na tela (--play). Sem números inventados: só o que o currículo afirma. */
+
+.il {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.il text {
+  font-family: var(--mono);
+  font-size: 9px;
+  fill: var(--deep-muted);
+  letter-spacing: 0.02em;
+}
+.il .s {
+  fill: none;
+  stroke: var(--deep-muted);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.il .ink {
+  stroke: var(--ink);
+}
+.il .acc {
+  stroke: var(--mato);
+}
+.il .fill-acc {
+  fill: var(--mato);
+}
+.il .fill-ink {
+  fill: var(--ink);
+}
+.il .soft {
+  fill: color-mix(in srgb, var(--mato) 14%, transparent);
+}
+.il .anim,
+.il [class*='a-'] {
+  animation-play-state: var(--play, paused);
+}
+.il-dash {
+  stroke-dasharray: 4 6;
+  animation: il-flow 1.2s linear infinite;
+}
+@keyframes il-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .il * {
+    animation: none !important;
+  }
+}

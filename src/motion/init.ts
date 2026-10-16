@@ -6,10 +6,10 @@ gsap.registerPlugin(ScrollTrigger)
 // Elementos que entram com fade + subida ao chegar na tela. Seletores em vez de atributos,
 // pra as views ganharem movimento sem edição.
 const REVEAL = [
+  '.eyebrow',
   '.band-title',
   '.band-sub',
   '.proof-item',
-  '.dl-item',
   '.case-link',
   '.work li',
   '.work-close',
@@ -94,7 +94,7 @@ export function initMotion(root: HTMLElement) {
     const art = root.querySelector<HTMLElement>('[data-hero] .hero-art')
     if (art) {
       gsap.to(art, {
-        yPercent: -14,
+        yPercent: -6,
         ease: 'none',
         scrollTrigger: { trigger: art, start: 'top 80%', end: 'bottom top', scrub: 0.6 },
       })
@@ -116,7 +116,17 @@ export function initMotion(root: HTMLElement) {
           stagger: 0.09,
           ease: 'expo.out',
           overwrite: true,
+          clearProps: 'transform', // devolve o transform ao CSS (hover dos cartões)
         }),
+    })
+
+    // Linha da trajetória se preenche conforme a rolagem.
+    root.querySelectorAll<HTMLElement>('.tl').forEach((el) => {
+      gsap.to(el, {
+        '--tl': 1,
+        ease: 'none',
+        scrollTrigger: { trigger: el, start: 'top 70%', end: 'bottom 60%', scrub: 0.5 },
+      })
     })
 
     // Números da faixa de prova contam até o valor.

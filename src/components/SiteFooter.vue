@@ -6,7 +6,7 @@ const t = useT()
 </script>
 
 <template>
-  <footer class="foot">
+  <footer class="foot deep">
     <div class="wrap foot-row">
       <p class="foot-line"><strong>Mateus Felini</strong> {{ t.footer.line }}</p>
       <ul class="foot-links">

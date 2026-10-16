@@ -23,6 +23,7 @@
 
   --sans: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
   --serif: 'Newsreader', ui-serif, Georgia, serif;
+  --mono: 'JetBrains Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --gutter: clamp(1rem, 4vw, 3rem);
@@ -150,6 +151,29 @@ img {
 }
 .skip:focus {
   left: 0.5rem;
+}
+
+/* Páginas sem herói escuro começam abaixo da ilha flutuante do header. */
+html:not(.has-hero) main {
+  padding-top: calc(var(--head-h, 4.5rem) + 1rem);
+}
+
+/* Rótulo mono acima dos títulos: "01 / entregas". */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0 0 1rem;
+  font: 500 0.75rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mato);
+}
+.eyebrow::before {
+  content: '';
+  width: 1.5rem;
+  height: 1px;
+  background: currentColor;
 }
 
 /* Seção com título na coluna da esquerda no desktop. A linha de topo se desenha ao entrar (--rule 0 a 1). */

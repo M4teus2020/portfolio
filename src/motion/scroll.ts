@@ -17,6 +17,13 @@ export function startScroll() {
   gsap.ticker.lagSmoothing(0)
 }
 
+// Trava a página enquanto o menu do celular está aberto.
+export function lockScroll(on: boolean) {
+  if (on) lenis?.stop()
+  else lenis?.start()
+  document.documentElement.style.overflow = on ? 'hidden' : ''
+}
+
 // Único ponto de rolagem programática: usa o Lenis quando ligado, senão o nativo.
 export function scrollToY(top: number, opts: { immediate?: boolean } = {}) {
   if (lenis) {

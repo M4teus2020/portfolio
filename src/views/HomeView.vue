@@ -4,10 +4,15 @@ import { useI18n } from 'vue-i18n'
 import { useT } from '@/i18n/useT'
 import type { Locale } from '@/i18n'
 import { useMeta } from '@/composables/useMeta'
-import { CONTACT, RESUME_URL, PHOTO_URL } from '@/config/site'
+import { CONTACT, RESUME_URL } from '@/config/site'
 import { cases } from '@/data/cases'
-import ContourField from '@/components/ContourField.vue'
+import HeroSystem from '@/components/HeroSystem.vue'
+import StackMarquee from '@/components/StackMarquee.vue'
 import CopyEmail from '@/components/CopyEmail.vue'
+import IllusMail from '@/components/illus/IllusMail.vue'
+import IllusCall from '@/components/illus/IllusCall.vue'
+import IllusQuery from '@/components/illus/IllusQuery.vue'
+import IllusShield from '@/components/illus/IllusShield.vue'
 
 const t = useT()
 const { locale } = useI18n()
@@ -16,9 +21,18 @@ const caseCards = computed(() =>
   cases.map((c) => ({ ...c, text: c.content[locale.value as Locale] })),
 )
 
+// Uma ilustração por entrega, na mesma ordem de home.delivered.items (pt e en).
+const illus = [IllusMail, IllusCall, IllusQuery, IllusShield]
+const tags = [
+  ['Microsoft Graph', 'Kanban', 'Regras em nodes'],
+  ['API de telefonia', 'Discador web'],
+  ['CTE', 'Eager loading', 'N+1'],
+  ['Segurança', 'SQL'],
+]
+
 useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDescription }))
 
-// Brilho esmeralda que segue o mouse no herói (posição em --gx/--gy, lida pelo CSS de .hero-bleed).
+// Brilho esmeralda e parallax que seguem o mouse no herói (--gx/--gy e --mx/--my, lidos pelo CSS).
 const bleed = ref<HTMLElement>()
 let raf = 0
 const glow = (e: PointerEvent) => {
@@ -56,18 +70,16 @@ const glow = (e: PointerEvent) => {
           >
         </div>
       </div>
-      <div class="hero-art" :class="{ 'has-photo': PHOTO_URL }">
-        <ContourField />
-        <img
-          v-if="PHOTO_URL"
-          class="photo"
-          :src="PHOTO_URL"
-          alt="Mateus Felini"
-          width="480"
-          height="600"
-        />
+      <div class="hero-art">
+        <HeroSystem />
       </div>
     </section>
+    <div class="hero-foot">
+      <p class="wrap foot-label">
+        <span class="eyebrow">{{ h.labels.stack }}</span>
+      </p>
+      <StackMarquee />
+    </div>
   </div>
 
   <section class="wrap proof" :aria-label="h.kicker">
@@ -77,15 +89,27 @@ const glow = (e: PointerEvent) => {
     </div>
   </section>
 
-  <section class="band delivered">
+  <section id="entregas" class="band delivered">
     <div class="wrap">
-      <h2 class="band-title">{{ h.delivered.title }}</h2>
-      <ul class="dl-list">
-        <li v-for="d in h.delivered.items" :key="d.k" class="dl-item">
-          <h3 class="dl-k">{{ d.k }}</h3>
-          <p class="dl-d">{{ d.d }}</p>
+      <p class="eyebrow">01 / {{ h.labels.delivered }}</p>
+      <h2 class="band-title big">{{ h.delivered.title }}</h2>
+      <ol class="stack">
+        <li v-for="(d, i) in h.delivered.items" :key="d.k" class="card" :style="{ '--i': i }">
+          <div class="card-text">
+            <p class="card-n">
+              0{{ i + 1 }} <span>/ 0{{ h.delivered.items.length }}</span>
+            </p>
+            <h3 class="dl-k">{{ d.k }}</h3>
+            <p class="dl-d">{{ d.d }}</p>
+            <ul class="tags">
+              <li v-for="tag in tags[i]" :key="tag">{{ tag }}</li>
+            </ul>
+          </div>
+          <div class="card-art">
+            <component :is="illus[i]" />
+          </div>
         </li>
-      </ul>
+      </ol>
     </div>
   </section>
 
@@ -110,10 +134,14 @@ const glow = (e: PointerEvent) => {
 
   <section class="band">
     <div class="wrap band-grid">
-      <h2 class="band-title">{{ h.work.title }}</h2>
+      <div>
+        <p class="eyebrow">02 / {{ h.labels.work }}</p>
+        <h2 class="band-title">{{ h.work.title }}</h2>
+      </div>
       <div>
         <ul class="work">
-          <li v-for="w in h.work.items" :key="w.k">
+          <li v-for="(w, i) in h.work.items" :key="w.k">
+            <span class="work-n">0{{ i + 1 }}</span>
             <h3 class="work-k">{{ w.k }}</h3>
             <p class="work-d">{{ w.d }}</p>
           </li>
@@ -125,7 +153,10 @@ const glow = (e: PointerEvent) => {
 
   <section id="trajetoria" class="band">
     <div class="wrap band-grid">
-      <h2 class="band-title">{{ h.timeline.title }}</h2>
+      <div>
+        <p class="eyebrow">03 / {{ h.labels.timeline }}</p>
+        <h2 class="band-title">{{ h.timeline.title }}</h2>
+      </div>
       <div>
         <ol class="tl">
           <li v-for="it in h.timeline.items" :key="it.company" class="tl-item">
@@ -152,7 +183,13 @@ const glow = (e: PointerEvent) => {
   </section>
 
   <section id="contato" class="band contact deep">
+    <div class="big-mq" aria-hidden="true">
+      <div class="big-lane">
+        <span v-for="n in 8" :key="n">{{ h.contact.title }}</span>
+      </div>
+    </div>
     <div class="wrap">
+      <p class="eyebrow">04 / {{ h.labels.contact }}</p>
       <h2 class="band-title">{{ h.contact.title }}</h2>
       <p class="contact-text">{{ h.contact.text }}</p>
       <CopyEmail />
@@ -170,7 +207,7 @@ const glow = (e: PointerEvent) => {
 </template>
 
 <style scoped>
-/* Hero */
+/* ─── Herói ─── */
 .hero-bleed {
   position: relative;
   overflow: clip;
@@ -182,92 +219,73 @@ const glow = (e: PointerEvent) => {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(34rem circle at var(--gx) var(--gy), rgb(22 118 83 / 0.32), transparent 65%),
+    radial-gradient(36rem circle at var(--gx) var(--gy), rgb(22 118 83 / 0.3), transparent 65%),
     radial-gradient(60rem circle at 100% 0, rgb(63 182 133 / 0.08), transparent 60%);
   pointer-events: none;
-  transition: background-position 0.4s;
+}
+/* Malha sutil de pontos no fundo do herói, esmaecendo pra baixo. */
+.hero-bleed::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--on-deep) 16%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+  mask-image: linear-gradient(180deg, #000, transparent 75%);
+  pointer-events: none;
+  opacity: 0.5;
 }
 .hero {
   position: relative;
+  z-index: 1;
   display: grid;
   align-items: center;
-  padding-block: clamp(1.5rem, 5vw, 4rem) clamp(3rem, 7vw, 5.5rem);
-  min-height: min(52rem, calc(100svh - 4.5rem));
+  gap: 2rem;
+  padding-block: calc(var(--head-h, 5rem) + 2rem) 2.5rem;
+}
+@media (min-width: 960px) {
+  .hero {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    min-height: min(54rem, calc(100svh - 8rem));
+  }
 }
 .hero-text {
   position: relative;
-  z-index: 1;
 }
 .hero-art {
-  position: absolute;
-  right: -20%;
-  bottom: 0;
-  width: min(26rem, 80vw);
-  opacity: 0.25;
-}
-@media (max-width: 899px) {
-  .hero {
-    align-items: start;
-    min-height: auto;
-    padding-top: 1.5rem;
-    overflow-x: clip;
-  }
-}
-@media (min-width: 900px) {
-  .hero {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-    gap: 2rem;
-  }
-  .hero-art {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: 100%;
-    max-width: 26rem;
-    justify-self: end;
-    opacity: 1;
-  }
-}
-.hero-art.has-photo {
-  display: grid;
-}
-.hero-art.has-photo > * {
-  grid-area: 1 / 1;
-}
-.photo {
-  width: 72%;
+  width: 100%;
+  max-width: 34rem;
   justify-self: center;
-  align-self: center;
-  border-radius: 6px;
-  object-fit: cover;
-  aspect-ratio: 4 / 5;
 }
-
 .kicker {
-  margin: 0 0 1rem;
-  font-weight: 600;
+  margin: 0 0 1.25rem;
+  font: 500 0.8125rem/1.2 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--mato);
 }
 .name {
   margin: 0 0 0 -0.04em;
-  font-size: clamp(4rem, 15.5vw, 10.5rem);
+  font-size: clamp(4.5rem, 9.4vw, 8.5rem);
   font-weight: 900;
-  line-height: 0.84;
+  line-height: 0.86;
   letter-spacing: -0.055em;
 }
 .title {
   margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
-  font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
   font-weight: 700;
-  line-height: 1.12;
+  line-height: 1.14;
   letter-spacing: -0.025em;
-  max-width: 20ch;
+  max-width: 22ch;
 }
 .lede {
   margin: 1rem 0 0;
   color: var(--muted);
-  font-size: 1.125rem;
-  max-width: 50ch;
+  font-size: 1.0625rem;
+  max-width: 48ch;
 }
 .facts {
   display: flex;
@@ -276,8 +294,7 @@ const glow = (e: PointerEvent) => {
   list-style: none;
   margin: 1.5rem 0 0;
   padding: 0;
-  font-size: 0.9375rem;
-  font-weight: 500;
+  font: 500 0.8125rem/1.4 var(--mono);
 }
 .facts li {
   display: inline-flex;
@@ -289,7 +306,8 @@ const glow = (e: PointerEvent) => {
   width: 0.4375rem;
   height: 0.4375rem;
   border-radius: 50%;
-  border: 1.5px solid var(--mato);
+  background: var(--mato);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mato) 25%, transparent);
 }
 .actions {
   display: flex;
@@ -305,12 +323,23 @@ const glow = (e: PointerEvent) => {
   min-height: 44px;
   font-weight: 600;
 }
+.hero-foot {
+  position: relative;
+  z-index: 1;
+  padding-bottom: 2.25rem;
+}
+.foot-label {
+  margin: 0 auto 0.875rem;
+}
+.foot-label .eyebrow {
+  margin: 0;
+}
 
-/* Faixa de prova */
+/* ─── Prova ─── */
 .proof {
   display: grid;
   gap: 1.5rem;
-  padding-bottom: clamp(3rem, 7vw, 5rem);
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
 }
 @media (min-width: 720px) {
   .proof {
@@ -319,24 +348,100 @@ const glow = (e: PointerEvent) => {
   }
 }
 .proof-item {
-  border-top: 2px solid var(--ink);
+  border-top: 1px solid var(--line);
   padding-top: 1rem;
 }
 .proof-big {
   margin: 0;
-  font-size: clamp(1.75rem, 3.6vw, 2.5rem);
+  font-size: clamp(2rem, 3.9vw, 3.1rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.05;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  line-height: 1;
   font-variant-numeric: tabular-nums;
+  background: linear-gradient(120deg, var(--ink) 40%, var(--mato));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .proof-small {
-  margin: 0.5rem 0 0;
+  margin: 0.625rem 0 0;
   color: var(--muted);
   max-width: 30ch;
 }
 
-/* Projetos */
+/* ─── Entregas: cartões que empilham ao rolar ─── */
+.band-title.big {
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+}
+.stack {
+  list-style: none;
+  margin: clamp(2rem, 5vw, 3.5rem) 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1.5rem;
+}
+.card {
+  display: grid;
+  gap: 1.5rem 3rem;
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--card);
+  box-shadow: 0 30px 60px -40px rgb(16 23 19 / 0.35);
+}
+@media (min-width: 900px) {
+  .card {
+    position: sticky;
+    top: calc(var(--head-h, 5rem) + 1rem + var(--i) * 0.875rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+    align-items: center;
+    min-height: 26rem;
+  }
+  .card:nth-child(even) .card-art {
+    order: -1;
+  }
+}
+.card-n {
+  margin: 0 0 1rem;
+  font: 600 0.8125rem/1 var(--mono);
+  color: var(--mato);
+}
+.card-n span {
+  color: var(--muted);
+}
+.dl-k {
+  margin: 0;
+  font-size: clamp(1.625rem, 3.2vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.06;
+  max-width: 18ch;
+}
+.dl-d {
+  margin: 1rem 0 0;
+  color: var(--muted);
+  max-width: 46ch;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+}
+.tags li {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font: 500 0.75rem/1 var(--mono);
+  color: var(--muted);
+}
+
+/* ─── Projetos ─── */
 .cases {
   list-style: none;
   margin: 0;
@@ -349,12 +454,12 @@ const glow = (e: PointerEvent) => {
   gap: 0.375rem;
   padding: 1.5rem;
   border: 1.5px solid var(--line);
-  border-radius: 8px;
+  border-radius: 14px;
   text-decoration: none;
   transition: border-color 0.15s;
 }
 .case-link:hover {
-  border-color: var(--ink);
+  border-color: var(--mato);
 }
 .case-name {
   font-size: 1.5rem;
@@ -365,7 +470,7 @@ const glow = (e: PointerEvent) => {
   color: var(--muted);
 }
 .case-stack {
-  font-size: 0.875rem;
+  font: 500 0.8125rem/1.4 var(--mono);
 }
 .case-read {
   margin-top: 0.5rem;
@@ -373,18 +478,38 @@ const glow = (e: PointerEvent) => {
   color: var(--mato);
 }
 
-/* Como eu trabalho */
+/* ─── Método ─── */
 .work {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 2rem 3rem;
+  gap: 1rem;
 }
 @media (min-width: 720px) {
   .work {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+.work li {
+  position: relative;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--card);
+  transition:
+    border-color 0.25s,
+    transform 0.4s var(--ease);
+}
+.work li:hover {
+  border-color: var(--mato);
+  transform: translateY(-4px);
+}
+.work-n {
+  display: block;
+  margin-bottom: 1.25rem;
+  font: 600 0.8125rem/1 var(--mono);
+  color: var(--mato);
 }
 .work-k {
   margin: 0;
@@ -405,23 +530,54 @@ const glow = (e: PointerEvent) => {
   line-height: 1.35;
   max-width: 34ch;
   padding-left: 1.25rem;
-  border-left: 3px solid var(--broto);
+  border-left: 3px solid var(--mato);
 }
 
-/* Trajetória */
+/* ─── Trajetória: linha que se preenche ao rolar (--tl vem do ScrollTrigger) ─── */
 .tl {
+  --tl: 0;
+  position: relative;
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 2rem;
+}
+.tl::before,
+.tl::after {
+  content: '';
+  position: absolute;
+  left: 0.3125rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  border-radius: 2px;
+}
+.tl::before {
+  background: var(--line);
+}
+.tl::after {
+  background: var(--mato);
+  transform: scaleY(var(--tl));
+  transform-origin: top;
 }
 .tl-item {
+  position: relative;
   display: grid;
   gap: 0.25rem 2rem;
-  padding-block: 1.5rem;
-  border-bottom: 1px solid var(--line);
+  padding-block: 0 2.5rem;
 }
-.tl-item:first-child {
-  padding-top: 0;
+.tl-item:last-child {
+  padding-bottom: 0;
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 0.35rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid var(--mato);
+  border-radius: 50%;
+  background: var(--paper);
 }
 @media (min-width: 640px) {
   .tl-item {
@@ -430,26 +586,26 @@ const glow = (e: PointerEvent) => {
 }
 .tl-years {
   margin: 0;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
+  font: 600 0.8125rem/1.6 var(--mono);
   color: var(--mato);
 }
 .tl-company {
   margin: 0;
-  font-size: 1.375rem;
+  font-size: 1.5rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: 1.2;
 }
 .tl-text {
   margin: 0.75rem 0 0;
   max-width: 58ch;
+  color: var(--muted);
 }
 .tl-more {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
-/* Faixa pro cliente: discreta, pra não competir com a trajetória */
+/* ─── Faixa pro cliente ─── */
 .client {
   background: var(--paper-2);
   padding-block: clamp(2.5rem, 6vw, 4rem);
@@ -475,42 +631,41 @@ const glow = (e: PointerEvent) => {
   justify-self: start;
 }
 
-/* O que já entreguei: largura total, quebra a espinha título/coluna */
-.dl-list {
-  list-style: none;
-  margin: 2rem 0 0;
-  padding: 0;
+/* ─── Contato ─── */
+.contact {
+  position: relative;
+  overflow: clip;
+  padding-top: clamp(5rem, 12vw, 9rem);
 }
-.dl-item {
-  display: grid;
-  gap: 0.5rem 3rem;
-  padding-block: 1.75rem;
-  border-top: 1px solid var(--line);
+.big-mq {
+  position: absolute;
+  inset: 1.5rem 0 auto 0;
+  overflow: hidden;
+  pointer-events: none;
 }
-@media (min-width: 900px) {
-  .dl-item {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: baseline;
+.big-lane {
+  display: flex;
+  width: max-content;
+  animation: bigrun 60s linear infinite;
+}
+.big-lane span {
+  flex: none;
+  padding-right: 3rem;
+  font-size: clamp(5rem, 14vw, 11rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--on-deep) 14%, transparent);
+  white-space: nowrap;
+}
+@keyframes bigrun {
+  to {
+    transform: translateX(-50%);
   }
 }
-.dl-k {
-  margin: 0;
-  font-size: clamp(1.5rem, 3.2vw, 2.25rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  max-width: 20ch;
-}
-.dl-d {
-  margin: 0;
-  color: var(--muted);
-  font-size: 1.0625rem;
-  max-width: 52ch;
-}
-
-/* Contato */
-.contact {
-  background: var(--paper-2);
+.contact .wrap {
+  position: relative;
 }
 .contact-text {
   margin: 0.75rem 0 2rem;
@@ -529,5 +684,10 @@ const glow = (e: PointerEvent) => {
   margin: 2rem 0 0;
   padding: 0;
   font-weight: 600;
+}
+@media (prefers-reduced-motion: reduce) {
+  .big-lane {
+    animation: none;
+  }
 }
 </style>

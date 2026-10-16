@@ -17,6 +17,8 @@ const pt = {
     contact: 'Contato',
     switchLocale: 'Read in English',
     switchTheme: 'Alternar tema claro e escuro',
+    menu: 'Abrir menu',
+    close: 'Fechar menu',
     skip: 'Pular para o conteúdo',
   },
   common: {
@@ -29,6 +31,14 @@ const pt = {
     title: 'Construo sistemas web que empresas usam o dia inteiro.',
     lede: 'Três anos em produção no setor financeiro: cobrança, atendimento, auditoria. Do banco de dados à tela, com código que o próximo dev consegue ler.',
     facts: ['Remoto ou híbrido', 'Português nativo, inglês avançado'],
+    labels: {
+      stack: 'stack',
+      delivered: 'entregas',
+      work: 'método',
+      timeline: 'trajetória',
+      contact: 'contato',
+      scroll: 'role',
+    },
     ctaTalk: 'Falar comigo',
     ctaTimeline: 'Ver trajetória',
     proof: [
