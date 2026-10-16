@@ -122,7 +122,7 @@ const pt = {
     },
   },
   about: {
-    title: 'Do balcão da loja ao sistema financeiro.',
+    title: 'Comecei consertando computador e instalando internet.',
     intro:
       'Sou o Mateus. Trabalho com desenvolvimento web desde 2023, sempre em sistemas que mexem com dinheiro de alguém: cobrança, atendimento, auditoria. Gosto desse tipo de software justamente porque erro ali tem custo, e isso obriga a fazer direito.',
     chapters: [

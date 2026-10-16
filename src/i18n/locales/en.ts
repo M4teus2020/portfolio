@@ -127,7 +127,7 @@ const en: Messages = {
     },
   },
   about: {
-    title: 'From the shop counter to financial systems.',
+    title: 'I started out fixing computers and installing internet.',
     intro:
       "I'm Mateus. I've worked in web development since 2023, always on systems that handle someone's money: collections, customer service, auditing. I like this kind of software precisely because mistakes there cost something, and that forces you to do it right.",
     chapters: [

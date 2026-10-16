@@ -1,15 +1,22 @@
 <script setup lang="ts">
-// Monograma "M" desenhado como um grafo: três nós ligados por um traço que se desenha ao carregar.
+// Marca: curvas de nível do planalto em volta de um ponto (sem fundo). Os anéis se fecham ao carregar
+// e o ponto pulsa; no hover da marca (.brand, no header) os anéis giram em sentidos opostos.
 </script>
 
 <template>
   <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
-    <rect class="tile" x="0.75" y="0.75" width="30.5" height="30.5" rx="9.5" />
-    <path class="m" d="M8 23V10.5L16 18.5L24 10.5V23" pathLength="1" />
-    <circle class="n n1" cx="8" cy="10.5" r="2.1" />
-    <circle class="n n3" cx="24" cy="10.5" r="2.1" />
-    <circle class="pulse" cx="16" cy="18.5" r="2.6" />
-    <circle class="n n2" cx="16" cy="18.5" r="2.6" />
+    <g class="ring r1">
+      <g class="spin">
+        <ellipse cx="16" cy="16.4" rx="13" ry="10.4" transform="rotate(-18 16 16)" />
+      </g>
+    </g>
+    <g class="ring r2">
+      <g class="spin">
+        <ellipse cx="16" cy="16.1" rx="7.4" ry="5.8" transform="rotate(-6 16 16)" />
+      </g>
+    </g>
+    <circle class="pulse" cx="16" cy="16" r="3" />
+    <circle class="dot" cx="16" cy="16" r="3" />
   </svg>
 </template>
 
@@ -20,60 +27,60 @@
   flex: none;
   overflow: visible;
 }
-.tile {
-  fill: var(--cta);
-  stroke: color-mix(in srgb, white 22%, transparent);
-  stroke-width: 1.5;
+.ring {
+  transform-box: view-box;
+  transform-origin: 16px 16px;
+  opacity: 0;
+  animation: close-in 0.9s var(--ease) forwards;
 }
-.m {
+.spin {
+  transform-box: view-box;
+  transform-origin: 16px 16px;
+  transition: transform 0.9s var(--ease);
+}
+.ring ellipse {
   fill: none;
-  stroke: #fff;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 1.1s var(--ease) 0.2s forwards;
+  stroke: #2fa97b;
+  stroke-width: 2.7;
 }
-.n {
-  fill: #fff;
+.r1 {
+  animation-delay: 0.1s;
+  --o: 0.5;
+}
+.r2 {
+  animation-delay: 0.35s;
+  --o: 1;
+}
+.dot {
+  fill: #2fa97b;
   transform-box: fill-box;
   transform-origin: center;
   opacity: 0;
-  animation: pop 0.5s var(--ease) forwards;
-}
-.n1 {
-  animation-delay: 0.3s;
-}
-.n2 {
-  fill: #d9f0e3;
-  animation-delay: 0.7s;
-}
-.n3 {
-  animation-delay: 1.1s;
+  animation: pop 0.5s var(--ease) 0.7s forwards;
 }
 .pulse {
   fill: none;
-  stroke: #d9f0e3;
-  stroke-width: 1.2;
+  stroke: #2fa97b;
+  stroke-width: 1.4;
   transform-box: fill-box;
   transform-origin: center;
   opacity: 0;
-  animation: ping 2.8s ease-out 1.6s infinite;
+  animation: ping 3s ease-out 1.4s infinite;
 }
-/* Ao passar o mouse na marca (a classe .brand mora no header), os nós saltam em sequência. */
-:global(.brand:hover) .n {
-  animation: hop 0.6s var(--ease) both;
+:global(.brand:hover) .r1 .spin {
+  transform: rotate(24deg);
 }
-:global(.brand:hover) .n3 {
-  animation-delay: 0.08s;
+:global(.brand:hover) .r2 .spin {
+  transform: rotate(-30deg);
 }
-:global(.brand:hover) .n2 {
-  animation-delay: 0.16s;
-}
-@keyframes draw {
+@keyframes close-in {
+  from {
+    opacity: 0;
+    transform: scale(1.5);
+  }
   to {
-    stroke-dashoffset: 0;
+    opacity: var(--o, 1);
+    transform: scale(1);
   }
 }
 @keyframes pop {
@@ -86,33 +93,22 @@
     transform: scale(1);
   }
 }
-@keyframes hop {
-  0%,
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
-  40% {
-    transform: translateY(-3px) scale(1.25);
-    opacity: 1;
-  }
-}
 @keyframes ping {
   0% {
-    opacity: 0.8;
+    opacity: 0.7;
     transform: scale(1);
   }
   100% {
     opacity: 0;
-    transform: scale(3);
+    transform: scale(3.2);
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .m {
-    stroke-dashoffset: 0;
+  .ring {
+    opacity: var(--o, 1);
     animation: none;
   }
-  .n {
+  .dot {
     opacity: 1;
     animation: none;
   }
