@@ -179,6 +179,77 @@ Selo em cada um: **exemplo** (enquanto não for cliente).
 
 ---
 
+## 5. Dois públicos (v2.1, 2026-10-16) · substitui a estrutura da seção 3
+
+> O site fala com **recrutador** (home e /sobre) e com **cliente** (/servicos). A home continua liderando pro recrutador; o cliente ganha um caminho explícito. `/sites` vira `/servicos` e a rota `/sites` continua existindo, levando direto à parte de sites (destino do crédito nos rodapés dos clientes).
+
+### 5.1 Menu
+Sobre · Serviços · Contato · [EN]
+(Projetos volta ao menu quando houver case.)
+Rodapé ganha o link "Serviços".
+
+### 5.2 Home: faixa nova pro cliente (entre Trajetória e Contato)
+**Título:** Tem um projeto? Também atendo empresas.
+**Texto:** Faço sites para comércio local e sistemas sob medida: painéis de gestão, automações e integrações. O mesmo cuidado que levo pro trabalho do dia a dia.
+**Botão:** [Ver serviços]
+
+### 5.3 `/servicos` · topo
+**Kicker:** Serviços
+**Título:** Do site da sua loja ao sistema da sua empresa.
+**Texto:** Trabalho direto com você, da primeira conversa até tudo funcionando. Escolha por onde começar:
+
+Dois blocos lado a lado (no celular, um embaixo do outro), cada um leva à sua seção:
+- **Sites para comércio local.** Seu negócio aparecendo no Google, com a cara dele. [Ver sites]
+- **Sistemas sob medida.** O sistema que a sua equipe precisa, sem planilha e sem retrabalho. [Ver sistemas]
+
+### 5.4 `/servicos#sites` (= `/sites`)
+Conteúdo atual do /sites, sem mudança de texto: título "Seu negócio aparecendo no Google, com a cara dele.", Por que ter site, Como funciona (4 passos), Preço ("Preço justo, combinado na conversa. Sem fidelidade longa."), botão [Chamar no WhatsApp] com a mensagem "Oi Mateus, vi o site e quero saber como funciona."
+Exemplos continuam escondidos até o 1º cliente.
+
+### 5.5 `/servicos#sistemas` (novo)
+**Título:** Sistemas sob medida.
+**Texto:** Pra quando a planilha não dá mais conta, ou a equipe perde horas passando informação de um lugar pro outro.
+
+**O que eu faço**
+- **Painéis de gestão.** Vendas, cobranças e atendimentos num lugar só, atualizados sozinhos.
+- **Automações.** A tarefa repetitiva que alguém faz todo dia vira rotina automática: relatório, lembrete, distribuição de trabalho.
+- **Integrações.** Seu sistema conversando com WhatsApp, boleto, e-mail e o que mais a empresa já usa.
+- **Portais internos.** Cadastro, aprovação e acompanhamento num sistema feito pro jeito da sua equipe trabalhar.
+
+**Por que confiar** (prova vem da trajetória, sem citar cliente nem empresa)
+Há mais de três anos construo sistemas pro setor financeiro, onde erro custa dinheiro. Hoje trabalho numa plataforma que processa mais de 150 mil registros por dia, com integrações de WhatsApp, telefonia, e-mail e boleto.
+
+**Como funciona**
+1. **A gente conversa.** Entendo o problema e como o trabalho é feito hoje.
+2. **Proposta por escrito.** O que vai ser feito, em quanto tempo e quanto custa.
+3. **Entrega em partes.** Você começa a usar cedo e me diz o que ajustar.
+4. **Sigo junto.** Depois de pronto, cuido de ajustes e melhorias.
+
+**Pra quem quer saber a tecnologia** (uma linha, discreta)
+Feito em Laravel e Vue, tecnologias usadas por empresas no mundo todo.
+
+**Preço:** Cada sistema é um projeto: o valor sai da conversa, com proposta por escrito.
+**Botão:** [Chamar no WhatsApp] com a mensagem "Oi Mateus, vi seu site e quero conversar sobre um sistema."
+
+### 5.6 `/servicos` · perguntas rápidas (uma lista só, no fim)
+- **Preciso entender de internet?** Não. Você me conta o que precisa, eu cuido da parte técnica.
+- **Atende empresa de qualquer lugar?** Sim. Tudo pode ser feito a distância, por WhatsApp e chamada de vídeo.
+- **Quanto tempo leva?** Site: poucos dias depois da conversa. Sistema: depende do tamanho, e o prazo vai na proposta.
+- **Dá pra começar pequeno?** Sim. Começo pelo problema que mais pesa hoje e o resto cresce depois.
+- **E se eu quiser mudar algo depois?** Me chama no WhatsApp. No site, faz parte da mensalidade; no sistema, combinamos na proposta.
+- **O site é meu?** O endereço (seunegocio.com.br) fica no seu nome.
+
+### 5.7 `/servicos` · fecho (faixa escura)
+**Título:** Bora conversar sobre o seu projeto?
+**Botão:** [Chamar no WhatsApp]
+**Linha:** Respondo pelo WhatsApp, esteja seu negócio onde estiver.
+
+### 5.8 Meta
+- Título: Serviços · Mateus Felini
+- Descrição: Sites para comércio local e sistemas sob medida (painéis, automações e integrações com WhatsApp, boleto e e-mail).
+
+> Decisões: "código e dados são seus" ficou de fora (termo comercial, combinar caso a caso). Sem preço nos dois. Sem cidade.
+
 ## Decisões que tomei no texto (pra revisar)
 1. Tirei do esboço "sites no ar" e "nota 7,6": as demos não são clientes ainda e a nota é avaliação interna. Não aparece em lugar nenhum.
 2. Tirei da v1 o que não está na ficha: AWS, Node como stack principal, "já integrei LLMs em produto (extração de documentos...)".
