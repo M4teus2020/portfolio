@@ -190,7 +190,7 @@ useMeta(() => ({
   display: grid;
   align-items: center;
   gap: 2rem;
-  padding-block: clamp(2rem, 6vw, 4.5rem) clamp(2rem, 5vw, 3rem);
+  padding-block: calc(var(--head-h, 5rem) + 2rem) clamp(2rem, 5vw, 3rem);
 }
 @media (min-width: 900px) {
   .hero {
