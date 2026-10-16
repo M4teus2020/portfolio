@@ -22,11 +22,15 @@ export const router = createRouter({
     },
   ],
   scrollBehavior(to, _from, saved) {
-    if (saved) return saved
-    // Desconta o header fixo (SiteHeader publica a altura em --head-h).
-    const head =
-      parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 72
-    if (to.hash) return { el: to.hash, top: head + 24 }
-    return { top: 0 }
+    // 'instant' explícito: o html tem scroll-behavior: smooth, e 'auto' herdaria a animação.
+    if (saved) return { ...saved, behavior: 'instant' }
+    if (to.hash) {
+      // Desconta o header fixo (SiteHeader publica a altura em --head-h).
+      const head =
+        parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 72
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      return { el: to.hash, top: head + 24, behavior: reduce ? 'instant' : 'smooth' }
+    }
+    return { top: 0, behavior: 'instant' }
   },
 })
