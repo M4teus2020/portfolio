@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useT } from '@/i18n/useT'
 import type { Locale } from '@/i18n'
@@ -17,41 +17,58 @@ const caseCards = computed(() =>
 )
 
 useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDescription }))
+
+// Brilho esmeralda que segue o mouse no herói (posição em --gx/--gy, lida pelo CSS de .hero-bleed).
+const bleed = ref<HTMLElement>()
+let raf = 0
+const glow = (e: PointerEvent) => {
+  if (raf || !bleed.value) return
+  const r = bleed.value.getBoundingClientRect()
+  raf = requestAnimationFrame(() => {
+    raf = 0
+    bleed.value?.style.setProperty('--gx', `${e.clientX - r.left}px`)
+    bleed.value?.style.setProperty('--gy', `${e.clientY - r.top}px`)
+    bleed.value?.style.setProperty('--mx', String((e.clientX / window.innerWidth - 0.5) * 2))
+    bleed.value?.style.setProperty('--my', String((e.clientY / window.innerHeight - 0.5) * 2))
+  })
+}
 </script>
 
 <template>
-  <section class="hero wrap">
-    <div class="hero-text">
-      <p class="kicker">{{ h.kicker }}</p>
-      <h1 class="name">Mateus<br />Felini</h1>
-      <p class="title">{{ h.title }}</p>
-      <p class="lede">{{ h.lede }}</p>
-      <ul class="facts">
-        <li v-for="f in h.facts" :key="f">{{ f }}</li>
-      </ul>
-      <div class="actions">
-        <a class="btn btn-solid" href="#contato">{{ h.ctaTalk }}</a>
-        <a class="btn btn-line" href="#trajetoria">{{ h.ctaTimeline }}</a>
-        <a v-if="RESUME_URL" class="btn btn-line" :href="RESUME_URL" download>{{
-          t.common.resume
-        }}</a>
-        <a class="link actions-link" :href="CONTACT.linkedin" target="_blank" rel="noreferrer"
-          >LinkedIn</a
-        >
+  <div ref="bleed" class="deep hero-bleed" data-hero @pointermove="glow">
+    <section class="hero wrap">
+      <div class="hero-text">
+        <p class="kicker">{{ h.kicker }}</p>
+        <h1 class="name">Mateus<br />Felini</h1>
+        <p class="title">{{ h.title }}</p>
+        <p class="lede">{{ h.lede }}</p>
+        <ul class="facts">
+          <li v-for="f in h.facts" :key="f">{{ f }}</li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-solid" href="#contato">{{ h.ctaTalk }}</a>
+          <a class="btn btn-line" href="#trajetoria">{{ h.ctaTimeline }}</a>
+          <a v-if="RESUME_URL" class="btn btn-line" :href="RESUME_URL" download>{{
+            t.common.resume
+          }}</a>
+          <a class="link actions-link" :href="CONTACT.linkedin" target="_blank" rel="noreferrer"
+            >LinkedIn</a
+          >
+        </div>
       </div>
-    </div>
-    <div class="hero-art" :class="{ 'has-photo': PHOTO_URL }">
-      <ContourField />
-      <img
-        v-if="PHOTO_URL"
-        class="photo"
-        :src="PHOTO_URL"
-        alt="Mateus Felini"
-        width="480"
-        height="600"
-      />
-    </div>
-  </section>
+      <div class="hero-art" :class="{ 'has-photo': PHOTO_URL }">
+        <ContourField />
+        <img
+          v-if="PHOTO_URL"
+          class="photo"
+          :src="PHOTO_URL"
+          alt="Mateus Felini"
+          width="480"
+          height="600"
+        />
+      </div>
+    </section>
+  </div>
 
   <section class="wrap proof" :aria-label="h.kicker">
     <div v-for="p in h.proof" :key="p.big" class="proof-item">
@@ -134,7 +151,7 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
     </div>
   </section>
 
-  <section id="contato" class="band contact">
+  <section id="contato" class="band contact deep">
     <div class="wrap">
       <h2 class="band-title">{{ h.contact.title }}</h2>
       <p class="contact-text">{{ h.contact.text }}</p>
@@ -154,6 +171,22 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
 
 <style scoped>
 /* Hero */
+.hero-bleed {
+  position: relative;
+  overflow: clip;
+  --gx: 72%;
+  --gy: 30%;
+}
+.hero-bleed::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(34rem circle at var(--gx) var(--gy), rgb(22 118 83 / 0.32), transparent 65%),
+    radial-gradient(60rem circle at 100% 0, rgb(63 182 133 / 0.08), transparent 60%);
+  pointer-events: none;
+  transition: background-position 0.4s;
+}
 .hero {
   position: relative;
   display: grid;
@@ -252,7 +285,7 @@ useMeta(() => ({ title: t.value.meta.homeTitle, description: t.value.meta.homeDe
   gap: 0.5rem;
 }
 .facts li::before {
-  content: "";
+  content: '';
   width: 0.4375rem;
   height: 0.4375rem;
   border-radius: 50%;

@@ -6,7 +6,16 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#F3F5F1" />
+    <meta name="theme-color" content="#F5F6F2" />
+    <script>
+      // Aplica o tema salvo antes da primeira pintura, pra não piscar claro no escuro.
+      try {
+        if (localStorage.getItem('felini-theme') === 'dark') {
+          document.documentElement.dataset.theme = 'dark'
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#101713')
+        }
+      } catch (e) {}
+    </script>
     <!-- As metas abaixo são reescritas por rota no build (scripts/prerender.mjs). -->
     <title>Mateus Felini · Desenvolvedor full-stack (Laravel e Vue)</title>
     <meta

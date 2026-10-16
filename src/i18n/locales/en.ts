@@ -18,6 +18,7 @@ const en: Messages = {
     services: 'Services',
     contact: 'Contact',
     switchLocale: 'Ler em português',
+    switchTheme: 'Switch between light and dark theme',
     skip: 'Skip to content',
   },
   common: {
@@ -35,7 +36,10 @@ const en: Messages = {
     proof: [
       { big: '3+ years', small: 'in production, since April 2023' },
       { big: '150k+', small: 'records a day on the platform I work on today' },
-      { big: '4 integrations', small: 'WhatsApp, telephony, email and boleto payments in production' },
+      {
+        big: '4 integrations',
+        small: 'WhatsApp, telephony, email and boleto payments in production',
+      },
     ],
     projects: {
       title: 'Projects',
@@ -282,7 +286,10 @@ const en: Messages = {
         q: 'What if I want to change something later?',
         a: 'Message me on WhatsApp. For websites it is part of the monthly fee; for systems, we agree on it in the proposal.',
       },
-      { q: 'Is the website mine?', a: 'The address (yourbusiness.com.br) is registered in your name.' },
+      {
+        q: 'Is the website mine?',
+        a: 'The address (yourbusiness.com.br) is registered in your name.',
+      },
     ],
     closeTitle: 'Shall we talk about your project?',
     closeMessage: 'Hi Mateus, I saw your website and want to talk about a project.',

@@ -32,15 +32,21 @@ const paths = Array.from({ length: props.rings }, (_, i) => ring(i))
 <template>
   <figure class="contour" aria-hidden="true">
     <svg viewBox="0 0 660 640" preserveAspectRatio="xMidYMid meet">
-      <path
+      <!-- O <g> leva o parallax do mouse (--mx/--my vêm do herói); o <path> leva a animação de entrada. -->
+      <g
         v-for="(d, i) in paths"
         :key="i"
-        :d="d"
-        pathLength="1"
-        class="c-ring"
-        :class="{ 'c-top': i === 0 }"
-        :style="{ animationDelay: `${(paths.length - i) * 70}ms` }"
-      />
+        class="c-depth"
+        :style="{ '--depth': (paths.length - i) * 1.6 }"
+      >
+        <path
+          :d="d"
+          pathLength="1"
+          class="c-ring"
+          :class="{ 'c-top': i === 0 }"
+          :style="{ animationDelay: `${(paths.length - i) * 70}ms` }"
+        />
+      </g>
       <g class="c-pin">
         <circle :cx="CX" :cy="CY" r="7" />
         <template v-if="label">
@@ -63,9 +69,16 @@ svg {
   display: block;
   overflow: visible;
 }
+.c-depth {
+  transform: translate(
+    calc(var(--mx, 0) * var(--depth) * 1px),
+    calc(var(--my, 0) * var(--depth) * 1px)
+  );
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
 .c-ring {
   fill: none;
-  stroke: var(--line);
+  stroke: color-mix(in srgb, var(--mato) 34%, transparent);
   stroke-width: 1.25;
   transform-box: view-box;
   transform-origin: 330px 300px;

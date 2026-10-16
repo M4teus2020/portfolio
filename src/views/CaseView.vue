@@ -34,12 +34,22 @@ useMeta(() =>
       <h1 class="case-title">{{ txt.name }}</h1>
       <p class="case-summary">{{ txt.summary }}</p>
       <div class="case-links">
-        <a v-if="c.liveUrl" class="btn btn-solid" :href="c.liveUrl" target="_blank" rel="noreferrer">{{
-          L.live
-        }}</a>
-        <a v-if="c.codeUrl" class="btn btn-line" :href="c.codeUrl" target="_blank" rel="noreferrer">{{
-          L.code
-        }}</a>
+        <a
+          v-if="c.liveUrl"
+          class="btn btn-solid"
+          :href="c.liveUrl"
+          target="_blank"
+          rel="noreferrer"
+          >{{ L.live }}</a
+        >
+        <a
+          v-if="c.codeUrl"
+          class="btn btn-line"
+          :href="c.codeUrl"
+          target="_blank"
+          rel="noreferrer"
+          >{{ L.code }}</a
+        >
       </div>
       <dl class="case-facts">
         <div>

@@ -25,16 +25,18 @@ useMeta(() => ({
 </script>
 
 <template>
-  <section class="wrap hero">
-    <div class="hero-text">
-      <p class="kicker">{{ s.kicker }}</p>
-      <h1 class="title">{{ s.title }}</h1>
-      <p class="lede">{{ s.lede }}</p>
-    </div>
-    <div class="hero-art">
-      <ContourField :label="s.pinLabel" :rings="10" />
-    </div>
-  </section>
+  <div class="deep hero-bleed" data-hero>
+    <section class="wrap hero">
+      <div class="hero-text">
+        <p class="kicker">{{ s.kicker }}</p>
+        <h1 class="title">{{ s.title }}</h1>
+        <p class="lede">{{ s.lede }}</p>
+      </div>
+      <div class="hero-art">
+        <ContourField :label="s.pinLabel" :rings="10" />
+      </div>
+    </section>
+  </div>
 
   <nav class="wrap offers" :aria-label="s.kicker">
     <a v-for="o in s.offers" :key="o.id" :href="`#${o.id}`" class="offer">
@@ -168,7 +170,7 @@ useMeta(() => ({
     </div>
   </section>
 
-  <section class="band close">
+  <section class="band close deep">
     <div class="wrap">
       <h2 class="close-title">{{ s.closeTitle }}</h2>
       <a
@@ -258,8 +260,9 @@ useMeta(() => ({
     color 0.2s;
 }
 .offer:hover {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--deep);
+  border-color: var(--deep);
+  color: var(--on-deep);
 }
 .offer-k {
   font-size: clamp(1.5rem, 3vw, 2rem);
@@ -273,7 +276,7 @@ useMeta(() => ({
   transition: color 0.2s;
 }
 .offer:hover .offer-d {
-  color: #b9c4bc;
+  color: var(--deep-muted);
 }
 .offer-cta {
   margin-top: 0.75rem;
@@ -473,7 +476,7 @@ useMeta(() => ({
 }
 /* O "+" gira e vira "x" ao abrir. */
 .faq summary::after {
-  content: "+";
+  content: '+';
   flex: none;
   display: grid;
   place-items: center;
@@ -524,9 +527,8 @@ useMeta(() => ({
   }
 }
 
+/* Fecho escuro: a classe .deep (no template) reaponta os tokens, botões e linhas já herdam. */
 .close {
-  background: var(--ink);
-  color: var(--paper);
   border-top: 0;
 }
 .close-title {
@@ -537,17 +539,8 @@ useMeta(() => ({
   letter-spacing: -0.045em;
   max-width: 14ch;
 }
-.close .btn-solid {
-  background: var(--broto);
-  color: var(--ink);
-  border-color: var(--broto);
-}
-.close .btn-solid:hover {
-  background: var(--paper);
-  border-color: var(--paper);
-}
 .close-line {
   margin: 1.5rem 0 0;
-  color: #b9c4bc;
+  color: var(--muted);
 }
 </style>

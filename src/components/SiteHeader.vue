@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter, type RouteLocationRaw } from 'vue-router'
-import { anchorOffset, scrollMotion, skipScroll } from '@/router'
+import { anchorOffset, skipScroll } from '@/router'
+import { scrollToY } from '@/motion/scroll'
+import { theme, toggleTheme } from '@/motion/theme'
 import { useT, useLocale } from '@/i18n/useT'
 import { cases } from '@/data/cases'
 
@@ -28,7 +30,7 @@ const go = (e: MouseEvent, to: RouteLocationRaw, navigate: (e: MouseEvent) => un
   e.preventDefault()
   const el = target.hash ? document.querySelector(target.hash) : null
   const top = el ? el.getBoundingClientRect().top + window.scrollY - anchorOffset() : 0
-  window.scrollTo({ top, behavior: scrollMotion() })
+  scrollToY(top)
   if (target.fullPath !== route.fullPath) {
     skipScroll()
     router.replace(target)
@@ -38,8 +40,30 @@ const go = (e: MouseEvent, to: RouteLocationRaw, navigate: (e: MouseEvent) => un
 // Header fixo: publica a altura em --head-h (âncoras descontam ela) e marca a rolagem pra mostrar a linha.
 const head = ref<HTMLElement>()
 const scrolled = ref(false)
+const overDeep = ref(false)
+const themeBtn = ref<HTMLButtonElement>()
 let ro: ResizeObserver | undefined
-const onScroll = () => (scrolled.value = window.scrollY > 4)
+let routeTimer: number | undefined
+
+// Na home o header veste o grafite enquanto o herói escuro está atrás dele; a barra mostra o quanto já foi lido.
+const onScroll = () => {
+  scrolled.value = window.scrollY > 4
+  const hero = document.querySelector('[data-hero]')
+  overDeep.value = !!hero && hero.getBoundingClientRect().bottom > (head.value?.offsetHeight ?? 0)
+  const max = document.documentElement.scrollHeight - window.innerHeight
+  document.documentElement.style.setProperty(
+    '--progress',
+    String(max > 0 ? Math.min(1, window.scrollY / max) : 0),
+  )
+}
+// A página nova entra depois da saída da antiga: reavalia quando ela já estiver no lugar.
+watch(
+  () => route.path,
+  () => {
+    clearTimeout(routeTimer)
+    routeTimer = window.setTimeout(onScroll, 450)
+  },
+)
 
 const publishHeight = () =>
   document.documentElement.style.setProperty('--head-h', `${head.value?.offsetHeight ?? 0}px`)
@@ -58,7 +82,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <header ref="head" class="head" :class="{ scrolled }">
+  <header ref="head" class="head" :class="{ scrolled, deep: overDeep }">
     <div class="wrap head-row">
       <RouterLink v-slot="{ href, navigate }" to="/" custom>
         <a :href="href" class="mark" @click="go($event, '/', navigate)">Mateus Felini</a>
@@ -83,8 +107,28 @@ onBeforeUnmount(() => {
         >
           {{ locale === 'pt' ? 'EN' : 'PT' }}
         </button>
+        <button
+          ref="themeBtn"
+          type="button"
+          class="nav-link lang theme"
+          :aria-label="t.nav.switchTheme"
+          :title="t.nav.switchTheme"
+          :aria-pressed="theme === 'dark'"
+          @click="toggleTheme(themeBtn)"
+        >
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+            <g class="sun">
+              <circle cx="12" cy="12" r="4.2" />
+              <path
+                d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"
+              />
+            </g>
+            <path class="moon" d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7Z" />
+          </svg>
+        </button>
       </nav>
     </div>
+    <span class="progress" aria-hidden="true"></span>
   </header>
 </template>
 
@@ -97,7 +141,10 @@ onBeforeUnmount(() => {
   z-index: 40;
   background: var(--paper);
   border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.35s ease,
+    color 0.35s ease;
 }
 .head.scrolled {
   border-bottom-color: var(--line);
@@ -167,5 +214,34 @@ onBeforeUnmount(() => {
 }
 .lang:hover {
   border-color: var(--ink);
+}
+.theme {
+  padding: 0;
+}
+.ico {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Sol e lua trocam girando; o estado vem de aria-pressed. */
+.sun,
+.moon {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 0.5s var(--ease),
+    opacity 0.3s;
+}
+.theme[aria-pressed='false'] .moon {
+  transform: rotate(-60deg) scale(0.4);
+  opacity: 0;
+}
+.theme[aria-pressed='true'] .sun {
+  transform: rotate(90deg) scale(0.4);
+  opacity: 0;
 }
 </style>

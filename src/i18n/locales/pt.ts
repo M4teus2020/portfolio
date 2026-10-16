@@ -16,6 +16,7 @@ const pt = {
     services: 'Serviços',
     contact: 'Contato',
     switchLocale: 'Read in English',
+    switchTheme: 'Alternar tema claro e escuro',
     skip: 'Pular para o conteúdo',
   },
   common: {

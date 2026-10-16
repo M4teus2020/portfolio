@@ -10,11 +10,17 @@ const t = useT()
     <div class="wrap foot-row">
       <p class="foot-line"><strong>Mateus Felini</strong> {{ t.footer.line }}</p>
       <ul class="foot-links">
-        <li><RouterLink class="link" to="/servicos">{{ t.nav.services }}</RouterLink></li>
+        <li>
+          <RouterLink class="link" to="/servicos">{{ t.nav.services }}</RouterLink>
+        </li>
         <li><a class="link" :href="`mailto:${CONTACT.email}`">E-mail</a></li>
-        <li><a class="link" :href="CONTACT.linkedin" target="_blank" rel="noreferrer">LinkedIn</a></li>
+        <li>
+          <a class="link" :href="CONTACT.linkedin" target="_blank" rel="noreferrer">LinkedIn</a>
+        </li>
         <li><a class="link" :href="CONTACT.github" target="_blank" rel="noreferrer">GitHub</a></li>
-        <li v-if="RESUME_URL"><a class="link" :href="RESUME_URL" download>{{ t.common.resume }}</a></li>
+        <li v-if="RESUME_URL">
+          <a class="link" :href="RESUME_URL" download>{{ t.common.resume }}</a>
+        </li>
       </ul>
     </div>
   </footer>

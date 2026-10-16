@@ -1,12 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
+import { scrollToY } from '@/motion/scroll'
 
 // Desconta o header fixo (SiteHeader publica a altura em --head-h) e um respiro.
 export const anchorOffset = () =>
   (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--head-h')) || 72) + 24
-
-export const scrollMotion = (): ScrollBehavior =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'
 
 // O header rola na mão quando o destino é a rota atual; aí a navegação só atualiza a URL.
 let skipNextScroll = false
@@ -32,14 +30,31 @@ export const router = createRouter({
       component: () => import('@/views/NotFoundView.vue'),
     },
   ],
-  scrollBehavior(to, _from, saved) {
+  scrollBehavior(to, from, saved) {
     if (skipNextScroll) {
       skipNextScroll = false
       return false
     }
-    // 'instant' explícito: o html tem scroll-behavior: smooth, e 'auto' herdaria a animação.
-    if (saved) return { ...saved, behavior: 'instant' }
-    if (to.hash) return { el: to.hash, top: anchorOffset(), behavior: scrollMotion() }
-    return { top: 0, behavior: 'instant' }
+    // Troca de rota: a página nova só existe depois da saída da antiga (App.vue avisa); rola então.
+    const arrive = (): Promise<void> =>
+      to.path === from.path
+        ? Promise.resolve()
+        : new Promise((resolve) => {
+            const done = () => resolve()
+            window.addEventListener('page:entering', done, { once: true })
+            setTimeout(done, 700)
+          })
+    return arrive().then(() => {
+      if (saved) return void scrollToY(saved.top ?? 0, { immediate: true })
+      if (to.hash) {
+        const el = document.querySelector(to.hash)
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY - anchorOffset()
+          // Vindo de outra rota o salto é seco (a página já entra animada); na mesma, desliza.
+          return void scrollToY(top, { immediate: to.path !== from.path })
+        }
+      }
+      return void scrollToY(0, { immediate: true })
+    })
   },
 })

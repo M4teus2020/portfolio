@@ -1,23 +1,63 @@
 @import 'tailwindcss';
 
-/* Paleta do planalto: papel frio, tinta de araucária, verde de mato. */
+/* Paleta v3: graphite, porcelain, emerald, mint, stone. Claro por padrão; escuro via data-theme. */
 :root {
-  --paper: #f3f5f1;
-  --paper-2: #e8ece5;
-  --ink: #18231d;
-  --muted: #55625a;
-  --line: #c6cfc6;
-  --mato: #2e5e3e;
-  --mato-soft: #dfe8db;
-  --broto: #9fc48a;
+  --paper: #f5f6f2; /* porcelain */
+  --paper-2: #e4e8e1; /* stone */
+  --ink: #202922;
+  --muted: #5a675e;
+  --line: #d2d9cf;
+  --mato: #167653; /* emerald: links e elementos ativos */
+  --mato-soft: #d9f0e3; /* mint */
+  --broto: #8fd4b0;
+  --card: #ffffff;
+
+  /* Superfícies sempre escuras (hero, rodapé, impacto): iguais nos dois temas. */
+  --deep: #101713; /* graphite */
+  --on-deep: #f5f6f2;
+  --deep-muted: #8a978d;
+  --deep-line: #26322b;
+  --deep-accent: #3fb685;
+  --cta: #167653;
+  --on-cta: #ffffff;
 
   --sans: 'Schibsted Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
   --serif: 'Newsreader', ui-serif, Georgia, serif;
 
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --gutter: clamp(1rem, 4vw, 3rem);
   --max: 76rem;
 
   color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --paper: #101713;
+  --paper-2: #171f1a;
+  --ink: #f5f6f2;
+  --muted: #93a197;
+  --line: #26322b;
+  --mato: #3fb685;
+  --mato-soft: #163226;
+  --broto: #167653;
+  --card: #171f1a;
+  --deep: #0b100d;
+  --deep-line: #1f2a24;
+
+  color-scheme: dark;
+}
+
+/* Bloco escuro dentro de qualquer tema: reaponta os tokens e tudo dentro herda. */
+.deep {
+  --paper: var(--deep);
+  --paper-2: #17201b;
+  --ink: var(--on-deep);
+  --muted: var(--deep-muted);
+  --line: var(--deep-line);
+  --mato: var(--deep-accent);
+  --broto: var(--cta);
+  background: var(--deep);
+  color: var(--ink);
 }
 
 @theme inline {
@@ -43,9 +83,16 @@ html {
   text-rendering: optimizeLegibility;
 }
 @media (prefers-reduced-motion: no-preference) {
-  html {
+  html:not(.lenis) {
     scroll-behavior: smooth;
   }
+}
+/* Lenis cuida da inércia: o scroll-behavior nativo brigaria com ele. */
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
 }
 
 body {
@@ -57,11 +104,14 @@ body {
   line-height: 1.55;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
 ::selection {
   background: var(--broto);
-  color: var(--ink);
+  color: var(--on-cta);
 }
 
 a {
@@ -102,10 +152,23 @@ img {
   left: 0.5rem;
 }
 
-/* Seção com título na coluna da esquerda no desktop. */
+/* Seção com título na coluna da esquerda no desktop. A linha de topo se desenha ao entrar (--rule 0 a 1). */
 .band {
+  --rule: 1;
+  position: relative;
   padding-block: clamp(3.5rem, 9vw, 7rem);
-  border-top: 1px solid var(--line);
+  border-top: 0;
+}
+.band::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--line);
+  transform: scaleX(var(--rule));
+  transform-origin: left;
 }
 .band-grid {
   display: grid;
@@ -144,16 +207,19 @@ img {
   border: 1.5px solid var(--ink);
   cursor: pointer;
   transition:
-    background-color 0.15s,
-    color 0.15s;
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
 }
 .btn-solid {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--cta);
+  border-color: var(--cta);
+  color: var(--on-cta);
 }
 .btn-solid:hover {
-  background: var(--mato);
-  border-color: var(--mato);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
 }
 .btn-line {
   background: transparent;
@@ -184,6 +250,78 @@ img {
 }
 .prose p {
   margin: 0 0 1.1em;
+}
+
+/* ─── Movimento ─────────────────────────── */
+
+/* Barra de progresso de leitura na base do header. */
+.progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--mato);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* Troca de página: sai rápido, entra com um respiro. */
+.page-leave-active {
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+.page-enter-active {
+  transition:
+    opacity 0.45s var(--ease),
+    transform 0.45s var(--ease);
+}
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-6px);
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+/* Holofote que segue o mouse nos cartões (classe posta por src/motion/init.ts). */
+.spot {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.spot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(
+    22rem circle at var(--sx, 50%) var(--sy, 50%),
+    color-mix(in srgb, var(--mato) 16%, transparent),
+    transparent 70%
+  );
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.spot:hover::after {
+  opacity: 1;
+}
+
+/* Troca de tema: o círculo nasce no botão (View Transitions API, ver src/motion/theme.ts). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+::view-transition-old(root) {
+  z-index: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {

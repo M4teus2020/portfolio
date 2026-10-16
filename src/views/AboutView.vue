@@ -137,7 +137,7 @@ useMeta(() => ({ title: t.value.meta.aboutTitle, description: t.value.meta.homeD
   max-width: 36ch;
 }
 .bring li::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 0.5em;
