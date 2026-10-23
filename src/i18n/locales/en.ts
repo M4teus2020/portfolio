@@ -24,7 +24,6 @@ const en: Messages = {
     skip: 'Skip to content',
   },
   common: {
-    resume: 'Download résumé',
     copyEmail: 'Copy email',
     copied: 'Email copied',
   },
@@ -32,7 +31,7 @@ const en: Messages = {
     kicker: 'Full-stack developer, Laravel and Vue',
     title: 'I build web systems that companies use all day long.',
     lede: 'Three years in production in the financial sector: collections, customer service, auditing. From the database to the screen, with code the next developer can actually read.',
-    facts: ['Remote or hybrid', 'Native Portuguese, advanced English'],
+    facts: ['Native Portuguese, advanced English'],
     labels: {
       stack: 'stack',
       delivered: 'shipped',
@@ -144,7 +143,7 @@ const en: Messages = {
       {
         mark: '2024',
         title: 'Soluct',
-        text: 'I left HGV by choice: I wanted a modern stack and more room to grow, and I was willing to start over for it. At Soluct I work with Laravel, Vue and TypeScript on a multi-tenant financial operations platform, with integrations (WhatsApp, telephony, email, boleto payments), queues, reports and performance work.',
+        text: 'I moved to Soluct by choice: I wanted a modern stack. At Soluct I work with Laravel, Vue and TypeScript on a multi-tenant financial operations platform, with integrations (WhatsApp, telephony, email, boleto payments), queues, reports and performance work.',
       },
       {
         mark: 'Now',
@@ -152,7 +151,7 @@ const en: Messages = {
         text: 'AI is part of my method: Claude Code, agents and automated tests in the same flow. Outside work, I used that approach to build a process that creates websites for restaurants and shops.',
       },
     ],
-    bringTitle: 'What I bring to a team',
+    bringTitle: 'How I work',
     bring: [
       'I understand business rules and ask the missing question.',
       'I take care of performance and security without needing a ticket for it.',

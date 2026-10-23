@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import { useT } from '@/i18n/useT'
 import type { Locale } from '@/i18n'
 import { useMeta } from '@/composables/useMeta'
-import { CONTACT, RESUME_URL } from '@/config/site'
+import { CONTACT } from '@/config/site'
 import { cases } from '@/data/cases'
 import HeroSystem from '@/components/HeroSystem.vue'
 import StackMarquee from '@/components/StackMarquee.vue'
@@ -62,9 +62,6 @@ const glow = (e: PointerEvent) => {
         <div class="actions">
           <a class="btn btn-solid" href="#contato">{{ h.ctaTalk }}</a>
           <a class="btn btn-line" href="#trajetoria">{{ h.ctaTimeline }}</a>
-          <a v-if="RESUME_URL" class="btn btn-line" :href="RESUME_URL" download>{{
-            t.common.resume
-          }}</a>
           <a class="link actions-link" :href="CONTACT.linkedin" target="_blank" rel="noreferrer"
             >LinkedIn</a
           >
@@ -198,9 +195,6 @@ const glow = (e: PointerEvent) => {
           <a class="link" :href="CONTACT.linkedin" target="_blank" rel="noreferrer">LinkedIn</a>
         </li>
         <li><a class="link" :href="CONTACT.github" target="_blank" rel="noreferrer">GitHub</a></li>
-        <li v-if="RESUME_URL">
-          <a class="link" :href="RESUME_URL" download>{{ t.common.resume }}</a>
-        </li>
       </ul>
     </div>
   </section>

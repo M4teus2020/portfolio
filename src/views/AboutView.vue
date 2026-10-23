@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useT } from '@/i18n/useT'
 import { useMeta } from '@/composables/useMeta'
-import { CONTACT, RESUME_URL } from '@/config/site'
+import { CONTACT } from '@/config/site'
 
 const t = useT()
 const a = computed(() => t.value.about)
@@ -49,15 +49,7 @@ useMeta(() => ({ title: t.value.meta.aboutTitle, description: t.value.meta.homeD
           <h3 class="edu-title">{{ a.eduTitle }}</h3>
           <p class="edu">{{ a.edu }}</p>
           <div class="about-cta">
-            <a v-if="RESUME_URL" class="btn btn-solid" :href="RESUME_URL" download>{{
-              t.common.resume
-            }}</a>
-            <a
-              class="btn"
-              :class="RESUME_URL ? 'btn-line' : 'btn-solid'"
-              :href="`mailto:${CONTACT.email}`"
-              >{{ a.ctaTalk }}</a
-            >
+            <a class="btn btn-solid" :href="`mailto:${CONTACT.email}`">{{ a.ctaTalk }}</a>
           </div>
         </div>
       </div>

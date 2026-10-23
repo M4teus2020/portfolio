@@ -10,8 +10,5 @@ export const CONTACT = {
 // Vazio: os botões do /sites caem para e-mail.
 export const WHATSAPP = '5554996456304' // (54) 99645-6304
 
-// Currículo em PDF dentro de /public. null esconde os botões até o arquivo existir.
-export const RESUME_URL: string | null = null
-
 // Foto real (dentro de /public). null deixa o hero só tipográfico.
 export const PHOTO_URL: string | null = null

@@ -1,5 +1,5 @@
 /* Base das ilustrações animadas. Vivem dentro de <IllusFrame>, que é escuro (.deep) e liga/desliga
-   a animação conforme está na tela (--play). Sem números inventados: só o que o currículo afirma. */
+   a animação conforme está na tela (--play). Sem números inventados. */
 
 .il {
   width: 100%;

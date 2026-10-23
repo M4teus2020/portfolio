@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useT } from '@/i18n/useT'
-import { CONTACT, RESUME_URL } from '@/config/site'
+import { CONTACT } from '@/config/site'
 
 const t = useT()
 </script>
@@ -18,9 +18,6 @@ const t = useT()
           <a class="link" :href="CONTACT.linkedin" target="_blank" rel="noreferrer">LinkedIn</a>
         </li>
         <li><a class="link" :href="CONTACT.github" target="_blank" rel="noreferrer">GitHub</a></li>
-        <li v-if="RESUME_URL">
-          <a class="link" :href="RESUME_URL" download>{{ t.common.resume }}</a>
-        </li>
       </ul>
     </div>
   </footer>

@@ -22,7 +22,6 @@ const pt = {
     skip: 'Pular para o conteúdo',
   },
   common: {
-    resume: 'Baixar currículo',
     copyEmail: 'Copiar e-mail',
     copied: 'E-mail copiado',
   },
@@ -30,7 +29,7 @@ const pt = {
     kicker: 'Desenvolvedor full-stack, Laravel e Vue',
     title: 'Construo sistemas web que empresas usam o dia inteiro.',
     lede: 'Três anos em produção no setor financeiro: cobrança, atendimento, auditoria. Do banco de dados à tela, com código que o próximo dev consegue ler.',
-    facts: ['Remoto ou híbrido', 'Português nativo, inglês avançado'],
+    facts: ['Português nativo, inglês avançado'],
     labels: {
       stack: 'stack',
       delivered: 'entregas',
@@ -139,7 +138,7 @@ const pt = {
       {
         mark: '2024',
         title: 'Soluct',
-        text: 'Saí da HGV por escolha: queria uma stack moderna e mais espaço pra crescer, e aceitei recomeçar por isso. Na Soluct trabalho com Laravel, Vue e TypeScript numa plataforma multi-cliente de operações financeiras, com integrações (WhatsApp, telefonia, e-mail, boletos), filas, relatórios e otimização de performance.',
+        text: 'Fui para a Soluct por escolha: queria uma stack moderna. Na Soluct trabalho com Laravel, Vue e TypeScript numa plataforma multi-cliente de operações financeiras, com integrações (WhatsApp, telefonia, e-mail, boletos), filas, relatórios e otimização de performance.',
       },
       {
         mark: 'Hoje',
@@ -147,7 +146,7 @@ const pt = {
         text: 'Uso IA como parte do método: Claude Code, agentes e testes automatizados no mesmo fluxo. Fora do trabalho, montei com essa abordagem um processo para criar sites para restaurantes e lojas.',
       },
     ],
-    bringTitle: 'O que eu levo para um time',
+    bringTitle: 'Como eu trabalho',
     bring: [
       'Entendo regra de negócio e faço a pergunta que falta.',
       'Cuido de performance e segurança sem precisar de ticket pra isso.',

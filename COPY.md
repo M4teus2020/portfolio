@@ -2,7 +2,7 @@
 
 > **Depois da aprovação, a fonte final é `src/i18n/locales/pt.ts`.** Ajustes de 2026-10-16: sem cidade em nenhum lugar, rodapé sem "teimosia", título do Sobre "Do balcão da loja ao sistema financeiro.".
 > Texto antes do código. PT é a fonte; o EN sai como tradução depois que o PT for aprovado.
-> Regras: só fatos verdadeiros (base: `carreira/ficha-profissional.md`), nada interno da Soluct, sem "procurando vaga", sem travessão.
+> Regras: só fatos verdadeiros (base: `carreira/ficha-profissional.md`), nada interno da Soluct, sem travessão.
 > `[A CONFIRMAR]` = dado que o Mateus precisa validar antes de ir pro ar.
 
 ---
@@ -11,7 +11,7 @@
 
 **Menu:** Projetos · Sobre · Sites · Contato · [PT | EN]
 **Rodapé:** Mateus Felini · Ibiaçá, RS · feito com Vue e um pouco de teimosia.
-Links: e-mail · LinkedIn · GitHub · Currículo (PDF)
+Links: e-mail · LinkedIn · GitHub
 
 **Meta (SEO/compartilhamento)**
 - Título: Mateus Felini · Desenvolvedor full-stack (Laravel e Vue)
@@ -28,9 +28,9 @@ Links: e-mail · LinkedIn · GitHub · Currículo (PDF)
 
 **Linha de apoio:** Três anos em produção no setor financeiro: cobrança, atendimento, auditoria. Do banco de dados à tela, com código que o próximo dev consegue ler.
 
-**Ficha (linha discreta):** Ibiaçá, RS · remoto ou híbrido · português nativo, inglês avançado
+**Ficha (linha discreta):** Ibiaçá, RS · português nativo, inglês avançado
 
-**Botões:** [Falar comigo] (leva ao contato) [Ver trajetória] [Baixar currículo] · LinkedIn como link de texto
+**Botões:** [Falar comigo] (leva ao contato) [Ver trajetória] · LinkedIn como link de texto
 
 > Espaço reservado à direita pra foto real. Sem foto: hero só tipográfico (o nome grande vira o elemento visual).
 
@@ -71,7 +71,7 @@ Links: e-mail · LinkedIn · GitHub · Currículo (PDF)
 ### 1.6 Contato
 **Título:** Vamos conversar?
 **Texto:** Respondo e-mail em até um dia útil.
-**Linha:** mfelini7@gmail.com · LinkedIn · GitHub · Currículo (PDF)
+**Linha:** mfelini7@gmail.com · LinkedIn · GitHub
 > Sem formulário. Botão "copiar e-mail" ao lado do endereço.
 
 ---
@@ -91,13 +91,13 @@ Antes de programar, trabalhei numa loja de informática da cidade e fazia de tud
 Meu primeiro emprego como dev. PHP sem framework, SQL escrito à mão, sistemas para o setor financeiro. Ali aprendi o peso de mexer com dado financeiro: encontrei e reportei uma falha de segurança crítica no sistema, e criei um gerador de código que acabou com o copia e cola no início de cada funcionalidade. Também ajudei a integrar os devs que chegaram depois de mim.
 
 ### 2024 · Soluct
-Saí da HGV por escolha: queria uma stack moderna e mais espaço pra crescer, e aceitei recomeçar por isso. Na Soluct trabalho com Laravel, Vue e TypeScript numa plataforma multi-cliente de operações financeiras, com integrações (WhatsApp, telefonia, e-mail, boletos), filas, relatórios e otimização de performance.
+Fui para a Soluct por escolha: queria uma stack moderna. Na Soluct trabalho com Laravel, Vue e TypeScript numa plataforma multi-cliente de operações financeiras, com integrações (WhatsApp, telefonia, e-mail, boletos), filas, relatórios e otimização de performance.
 > Sem citar salário nem contraproposta. Sem nomes de módulos internos.
 
 ### Hoje
 Uso IA como parte do método: Claude Code, agentes e testes automatizados no mesmo fluxo. Fora do trabalho, montei com essa abordagem um processo para criar sites para restaurantes e lojas da região.
 
-### O que eu levo para um time
+### Como eu trabalho
 - Entendo regra de negócio e faço a pergunta que falta.
 - Cuido de performance e segurança sem precisar de ticket pra isso.
 - Escrevo código pensando em quem vem depois.
@@ -112,7 +112,7 @@ Uso IA como parte do método: Claude Code, agentes e testes automatizados no mes
 ### Formação
 Análise e Desenvolvimento de Sistemas · Universidade de Passo Fundo [A CONFIRMAR status: cursando, trancado ou concluído]
 
-**CTA:** [Baixar currículo] [Falar comigo]
+**CTA:** [Falar comigo]
 
 ---
 
@@ -181,7 +181,7 @@ Selo em cada um: **exemplo** (enquanto não for cliente).
 
 ## 5. Dois públicos (v2.1, 2026-10-16) · substitui a estrutura da seção 3
 
-> O site fala com **recrutador** (home e /sobre) e com **cliente** (/servicos). A home continua liderando pro recrutador; o cliente ganha um caminho explícito. `/sites` vira `/servicos` e a rota `/sites` continua existindo, levando direto à parte de sites (destino do crédito nos rodapés dos clientes).
+> O site fala com o **visitante técnico** (home e /sobre) e com **cliente** (/servicos). A home continua liderando pro visitante técnico; o cliente ganha um caminho explícito. `/sites` vira `/servicos` e a rota `/sites` continua existindo, levando direto à parte de sites (destino do crédito nos rodapés dos clientes).
 
 ### 5.1 Menu
 Sobre · Serviços · Contato · [EN]
@@ -293,4 +293,4 @@ Feito em Laravel e Vue: tecnologia madura, fácil de manter e de achar outro dev
 - [ ] Mostrar demos com selo "exemplo" ou esperar 1º cliente
 - [ ] Período da loja de informática e se cita
 - [ ] Status da faculdade
-- [ ] Currículo PDF e foto real (não bloqueiam)
+- [ ] Foto real (não bloqueia)
