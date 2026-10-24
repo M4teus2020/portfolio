@@ -226,6 +226,14 @@ const pt = {
         },
       ],
       examplesTitle: 'Feitos por mim.',
+      examplesNote:
+        'Negócios de exemplo, inventados para mostrar o que um site pode fazer pelo seu. Abra e mexa: tudo funciona.',
+      niches: {
+        restaurante: 'Exemplo de lancheria',
+        salao: 'Exemplo de barbearia',
+        oficina: 'Exemplo de oficina e loja',
+        servicos: 'Exemplo de escritório',
+      },
       priceTitle: 'Preço',
       price: 'Preço justo, combinado na conversa. Sem fidelidade longa.',
     },

@@ -231,6 +231,14 @@ const en: Messages = {
         },
       ],
       examplesTitle: 'Made by me.',
+      examplesNote:
+        'Example businesses, made up to show what a website can do for yours. Open them and play around: everything works.',
+      niches: {
+        restaurante: 'Sample snack bar',
+        salao: 'Sample barbershop',
+        oficina: 'Sample garage and shop',
+        servicos: 'Sample accounting office',
+      },
       priceTitle: 'Price',
       price: 'A fair price, agreed in conversation. No long lock-in.',
     },

@@ -18,6 +18,10 @@ function contactHref(message: string) {
 const contactLabel = computed(() => (WHATSAPP ? s.value.whatsapp : s.value.whatsappFallback))
 const contactTarget = WHATSAPP ? '_blank' : undefined
 
+// Exemplo (negócio fictício) não conta como cliente para o lede.
+const temCliente = siteExamples.some((e) => !e.exemplo)
+const temExemplo = siteExamples.some((e) => e.exemplo)
+
 useMeta(() => ({
   title: t.value.meta.servicesTitle,
   description: t.value.meta.servicesDescription,
@@ -52,7 +56,7 @@ useMeta(() => ({
       <p class="kicker">{{ s.sites.kicker }}</p>
       <h2 id="sites-title" class="sec-title">{{ s.sites.title }}</h2>
       <!-- Com o 1º cliente no ar, o lede fala com quem veio do rodapé dele. -->
-      <p class="sec-lede">{{ siteExamples.length ? s.sites.ledeFromClient : s.sites.lede }}</p>
+      <p class="sec-lede">{{ temCliente ? s.sites.ledeFromClient : s.sites.lede }}</p>
       <div class="cta-row">
         <a
           class="btn btn-solid big"
@@ -90,15 +94,18 @@ useMeta(() => ({
 
     <div v-if="siteExamples.length" class="wrap band-grid sub">
       <h3 class="band-title">{{ s.sites.examplesTitle }}</h3>
-      <ul class="examples">
-        <li v-for="ex in siteExamples" :key="ex.url">
-          <a :href="ex.url" target="_blank" rel="noreferrer" class="ex">
-            <img v-if="ex.image" :src="ex.image" :alt="ex.name" loading="lazy" />
-            <span class="ex-name">{{ ex.name }}</span>
-            <span class="ex-city">{{ ex.city }}</span>
-          </a>
-        </li>
-      </ul>
+      <div>
+        <p v-if="temExemplo" class="ex-note">{{ s.sites.examplesNote }}</p>
+        <ul class="examples">
+          <li v-for="ex in siteExamples" :key="ex.url">
+            <a :href="ex.url" target="_blank" rel="noreferrer" class="ex">
+              <img v-if="ex.image" :src="ex.image" :alt="ex.name" loading="lazy" />
+              <span class="ex-name">{{ ex.name }}</span>
+              <span class="ex-city">{{ ex.niche ? s.sites.niches[ex.niche] : ex.city }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div class="wrap band-grid sub">
@@ -434,6 +441,11 @@ useMeta(() => ({
   font-size: 1.125rem;
 }
 .ex-city {
+  color: var(--muted);
+}
+.ex-note {
+  margin: 0 0 1.5rem;
+  max-width: 40rem;
   color: var(--muted);
 }
 
