@@ -238,6 +238,8 @@ const en: Messages = {
         salao: 'Sample barbershop',
         oficina: 'Sample garage and shop',
         servicos: 'Sample accounting office',
+        clinica: 'Sample dental clinic',
+        agropecuaria: 'Sample farm supply store',
       },
       priceTitle: 'Price',
       price: 'A fair price, agreed in conversation. No long lock-in.',

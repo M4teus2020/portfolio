@@ -1,7 +1,7 @@
 // Sites mostrados no /sites. Cliente só entra com autorização do dono.
 // Exemplos são negócios fictícios feitos para mostrar o trabalho (sem cidade).
 // Vazio: a seção "Feitos por mim" fica escondida.
-export type Niche = 'restaurante' | 'salao' | 'oficina' | 'servicos'
+export type Niche = 'restaurante' | 'salao' | 'oficina' | 'servicos' | 'clinica' | 'agropecuaria'
 
 export interface SiteExample {
   name: string
@@ -40,5 +40,19 @@ export const siteExamples: SiteExample[] = [
     exemplo: true,
     url: 'https://prumo-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/prumo.webp',
+  },
+  {
+    name: 'Lume Odontologia',
+    niche: 'clinica',
+    exemplo: true,
+    url: 'https://lume-exemplo.mateus-felini.workers.dev/',
+    image: '/exemplos/lume.webp',
+  },
+  {
+    name: 'Agropecuária Paiol',
+    niche: 'agropecuaria',
+    exemplo: true,
+    url: 'https://paiol-exemplo.mateus-felini.workers.dev/',
+    image: '/exemplos/paiol.webp',
   },
 ]
