@@ -24,8 +24,14 @@ const pages = {
     image: '/og.png',
   },
   servicos: services,
-  // /sites é o destino do crédito nos rodapés dos clientes: mesmo cartão de /servicos.
-  sites: services,
+  // /sites é a página de venda e o destino do crédito nos rodapés dos clientes.
+  sites: {
+    title: 'Site para comércio local · Mateus Felini',
+    description:
+      'Site para o seu comércio, pronto em poucos dias. Veja a prévia antes de pagar e só pague se gostar. Preço de lançamento para os 5 primeiros.',
+    path: '/sites',
+    image: '/og-servicos.png',
+  },
 }
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')

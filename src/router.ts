@@ -16,8 +16,14 @@ export const router = createRouter({
     { path: '/', name: 'home', component: HomeView },
     { path: '/sobre', name: 'about', component: () => import('@/views/AboutView.vue') },
     { path: '/servicos', name: 'services', component: () => import('@/views/ServicesView.vue') },
-    // Destino do crédito "Site por Mateus Felini" nos rodapés dos clientes: não mudar.
-    { path: '/sites', redirect: { path: '/servicos', hash: '#sites' } },
+    // Página de venda da prospecção, sem menu do portfólio. Também é o destino do crédito
+    // "Site por Mateus Felini" nos rodapés dos clientes: não mudar a URL.
+    {
+      path: '/sites',
+      name: 'sales',
+      component: () => import('@/views/SalesView.vue'),
+      meta: { bare: true },
+    },
     {
       path: '/projetos/:slug',
       name: 'case',

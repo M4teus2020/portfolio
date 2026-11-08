@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import SiteHeader from '@/components/SiteHeader.vue'
 import SiteFooter from '@/components/SiteFooter.vue'
@@ -9,6 +10,7 @@ import { initMotion } from '@/motion/init'
 
 const t = useT()
 useLocale()
+const route = useRoute()
 
 // O movimento de cada página nasce quando o <div class="page"> entra no <main> e morre quando sai.
 // Observar o DOM (em vez dos hooks do <Transition>) cobre também a primeira carga.
@@ -58,15 +60,15 @@ onBeforeUnmount(() => mo?.disconnect())
 
 <template>
   <a class="skip" href="#conteudo">{{ t.nav.skip }}</a>
-  <SiteHeader />
+  <SiteHeader v-if="!route.meta.bare" />
   <main id="conteudo" tabindex="-1">
-    <RouterView v-slot="{ Component, route }">
+    <RouterView v-slot="{ Component, route: r }">
       <Transition name="page" mode="out-in" appear>
-        <div :key="route.path" class="page">
+        <div :key="r.path" class="page">
           <component :is="Component" />
         </div>
       </Transition>
     </RouterView>
   </main>
-  <SiteFooter />
+  <SiteFooter v-if="!route.meta.bare" />
 </template>
