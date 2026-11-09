@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { CONTACT, PHOTO_URL, WHATSAPP } from '@/config/site'
 import { siteExamples, type Niche } from '@/data/siteExamples'
 import { useMeta } from '@/composables/useMeta'
@@ -17,11 +18,31 @@ useMeta(() => ({
     'Veja a cara do site do seu negócio antes de pagar. Eu monto a página inicial com o seu logo e as suas fotos, sem custo e sem compromisso.',
 }))
 
+// Link personalizado da abordagem: /sites?n=Pizzaria%20Bella. Só texto (interpolação, nunca v-html),
+// sem caracteres de controle ou de formatação invisível, no máximo 60 caracteres.
+const route = useRoute()
+const nome = computed(() => {
+  const q = route.query.n
+  const raw = (Array.isArray(q) ? q[0] : q) ?? ''
+  return raw
+    .replace(/[\p{Cc}\p{Cf}]/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 60)
+    .trim()
+})
+
 const wa = (msg: string) =>
   WHATSAPP
     ? `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`
     : `mailto:${CONTACT.email}?body=${encodeURIComponent(msg)}`
-const href = wa('Oi Mateus, vi a página de sites e quero a demonstração do meu negócio.')
+const href = computed(() =>
+  wa(
+    nome.value
+      ? `Oi Mateus, vi a página de sites e quero a demonstração para o meu negócio: ${nome.value}.`
+      : 'Oi Mateus, vi a página de sites e quero a demonstração do meu negócio.',
+  ),
+)
 const hrefSistema = wa(
   'Oi Mateus, vi a página de sites e quero conversar sobre um sistema sob medida.',
 )
@@ -124,12 +145,28 @@ const pick = (i: number) => {
   stopAuto()
   front.value = i
 }
+// No celular os botões rolam de lado: mantém o ativo à vista sem mexer na rolagem da página.
+const pickerEl = ref<HTMLElement>()
+watch(front, (i) => {
+  const el = pickerEl.value
+  const b = el?.children[i] as HTMLElement | undefined
+  if (el && b && el.scrollWidth > el.clientWidth)
+    el.scrollTo({ left: b.offsetLeft - (el.clientWidth - b.offsetWidth) / 2, behavior: 'smooth' })
+})
+
+// Variações com ?n= não viram páginas no Google: o canônico é sempre /sites.
+const CANON = 'https://felini.dev/sites'
+let prevCanon: string | null = null
 
 // Barra fixa do celular: só aparece quando nenhum botão grande está na tela.
 const dockOn = ref(false)
 const themeBtn = ref<HTMLButtonElement>()
 let io: IntersectionObserver | undefined
 onMounted(() => {
+  const canon = document.querySelector('link[rel="canonical"]')
+  prevCanon = canon?.getAttribute('href') ?? null
+  canon?.setAttribute('href', CANON)
+
   const seen = new Set<Element>()
   io = new IntersectionObserver((es) => {
     es.forEach((e) => (e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)))
@@ -140,6 +177,7 @@ onMounted(() => {
     timer = setInterval(() => (front.value = (front.value + 1) % modelos.length), 4200)
 })
 onBeforeUnmount(() => {
+  if (prevCanon) document.querySelector('link[rel="canonical"]')?.setAttribute('href', prevCanon)
   io?.disconnect()
   stopAuto()
 })
@@ -176,7 +214,10 @@ onBeforeUnmount(() => {
 
       <section class="hero-grid wrap">
         <div class="pitch">
-          <h1>Veja a cara do seu site antes de pagar.</h1>
+          <h1 v-if="nome">
+            <span class="nome">{{ nome }},</span> veja a cara do seu site antes de pagar.
+          </h1>
+          <h1 v-else>Veja a cara do seu site antes de pagar.</h1>
           <p class="sub">
             Eu monto a página inicial do seu negócio com o seu logo e as suas fotos, sem custo. Se
             você gostar, a gente conversa sobre o site completo.
@@ -205,19 +246,13 @@ onBeforeUnmount(() => {
               :aria-hidden="depth(i) !== 0"
               :aria-label="`Abrir o site de exemplo ${m.name} em outra aba`"
             >
-              <span class="bar">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="5" y="11" width="14" height="10" rx="2" />
-                  <path d="M8 11V8a4 4 0 0 1 8 0v3" />
-                </svg>
-                {{ m.name }}
-              </span>
+              <!-- shortcut: exemplo sem imageMobile usa o print de desktop cortado; capture o celular ao incluir um novo. -->
               <img
-                v-if="m.image"
-                :src="m.image"
-                :alt="`Página inicial do site de exemplo ${m.name}`"
-                width="960"
-                height="720"
+                v-if="m.imageMobile || m.image"
+                :src="m.imageMobile || m.image"
+                :alt="`Página inicial do site de exemplo ${m.name} no celular`"
+                width="540"
+                height="1200"
                 :loading="i < 3 ? 'eager' : 'lazy'"
               />
               <span class="open" aria-hidden="true">
@@ -226,7 +261,7 @@ onBeforeUnmount(() => {
               </span>
             </a>
           </div>
-          <div class="picker" role="group" aria-label="Escolher site de exemplo">
+          <div ref="pickerEl" class="picker" role="group" aria-label="Escolher site de exemplo">
             <button
               v-for="(m, i) in modelos"
               :key="m.name"
@@ -284,7 +319,16 @@ onBeforeUnmount(() => {
             <a :href="m.url" target="_blank" rel="noopener" class="modelo">
               <span class="frame">
                 <span class="bar" aria-hidden="true"><i></i><i></i><i></i></span>
-                <img v-if="m.image" :src="m.image" alt="" width="960" height="720" loading="lazy" />
+                <picture v-if="m.image">
+                  <source
+                    v-if="m.imageMobile"
+                    media="(max-width: 759px)"
+                    :srcset="m.imageMobile"
+                    width="540"
+                    height="1200"
+                  />
+                  <img :src="m.image" alt="" width="960" height="720" loading="lazy" />
+                </picture>
               </span>
               <span class="meta">
                 <span class="m-name">{{ m.name }}</span>
@@ -295,6 +339,9 @@ onBeforeUnmount(() => {
             </a>
           </li>
         </ul>
+        <p class="arraste" aria-hidden="true">
+          Arraste para o lado para ver os {{ modelos.length }}.
+        </p>
       </div>
     </section>
 
@@ -326,44 +373,43 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <section class="sec" aria-labelledby="t-quem">
-      <div class="wrap quem">
-        <img
-          v-if="PHOTO_URL"
-          :src="PHOTO_URL"
-          alt="Mateus Felini"
-          width="900"
-          height="900"
-          loading="lazy"
-        />
-        <div>
-          <h2 id="t-quem" class="h2">Quem faz o seu site</h2>
-          <p class="carta">
-            Sou o Mateus. Moro aqui na região e faço sites para o comércio local. Você fala direto
-            comigo, do primeiro oi até o site no ar.
-          </p>
+    <section class="sec" aria-label="Quem faz e dúvidas">
+      <div class="wrap duo">
+        <div class="quem">
+          <img
+            v-if="PHOTO_URL"
+            :src="PHOTO_URL"
+            alt="Mateus Felini"
+            width="900"
+            height="900"
+            loading="lazy"
+          />
+          <div>
+            <h2 class="h2">Quem faz o seu site</h2>
+            <p class="carta">
+              Sou o Mateus. Moro aqui na região e faço sites para o comércio local. Você fala direto
+              comigo, do primeiro oi até o site no ar.
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <section class="sec" aria-labelledby="t-duvidas">
-      <div class="wrap duvidas-wrap">
-        <h2 id="t-duvidas" class="h2">Dúvidas</h2>
-        <div class="duvidas">
-          <details v-for="(q, i) in duvidas" :key="q.k" :open="i === 0">
-            <summary>
-              {{ q.k }}
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
-            </summary>
-            <p>{{ q.d }}</p>
-          </details>
+        <div>
+          <h2 class="h2">Dúvidas</h2>
+          <div class="duvidas">
+            <details v-for="(q, i) in duvidas" :key="q.k" :open="i === 0">
+              <summary>
+                {{ q.k }}
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+              </summary>
+              <p>{{ q.d }}</p>
+            </details>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="deep fecho" aria-labelledby="t-fecho">
       <div class="fecho-art" aria-hidden="true">
-        <ContourField label="Seu negócio aqui" :rings="11" />
+        <ContourField :label="nome || 'Seu negócio aqui'" :rings="11" />
       </div>
       <div class="wrap fecho-in">
         <h2 id="t-fecho" class="h2 big">Me manda o nome do seu negócio.</h2>
@@ -436,7 +482,7 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: calc(env(safe-area-inset-top) + 0.875rem);
+  padding-top: calc(env(safe-area-inset-top) + 0.75rem);
 }
 .who {
   display: inline-flex;
@@ -498,8 +544,8 @@ onBeforeUnmount(() => {
 
 .hero-grid {
   display: grid;
-  gap: 2.75rem;
-  padding-block: clamp(2.25rem, 7vw, 4rem) 2.5rem;
+  gap: 1.75rem;
+  padding-block: 1.5rem 2rem;
 }
 @media (min-width: 960px) {
   .hero-grid {
@@ -507,6 +553,7 @@ onBeforeUnmount(() => {
     grid-template-rows: auto auto;
     align-content: center;
     gap: 0 4rem;
+    padding-block: 4rem 2.5rem;
     min-height: min(46rem, calc(100svh - 9rem));
   }
   .pitch {
@@ -524,7 +571,7 @@ onBeforeUnmount(() => {
 }
 h1 {
   margin: 0;
-  font-size: clamp(2.875rem, 5.8vw, 5.25rem);
+  font-size: clamp(2.5rem, 5.8vw, 5.25rem);
   font-weight: 900;
   line-height: 0.94;
   letter-spacing: -0.045em;
@@ -536,10 +583,21 @@ h1 {
     max-width: 13ch;
   }
 }
+/* Nome do negócio (link personalizado): linha própria, menor, na cor de destaque. */
+.nome {
+  display: block;
+  margin-bottom: 0.25em;
+  font-size: 0.56em;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--deep-accent);
+  overflow-wrap: anywhere;
+}
 .sub {
-  margin: 1.25rem 0 0;
+  margin: 0.875rem 0 0;
   max-width: 40ch;
-  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  font-size: 1rem;
+  line-height: 1.5;
   color: color-mix(in srgb, var(--on-deep) 78%, var(--deep));
 }
 .cta {
@@ -551,7 +609,7 @@ h1 {
   box-shadow: 0 14px 30px -14px rgb(22 118 83 / 0.8);
 }
 .hero .cta {
-  margin-top: 1.75rem;
+  margin-top: 1.25rem;
 }
 .hero .cta:hover,
 .fecho .cta:hover {
@@ -568,16 +626,28 @@ h1 {
   stroke-linejoin: round;
 }
 .assure {
-  margin: 0.875rem 0 0;
-  text-wrap: balance;
-  font-size: 0.9375rem;
+  margin: 0.625rem 0 0;
+  font-size: 0.875rem;
   color: var(--muted);
+  text-wrap: balance;
+}
+@media (min-width: 960px) {
+  .sub {
+    margin-top: 1.25rem;
+    font-size: 1.1875rem;
+  }
+  .hero .cta {
+    margin-top: 1.75rem;
+  }
+  .assure {
+    margin-top: 0.875rem;
+    font-size: 0.9375rem;
+  }
 }
 .me {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-top: -0.75rem;
   padding-top: 1.25rem;
   border-top: 1px solid var(--line);
   max-width: 26rem;
@@ -603,40 +673,54 @@ h1 {
   color: var(--ink);
 }
 
-/* Baralho de sites: o da frente abre, os de trás em leque. --k = distância da frente. */
+/* Baralho de sites: celulares em leque, o da frente abre. --k = distância da frente. */
 .stage {
   width: 100%;
   max-width: 44rem;
   justify-self: center;
+  min-width: 0;
 }
 .deck {
   position: relative;
-  aspect-ratio: 1 / 0.72;
+  aspect-ratio: 1 / 1.24;
 }
 .win {
   --k: 0;
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 78%;
+  width: 54%;
   display: block;
-  border-radius: 12px;
+  border-radius: 28px;
   overflow: hidden;
-  background: #17201b;
-  border: 1px solid color-mix(in srgb, white 12%, transparent);
-  box-shadow: 0 34px 60px -28px rgb(0 0 0 / 0.75);
+  background: #0b100d;
+  border: 6px solid #0b100d;
+  outline: 1px solid color-mix(in srgb, white 16%, transparent);
+  box-shadow: 0 34px 60px -24px rgb(0 0 0 / 0.8);
   text-decoration: none;
-  transform: translate(calc(var(--k) * 13%), calc(var(--k) * -6%))
-    scale(calc(1 - var(--k) * 0.05));
+  transform: translateX(calc(var(--k) * 40%)) scale(calc(1 - var(--k) * 0.08));
   transform-origin: 0 100%;
   z-index: calc(10 - var(--k));
-  filter: brightness(calc(1 - var(--k) * 0.16));
+  filter: brightness(calc(1 - var(--k) * 0.14));
   transition:
     transform 0.8s var(--ease),
     filter 0.8s var(--ease),
     opacity 0.5s;
   animation: deal 1s var(--ease) backwards;
   animation-delay: calc(0.25s + (3 - var(--k)) * 0.1s);
+}
+/* Câmera do celular. */
+.win::after {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 26%;
+  height: 14px;
+  margin-left: -13%;
+  border-radius: 999px;
+  background: #0b100d;
+  z-index: 2;
 }
 .win.back {
   pointer-events: none;
@@ -651,7 +735,7 @@ h1 {
   }
 }
 .bar {
-  display: flex;
+  display: none;
   align-items: center;
   gap: 0.4rem;
   height: 1.875rem;
@@ -663,19 +747,17 @@ h1 {
   white-space: nowrap;
   overflow: hidden;
 }
-.bar svg {
-  width: 0.75rem;
-  height: 0.75rem;
-  flex: none;
-  fill: none;
-  stroke: var(--deep-accent);
-  stroke-width: 2;
-}
 .win img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 412 / 915;
   object-fit: cover;
   object-position: top;
+  border-radius: 22px;
+}
+@media (min-width: 960px) {
+  .stage {
+    max-width: 33rem;
+  }
 }
 .open {
   position: absolute;
@@ -712,13 +794,28 @@ h1 {
   background: var(--deep-accent);
   color: var(--deep);
 }
+/* Botões dos nomes: uma linha só; no celular rolam de lado. */
 .picker {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 1.5rem;
+  margin: 1.25rem calc(-1 * var(--gutter)) 0;
+  padding-inline: var(--gutter);
+  overflow-x: auto;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.picker::-webkit-scrollbar {
+  display: none;
+}
+@media (min-width: 760px) {
+  .picker {
+    margin-inline: 0;
+    padding-inline: 0;
+  }
 }
 .picker button {
+  flex: none;
   min-height: 2.5rem;
   padding: 0 1rem;
   border: 1px solid var(--line);
@@ -726,6 +823,7 @@ h1 {
   background: transparent;
   color: var(--muted);
   font: 600 0.875rem/1 var(--sans);
+  white-space: nowrap;
   cursor: pointer;
   transition:
     background-color 0.25s,
@@ -874,20 +972,47 @@ h1 {
   }
 }
 
-/* Modelos: os dois preferidos grandes, os outros em grade menor. */
+/* Modelos. Celular: fileira de celulares que rola de lado. Tablet pra cima: janelas, os dois
+   preferidos grandes e os outros em grade menor. */
 .modelos {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem 1rem;
+  display: flex;
+  gap: 1rem;
   list-style: none;
-  margin: 0;
-  padding: 0;
+  margin: 0 calc(-1 * var(--gutter));
+  padding: 0.5rem var(--gutter) 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+}
+.modelos::-webkit-scrollbar {
+  display: none;
 }
 .modelos li {
+  flex: 0 0 58%;
   min-width: 0;
+  scroll-snap-align: start;
 }
-.modelos .big {
-  grid-column: span 2;
+.arraste {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+@media (min-width: 760px) {
+  .modelos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  .modelos .big {
+    grid-column: span 2;
+  }
+  .arraste {
+    display: none;
+  }
 }
 @media (min-width: 900px) {
   .modelos {
@@ -907,19 +1032,34 @@ h1 {
   text-decoration: none;
 }
 .frame {
+  position: relative;
   display: block;
   margin-bottom: 0.625rem;
-  border: 1px solid var(--line);
-  border-radius: 12px;
+  border: 5px solid #0b100d;
+  border-radius: 26px;
   overflow: hidden;
-  background: var(--card);
-  box-shadow: 0 24px 44px -30px rgb(16 23 19 / 0.45);
+  background: #0b100d;
+  box-shadow: 0 24px 44px -26px rgb(16 23 19 / 0.55);
   transition:
     transform 0.5s var(--ease),
     box-shadow 0.5s var(--ease),
     border-color 0.3s;
 }
+:root[data-theme='dark'] .frame {
+  outline: 1px solid var(--line);
+}
+.frame::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 37%;
+  width: 26%;
+  height: 12px;
+  border-radius: 999px;
+  background: #0b100d;
+}
 .frame .bar {
+  display: none;
   gap: 0.3rem;
   height: 1.25rem;
   padding: 0 0.6rem;
@@ -934,10 +1074,32 @@ h1 {
 }
 .frame img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 412 / 915;
   object-fit: cover;
   object-position: top;
+  border-radius: 21px;
   transition: transform 0.8s var(--ease);
+}
+@media (min-width: 760px) {
+  .frame {
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--card);
+    outline: 0;
+  }
+  :root[data-theme='dark'] .frame {
+    outline: 0;
+  }
+  .frame::after {
+    display: none;
+  }
+  .frame .bar {
+    display: flex;
+  }
+  .frame img {
+    aspect-ratio: 4 / 3;
+    border-radius: 0;
+  }
 }
 .modelo:hover .frame,
 .modelo:focus-visible .frame {
@@ -952,7 +1114,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.25rem 0.625rem;
+  gap: 0.125rem 0.625rem;
 }
 .m-name {
   font-weight: 800;
@@ -961,7 +1123,7 @@ h1 {
   line-height: 1.2;
 }
 .big .m-name {
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-size: clamp(1.0625rem, 2vw, 1.5rem);
 }
 .m-ramo {
   font-size: 0.875rem;
@@ -970,20 +1132,12 @@ h1 {
 }
 .m-pitch {
   color: var(--muted);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   line-height: 1.45;
   max-width: 44ch;
 }
-.modelos li:not(.big) .m-pitch,
-.modelos li:not(.big) .m-open {
-  display: none;
-}
-@media (min-width: 900px) {
-  .modelos li:not(.big) .m-pitch {
-    display: block;
-  }
-}
 .m-open {
+  display: none;
   font-weight: 600;
   font-size: 0.9375rem;
   color: var(--ink);
@@ -991,6 +1145,19 @@ h1 {
   text-decoration-thickness: 1.5px;
   text-underline-offset: 0.22em;
   text-decoration-color: var(--mato);
+}
+@media (min-width: 760px) {
+  .big .m-open {
+    display: inline;
+  }
+  .modelos li:not(.big) .m-pitch {
+    display: none;
+  }
+}
+@media (min-width: 900px) {
+  .modelos li:not(.big) .m-pitch {
+    display: block;
+  }
 }
 
 /* Preço: uma tabela, não cartões. */
@@ -1082,14 +1249,25 @@ h1 {
   }
 }
 
-/* Quem faz */
+/* Quem faz + dúvidas: lado a lado no desktop, sem coluna vazia. */
+.duo {
+  display: grid;
+  gap: 4rem;
+}
+@media (min-width: 900px) {
+  .duo {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 5rem;
+    align-items: start;
+  }
+}
 .quem {
   display: grid;
-  gap: 1.75rem;
-  align-items: center;
+  gap: 1.5rem;
+  align-content: start;
 }
 .quem img {
-  width: min(100%, 9rem);
+  width: 9rem;
   aspect-ratio: 1;
   object-fit: cover;
   object-position: 50% 30%;
@@ -1099,30 +1277,17 @@ h1 {
 .carta {
   margin: 1rem 0 0;
   font-family: var(--serif);
-  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
   line-height: 1.45;
-  max-width: 34ch;
-}
-@media (min-width: 720px) {
-  .quem {
-    grid-template-columns: 15rem minmax(0, 1fr);
-    gap: 3.5rem;
-  }
-  .quem img {
-    width: 100%;
-  }
-}
-
-/* Dúvidas */
-.duvidas-wrap {
-  display: grid;
-  gap: 2rem;
+  max-width: 32ch;
 }
 @media (min-width: 900px) {
-  .duvidas-wrap {
-    grid-template-columns: 18rem minmax(0, 1fr);
-    gap: 4rem;
+  .quem img {
+    width: 13rem;
   }
+}
+.duvidas {
+  margin-top: 1.75rem;
 }
 .duvidas details {
   border-bottom: 1px solid var(--line);

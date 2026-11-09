@@ -14,6 +14,8 @@ export interface SiteExample {
   hidden?: boolean
   url: string
   image?: string
+  // Print da 1ª tela em largura de celular (412x915), usado na moldura de celular do /sites.
+  imageMobile?: string
 }
 
 const todos: SiteExample[] = [
@@ -23,6 +25,7 @@ const todos: SiteExample[] = [
     exemplo: true,
     url: 'https://faisca-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/faisca.webp',
+    imageMobile: '/exemplos/faisca-mobile.webp',
     pitch: 'O cliente monta o pedido e ele chega pronto no WhatsApp.',
   },
   {
@@ -31,6 +34,7 @@ const todos: SiteExample[] = [
     exemplo: true,
     url: 'https://fio-reto-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/fio-reto.webp',
+    imageMobile: '/exemplos/fio-reto-mobile.webp',
     pitch: 'O cliente escolhe serviço, dia e turno e a hora marcada chega no WhatsApp.',
   },
   {
@@ -39,6 +43,7 @@ const todos: SiteExample[] = [
     exemplo: true,
     url: 'https://torque-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/torque.webp',
+    imageMobile: '/exemplos/torque-mobile.webp',
     pitch: 'O cliente vê os serviços e pede orçamento direto no WhatsApp.',
   },
   {
@@ -47,6 +52,7 @@ const todos: SiteExample[] = [
     exemplo: true,
     url: 'https://prumo-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/prumo.webp',
+    imageMobile: '/exemplos/prumo-mobile.webp',
     pitch: 'O cliente conta o caso dele e já sabe qual é o próximo passo.',
   },
   {
@@ -55,6 +61,7 @@ const todos: SiteExample[] = [
     exemplo: true,
     url: 'https://lume-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/lume.webp',
+    imageMobile: '/exemplos/lume-mobile.webp',
     pitch: 'O paciente mostra onde incomoda e pede horário sem precisar ligar.',
   },
   {
@@ -63,6 +70,7 @@ const todos: SiteExample[] = [
     exemplo: true,
     url: 'https://paiol-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/paiol.webp',
+    imageMobile: '/exemplos/paiol-mobile.webp',
     pitch: 'O cliente marca o que cria ou planta e a lista de orçamento chega pronta.',
   },
 ]
