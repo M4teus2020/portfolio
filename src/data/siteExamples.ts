@@ -20,6 +20,15 @@ export interface SiteExample {
 
 const todos: SiteExample[] = [
   {
+    name: 'Tosta Lancheria',
+    niche: 'restaurante',
+    exemplo: true,
+    url: 'https://tosta-exemplo.mateus-felini.workers.dev/',
+    image: '/exemplos/tosta.webp',
+    imageMobile: '/exemplos/tosta-mobile.webp',
+    pitch: 'O cliente escolhe o lanche, o jeito e a hora, e o pedido sai escrito no WhatsApp.',
+  },
+  {
     name: 'Lancheria Faísca',
     niche: 'restaurante',
     exemplo: true,
