@@ -39,3 +39,7 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# prints e tarefas de trabalho local
+prints-*/
+TAREFA-*.md
