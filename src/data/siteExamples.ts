@@ -39,7 +39,6 @@ const todos: SiteExample[] = [
     exemplo: true,
     url: 'https://torque-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/torque.webp',
-    hidden: true, // auditoria 2026-11-07: herói abstrato, nota 6,0
   },
   {
     name: 'Prumo Contabilidade',
@@ -47,7 +46,6 @@ const todos: SiteExample[] = [
     exemplo: true,
     url: 'https://prumo-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/prumo.webp',
-    hidden: true, // auditoria 2026-11-07: cara de template, nota 5,0
   },
   {
     name: 'Lume Odontologia',
