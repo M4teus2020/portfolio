@@ -246,7 +246,7 @@ useMeta(() => ({
 .offers {
   display: grid;
   gap: 1rem;
-  padding-bottom: clamp(3.5rem, 8vw, 6rem);
+  padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2.5rem, 6vw, 4rem);
 }
 @media (min-width: 720px) {
   .offers {
@@ -259,7 +259,8 @@ useMeta(() => ({
   gap: 0.5rem;
   align-content: start;
   padding: 1.5rem 1.5rem 1.75rem;
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid var(--line);
+  background: var(--card);
   border-radius: 8px;
   text-decoration: none;
   transition:

@@ -1,14 +1,17 @@
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { CONTACT, PHOTO_URL, WHATSAPP } from '@/config/site'
 import { siteExamples } from '@/data/siteExamples'
 import { useMeta } from '@/composables/useMeta'
 
 // Página de venda da prospecção: celular primeiro, sem menu do portfólio.
 // Só em português de propósito (o público é o comércio local).
+// Classes evitam os nomes que o motion/init.ts esconde até a rolagem (.ex, .close, .how):
+// aqui o conteúdo aparece sempre, mesmo sem a animação.
 useMeta(() => ({
   title: 'Site para comércio local · Mateus Felini',
   description:
-    'Site para o seu comércio, pronto em poucos dias. Veja a prévia antes de pagar e só pague se gostar. Preço de lançamento para os 5 primeiros.',
+    'Seus clientes te acham no Google e chamam no WhatsApp. Eu monto uma demonstração da sua página inicial, sem custo, e você avalia antes de comprar.',
 }))
 
 // TODO: trocar WHATSAPP (src/config/site.ts) pelo número do chip novo quando ele existir.
@@ -19,23 +22,42 @@ function wa(message: string) {
 }
 const target = WHATSAPP ? '_blank' : undefined
 const cta = WHATSAPP ? 'Chamar no WhatsApp' : 'Chamar por e-mail'
+const ctaDemo = 'Peça sua demonstração sem compromisso'
 
 const msg = {
-  geral: 'Oi Mateus, vi a página de sites e quero saber como funciona para o meu negócio.',
+  geral: 'Oi Mateus, vi a página de sites e quero uma demonstração para o meu negócio.',
   essencial: 'Oi Mateus, vi a página de sites e quero o plano Essencial para o meu negócio.',
   completo: 'Oi Mateus, vi a página de sites e quero o plano Completo para o meu negócio.',
   medida: 'Oi Mateus, vi a página de sites e quero um orçamento de sistema sob medida.',
 }
 
+// Os dois exemplos mais fortes por enquanto (ver docs/proposta-exemplos-v3.md).
+const vitrine = ['Lume Odontologia', 'Fio Reto Barbearia']
+  .map((n) => siteExamples.find((e) => e.name === n))
+  .filter((e): e is NonNullable<typeof e> => !!e)
+const phone = vitrine[0]
+
 const leva = [
-  { k: 'Endereço seu', d: 'O seunegocio.com.br no seu nome, com o primeiro ano já pago.' },
+  { k: 'Ser encontrado', d: 'Seu negócio aparece no Google com nome, endereço e fotos de verdade.' },
+  { k: 'Ver o que você vende', d: 'Cardápio, serviços ou produtos num lugar só, sem pedir no direct.' },
+  { k: 'Chamar no WhatsApp', d: 'Um toque e a mensagem já vai pronta. Você atende do jeito de sempre.' },
+  { k: 'Saber como chegar', d: 'Horário, mapa e se está aberto agora. Menos pergunta repetida.' },
+]
+
+const nichos = [
   {
-    k: 'Pedido no WhatsApp',
-    d: 'O cliente toca no botão e a mensagem já vai pronta. Você atende do jeito de sempre.',
+    k: 'Odontologia',
+    d: 'Tratamentos, apresentação da clínica, localização e botão de agendamento pelo WhatsApp.',
   },
+  { k: 'Restaurante e lanchonete', d: 'Cardápio sempre à vista, horário e pedido direto no WhatsApp.' },
   {
-    k: 'Horário e mapa',
-    d: 'Quem chega sabe se está aberto e como chegar, sem perguntar no direct.',
+    k: 'Pet shop',
+    d: 'Serviços, produtos, localização e contato direto, sem o cliente ter que perguntar.',
+  },
+  { k: 'Barbearia e salão', d: 'Serviços com duração, horários e agendamento pelo WhatsApp.' },
+  {
+    k: 'Oficina',
+    d: 'Serviços, marcas atendidas, endereço e pedido de orçamento pelo WhatsApp.',
   },
 ]
 
@@ -72,13 +94,30 @@ const planos = [
 ]
 
 const passos = [
-  { k: 'A gente conversa.', d: 'Você me conta do negócio e eu pergunto o que importa.' },
-  { k: 'Monto uma prévia.', d: 'Com seu logo, suas fotos e seu jeito. É grátis.' },
-  { k: 'Você decide.', d: 'Gostou, o site entra no ar. Não gostou, não paga nada.' },
-  { k: 'Entra no ar.', d: 'Com endereço .com.br seu e mapa.' },
+  {
+    k: 'Você me chama.',
+    d: 'Eu pesquiso o seu negócio e vejo o que faria diferença para os seus clientes.',
+  },
+  {
+    k: 'Demonstração sem custo.',
+    d: 'Monto a página inicial com a sua cara e te mostro. Você só avalia.',
+  },
+  { k: 'Orçamento claro.', d: 'Se gostou, eu passo o valor do site completo. Sem pressão.' },
+  {
+    k: 'Site no ar.',
+    d: 'Com a sua aprovação, o site completo entra no ar com endereço .com.br seu.',
+  },
 ]
 
 const perguntas = [
+  {
+    k: 'A demonstração tem custo?',
+    d: 'Não. A demonstração da página inicial é sem custo e sem compromisso. O orçamento do site completo só vem se você quiser seguir.',
+  },
+  {
+    k: 'Quanto tempo leva?',
+    d: 'A demonstração fica pronta em poucos dias. Depois da sua aprovação, o site completo costuma entrar no ar em poucos dias também, e o prazo exato vai no orçamento.',
+  },
   {
     k: 'Preciso entender de internet?',
     d: 'Não. Você me conta o que precisa e eu cuido da parte técnica.',
@@ -86,39 +125,66 @@ const perguntas = [
   { k: 'O site é meu?', d: 'O endereço fica no seu nome.' },
   { k: 'E se eu quiser mudar algo depois?', d: 'Me chama no WhatsApp e a gente combina.' },
 ]
+
+// A barra fixa do celular some quando já há um botão grande na tela.
+const dockOn = ref(true)
+let io: IntersectionObserver | undefined
+onMounted(() => {
+  const seen = new Set<Element>()
+  io = new IntersectionObserver((es) => {
+    es.forEach((e) => (e.isIntersecting ? seen.add(e.target) : seen.delete(e.target)))
+    dockOn.value = seen.size === 0
+  })
+  document.querySelectorAll('[data-cta]').forEach((el) => io!.observe(el))
+})
+onBeforeUnmount(() => io?.disconnect())
 </script>
 
 <template>
   <div class="sales">
     <div class="deep hero-bleed" data-hero>
       <section class="wrap hero">
-        <p class="brandline">Mateus Felini · sites para comércio local</p>
-        <p class="kicker">Site para comércio local</p>
-        <h1 class="title">Seu site, pronto em poucos dias.</h1>
-        <p class="lede">
-          Cardápio, horário, endereço e botão de WhatsApp num lugar só. Você vê a prévia antes de
-          pagar e só paga se gostar.
-        </p>
-        <div class="actions">
-          <a class="btn btn-solid big" :href="wa(msg.geral)" :target="target" rel="noreferrer">{{
-            cta
-          }}</a>
+        <div class="hero-text">
+          <p class="brandline">Mateus Felini · sites para comércio local</p>
+          <h1 class="title">Seu cliente te acha no Google e chama no WhatsApp.</h1>
+          <p class="lede">
+            Eu pesquiso o seu negócio, monto uma demonstração da sua página inicial e você avalia
+            antes de comprar qualquer coisa.
+          </p>
+          <div class="actions" data-cta>
+            <a class="btn btn-solid big" :href="wa(msg.geral)" :target="target" rel="noreferrer">{{
+              ctaDemo
+            }}</a>
+          </div>
+          <p class="from">
+            Demonstração sem custo. Sites a partir de <strong>R$ 297</strong>, pagamento único.
+          </p>
         </div>
-        <p class="from">Lançamento a partir de <strong>R$ 297</strong>, pagamento único.</p>
+        <div v-if="phone" class="phone-wrap">
+          <a
+            class="phone"
+            :href="phone.url"
+            target="_blank"
+            rel="noreferrer"
+            :aria-label="`Abrir o exemplo ${phone.name}`"
+          >
+            <span class="screen" :style="{ backgroundImage: `url(${phone.image})` }">
+              <iframe
+                :src="phone.url"
+                title="Exemplo de site"
+                loading="lazy"
+                tabindex="-1"
+                aria-hidden="true"
+              ></iframe>
+            </span>
+          </a>
+          <p class="phone-cap">Exemplo real. Toque para abrir e mexer.</p>
+        </div>
       </section>
     </div>
 
-    <section class="wrap block" aria-labelledby="dor">
-      <h2 id="dor" class="h2">Quem procura você no Google acha pouco.</h2>
-      <p class="text">
-        O cliente pesquisa, acha só o Instagram ou nada, pergunta o horário no direct e às vezes
-        desiste. Um site com horário, endereço, cardápio e botão de WhatsApp responde isso antes
-        dele perguntar.
-      </p>
-    </section>
-
     <section class="wrap block" aria-labelledby="leva">
-      <h2 id="leva" class="h2">O que você leva.</h2>
+      <h2 id="leva" class="h2">O que o seu cliente passa a fazer.</h2>
       <ul class="cols">
         <li v-for="l in leva" :key="l.k">
           <h3>{{ l.k }}</h3>
@@ -127,14 +193,24 @@ const perguntas = [
       </ul>
     </section>
 
-    <section v-if="siteExamples.length" class="wrap block" aria-labelledby="ex">
-      <h2 id="ex" class="h2">Quatro exemplos. Abre no celular e mexe.</h2>
+    <section class="wrap block" aria-labelledby="nicho">
+      <h2 id="nicho" class="h2">O que a página faz pelo seu ramo.</h2>
+      <ul class="niches">
+        <li v-for="n in nichos" :key="n.k">
+          <h3>{{ n.k }}</h3>
+          <p>{{ n.d }}</p>
+        </li>
+      </ul>
+    </section>
+
+    <section v-if="vitrine.length" class="wrap block" aria-labelledby="ex">
+      <h2 id="ex" class="h2">Veja de perto. Abre no celular e mexe.</h2>
       <p class="text note">
         São negócios inventados, feitos para mostrar o que dá para fazer no seu.
       </p>
-      <ul class="examples">
-        <li v-for="ex in siteExamples" :key="ex.url">
-          <a :href="ex.url" target="_blank" rel="noreferrer" class="ex">
+      <ul class="demos">
+        <li v-for="ex in vitrine" :key="ex.url">
+          <a :href="ex.url" target="_blank" rel="noreferrer" class="demo">
             <img v-if="ex.image" :src="ex.image" :alt="`Exemplo: ${ex.name}`" loading="lazy" />
             <span class="ex-name">{{ ex.name }}</span>
             <span class="ex-pitch">{{ ex.pitch }}</span>
@@ -142,6 +218,19 @@ const perguntas = [
           </a>
         </li>
       </ul>
+    </section>
+
+    <section class="wrap block" aria-labelledby="como">
+      <h2 id="como" class="h2">Como funciona.</h2>
+      <ol class="steps">
+        <li v-for="(s, i) in passos" :key="s.k">
+          <span class="n" aria-hidden="true">{{ i + 1 }}</span>
+          <div>
+            <h3>{{ s.k }}</h3>
+            <p>{{ s.d }}</p>
+          </div>
+        </li>
+      </ol>
     </section>
 
     <section class="wrap block" aria-labelledby="preco">
@@ -189,23 +278,9 @@ const perguntas = [
       <p class="fine">O preço de lançamento vale para os 5 primeiros clientes.</p>
     </section>
 
-    <section class="wrap block" aria-labelledby="como">
-      <h2 id="como" class="h2">Como funciona.</h2>
-      <ol class="steps">
-        <li v-for="(s, i) in passos" :key="s.k">
-          <span class="n" aria-hidden="true">{{ i + 1 }}</span>
-          <div>
-            <h3>{{ s.k }}</h3>
-            <p>{{ s.d }}</p>
-          </div>
-        </li>
-      </ol>
-    </section>
-
     <section class="wrap block who" aria-labelledby="quem">
       <figure class="photo">
-        <img v-if="PHOTO_URL" :src="PHOTO_URL" alt="Mateus Felini" />
-        <!-- TODO: foto real do Mateus (PHOTO_URL em src/config/site.ts). -->
+        <span v-if="PHOTO_URL" class="avatar"><img :src="PHOTO_URL" alt="Mateus Felini" /></span>
         <div v-else class="ph" role="img" aria-label="Espaço reservado para a foto do Mateus">
           <span>Foto do Mateus<br />(a ser colocada)</span>
         </div>
@@ -229,20 +304,20 @@ const perguntas = [
       </dl>
     </section>
 
-    <section class="deep close" aria-labelledby="fecho">
-      <div class="wrap close-in">
+    <section class="deep fecho" aria-labelledby="fecho">
+      <div class="wrap fecho-in" data-cta>
         <h2 id="fecho" class="close-title">Me manda o nome do seu negócio no WhatsApp.</h2>
-        <p class="close-text">Eu respondo pessoalmente.</p>
+        <p class="close-text">Eu respondo pessoalmente e começo pela demonstração.</p>
         <a class="btn btn-solid big" :href="wa(msg.geral)" :target="target" rel="noreferrer">{{
-          cta
+          ctaDemo
         }}</a>
       </div>
     </section>
 
     <footer class="wrap sfoot">Mateus Felini · Sites para comércio local</footer>
 
-    <!-- Barra fixa no celular: o botão acompanha a rolagem. -->
-    <div class="dock">
+    <!-- Barra fixa no celular: fundo sólido, some quando já há um botão grande na tela. -->
+    <div class="dock" :class="{ off: !dockOn }">
       <a class="btn btn-solid big" :href="wa(msg.geral)" :target="target" rel="noreferrer">{{
         cta
       }}</a>
@@ -254,25 +329,31 @@ const perguntas = [
 .hero {
   padding-block: 1.25rem 3rem;
   display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+.hero-text {
+  display: grid;
   justify-items: start;
 }
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    padding-block: 2rem 4rem;
+  }
+}
 .brandline {
-  margin: 0 0 2.5rem;
+  margin: 0 0 2rem;
   font: 500 0.8125rem/1.2 var(--mono);
   color: var(--muted);
 }
-.kicker {
-  margin: 0 0 1rem;
-  font-weight: 600;
-  color: var(--mato);
-}
 .title {
   margin: 0;
-  font-size: clamp(2.75rem, 9vw, 5.5rem);
+  font-size: clamp(2.25rem, 7vw, 4.25rem);
   font-weight: 900;
-  line-height: 0.95;
-  letter-spacing: -0.045em;
-  max-width: 12ch;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  max-width: 16ch;
 }
 .lede {
   margin: 1.25rem 0 0;
@@ -306,6 +387,49 @@ const perguntas = [
   color: var(--ink);
 }
 
+/* Celular com um site real dentro: a prova visual logo no topo. */
+.phone-wrap {
+  justify-self: center;
+  display: grid;
+  gap: 0.75rem;
+  justify-items: center;
+}
+.phone {
+  display: block;
+  width: min(15.5rem, 70vw);
+  aspect-ratio: 9 / 18;
+  padding: 0.5rem;
+  border-radius: 2rem;
+  background: #1b1f1d;
+  border: 2px solid var(--deep-line);
+  box-shadow: 0 30px 60px -25px rgb(0 0 0 / 0.7);
+}
+.screen {
+  display: block;
+  position: relative;
+  height: 100%;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  background: #fff center left / auto 100% no-repeat;
+}
+/* O site real roda em 390px de largura e é encolhido para caber na moldura. */
+.screen iframe {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 390px;
+  height: 780px;
+  border: 0;
+  transform: scale(0.585);
+  transform-origin: 0 0;
+  pointer-events: none;
+  background: #fff;
+}
+.phone-cap {
+  margin: 0;
+  font: 500 0.8125rem/1.2 var(--mono);
+  color: var(--muted);
+}
+
 .block {
   padding-block: clamp(2.5rem, 7vw, 4.5rem);
   border-top: 1px solid var(--line);
@@ -330,7 +454,8 @@ const perguntas = [
 
 .cols,
 .steps,
-.examples {
+.niches,
+.demos {
   list-style: none;
   margin: 2rem 0 0;
   padding: 0;
@@ -339,26 +464,40 @@ const perguntas = [
 }
 @media (min-width: 720px) {
   .cols {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2rem 3rem;
   }
   .steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2.25rem 3rem;
   }
+  .niches {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem 3rem;
+  }
+  .demos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
 }
 .cols h3,
-.steps h3 {
+.steps h3,
+.niches h3 {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.015em;
 }
 .cols p,
-.steps p {
+.steps p,
+.niches p {
   margin: 0.5rem 0 0;
   color: var(--muted);
   max-width: 38ch;
+}
+.niches li {
+  padding-top: 1rem;
+  border-top: 2px solid var(--mato);
 }
 .steps li {
   display: grid;
@@ -378,28 +517,14 @@ const perguntas = [
   font-weight: 800;
 }
 
-.examples {
-  grid-template-columns: 1fr;
-}
-@media (min-width: 560px) {
-  .examples {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-@media (min-width: 960px) {
-  .examples {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1.25rem;
-  }
-}
-.ex {
+.demo {
   display: grid;
   gap: 0.375rem;
   align-content: start;
   text-decoration: none;
   color: inherit;
 }
-.ex img {
+.demo img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
@@ -408,7 +533,7 @@ const perguntas = [
   margin-bottom: 0.5rem;
   transition: transform 0.25s var(--ease);
 }
-.ex:hover img {
+.demo:hover img {
   transform: translateY(-3px);
 }
 .ex-name {
@@ -540,15 +665,24 @@ const perguntas = [
 .photo {
   margin: 0;
 }
-.photo img,
+.avatar,
 .ph {
+  display: block;
   width: min(14rem, 60%);
   aspect-ratio: 1;
   border-radius: 50%;
+  overflow: hidden;
+}
+/* Foto de espelho: aproxima no rosto (terço de cima, um pouco à esquerda). */
+.avatar img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  transform: scale(1.7);
+  transform-origin: 47% 33%;
 }
 @media (min-width: 720px) {
-  .photo img,
+  .avatar,
   .ph {
     width: 100%;
   }
@@ -578,10 +712,10 @@ const perguntas = [
   color: var(--muted);
 }
 
-.close {
+.fecho {
   padding-block: clamp(3rem, 8vw, 5rem);
 }
-.close-in {
+.fecho-in {
   display: grid;
   justify-items: start;
   gap: 1rem;
@@ -599,20 +733,23 @@ const perguntas = [
   color: var(--muted);
 }
 .sfoot {
-  padding-block: 1.5rem 6rem;
+  padding-block: 1.5rem 6.5rem;
   color: var(--muted);
   font-size: 0.9375rem;
 }
 
-/* Barra fixa só no celular. */
+/* Barra fixa só no celular, com fundo sólido (texto não aparece por baixo). */
 .dock {
   position: fixed;
   inset: auto 0 0 0;
   z-index: 40;
   padding: 0.625rem var(--gutter) calc(0.625rem + env(safe-area-inset-bottom));
-  background: color-mix(in srgb, var(--paper) 92%, transparent);
-  backdrop-filter: blur(8px);
+  background: var(--paper);
   border-top: 1px solid var(--line);
+  transition: transform 0.25s var(--ease);
+}
+.dock.off {
+  transform: translateY(110%);
 }
 .dock .btn {
   width: 100%;

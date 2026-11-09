@@ -11,4 +11,4 @@ export const CONTACT = {
 export const WHATSAPP = '5554996456304' // (54) 99645-6304
 
 // Foto real (dentro de /public). null deixa o hero só tipográfico.
-export const PHOTO_URL: string | null = null
+export const PHOTO_URL: string | null = '/mateus.webp'
