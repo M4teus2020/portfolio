@@ -178,7 +178,7 @@ onBeforeUnmount(() => io?.disconnect())
               ></iframe>
             </span>
           </a>
-          <p class="phone-cap">Exemplo real. Toque para abrir e mexer.</p>
+          <p class="phone-cap">Site de exemplo. Toque para abrir e mexer.</p>
         </div>
       </section>
     </div>
