@@ -69,6 +69,7 @@ const ramo: Record<Niche, string> = {
   servicos: 'Contabilidade',
   clinica: 'Odontologia',
   agropecuaria: 'Agropecuária',
+  pet: 'Pet shop',
 }
 
 const ramos = [

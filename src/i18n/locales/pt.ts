@@ -235,6 +235,7 @@ const pt = {
         servicos: 'Exemplo de escritório',
         clinica: 'Exemplo de clínica odontológica',
         agropecuaria: 'Exemplo de agropecuária',
+        pet: 'Exemplo de pet shop',
       },
       priceTitle: 'Preço',
       price: 'Preço justo, combinado na conversa. Sem fidelidade longa.',

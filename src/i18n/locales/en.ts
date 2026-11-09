@@ -240,6 +240,7 @@ const en: Messages = {
         servicos: 'Sample accounting office',
         clinica: 'Sample dental clinic',
         agropecuaria: 'Sample farm supply store',
+        pet: 'Sample pet grooming shop',
       },
       priceTitle: 'Price',
       price: 'A fair price, agreed in conversation. No long lock-in.',

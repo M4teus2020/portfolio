@@ -1,7 +1,7 @@
 // Sites mostrados no /sites. Cliente só entra com autorização do dono.
 // Exemplos são negócios fictícios feitos para mostrar o trabalho (sem cidade).
 // Vazio: a seção "Feitos por mim" fica escondida.
-export type Niche = 'restaurante' | 'salao' | 'oficina' | 'servicos' | 'clinica' | 'agropecuaria'
+export type Niche = 'restaurante' | 'salao' | 'oficina' | 'servicos' | 'clinica' | 'agropecuaria' | 'pet'
 
 export interface SiteExample {
   name: string
@@ -29,6 +29,15 @@ const todos: SiteExample[] = [
     pitch: 'O cliente escolhe o lanche, o jeito e a hora, e o pedido sai escrito no WhatsApp.',
   },
   {
+    name: 'Sacode Banho e Tosa',
+    niche: 'pet',
+    exemplo: true,
+    url: 'https://sacode-exemplo.mateus-felini.workers.dev/',
+    image: '/exemplos/sacode.webp',
+    imageMobile: '/exemplos/sacode-mobile.webp',
+    pitch: 'O dono escolhe porte, serviço e dia, e o banho do pet sai marcado no WhatsApp.',
+  },
+  {
     name: 'Lancheria Faísca',
     hidden: true, // Mateus 2026-11-09: fora da vitrine (catálogo novo)
     niche: 'restaurante',
@@ -40,6 +49,7 @@ const todos: SiteExample[] = [
   },
   {
     name: 'Fio Reto Barbearia',
+    hidden: true, // Mateus 2026-11-09: vitrine só com o catálogo novo
     niche: 'salao',
     exemplo: true,
     url: 'https://fio-reto-exemplo.mateus-felini.workers.dev/',
@@ -49,6 +59,7 @@ const todos: SiteExample[] = [
   },
   {
     name: 'Torque Pneus & Mecânica',
+    hidden: true, // Mateus 2026-11-09: vitrine só com o catálogo novo
     niche: 'oficina',
     exemplo: true,
     url: 'https://torque-exemplo.mateus-felini.workers.dev/',
@@ -58,6 +69,7 @@ const todos: SiteExample[] = [
   },
   {
     name: 'Prumo Contabilidade',
+    hidden: true, // Mateus 2026-11-09: vitrine só com o catálogo novo
     niche: 'servicos',
     exemplo: true,
     url: 'https://prumo-exemplo.mateus-felini.workers.dev/',
