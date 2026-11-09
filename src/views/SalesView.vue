@@ -49,8 +49,8 @@ const hrefSistema = wa(
 const target = WHATSAPP ? '_blank' : undefined
 const ctaLabel = WHATSAPP ? 'Pedir minha demonstração' : 'Pedir minha demonstração por e-mail'
 
-// Torque e Prumo na frente (os preferidos do Mateus); exemplo novo entra no fim.
-const ordem = ['Torque', 'Prumo', 'Lume', 'Faísca', 'Fio Reto', 'Paiol']
+// Sacode e Tosta em destaque (pedido do Mateus, 2026-11-09); exemplo novo entra no fim.
+const ordem = ['Sacode', 'Tosta', 'Pietra', 'Alba', 'Cerne', 'Torque']
 const rank = (n: string) => {
   const i = ordem.findIndex((o) => n.includes(o))
   return i < 0 ? ordem.length : i
