@@ -30,6 +30,7 @@ const todos: SiteExample[] = [
   },
   {
     name: 'Lancheria Faísca',
+    hidden: true, // Mateus 2026-11-09: fora da vitrine (catálogo novo)
     niche: 'restaurante',
     exemplo: true,
     url: 'https://faisca-exemplo.mateus-felini.workers.dev/',
@@ -66,6 +67,7 @@ const todos: SiteExample[] = [
   },
   {
     name: 'Lume Odontologia',
+    hidden: true, // Mateus 2026-11-09: fora da vitrine (catálogo novo)
     niche: 'clinica',
     exemplo: true,
     url: 'https://lume-exemplo.mateus-felini.workers.dev/',
@@ -75,6 +77,7 @@ const todos: SiteExample[] = [
   },
   {
     name: 'Agropecuária Paiol',
+    hidden: true, // Mateus 2026-11-09: fora da vitrine (catálogo novo)
     niche: 'agropecuaria',
     exemplo: true,
     url: 'https://paiol-exemplo.mateus-felini.workers.dev/',
