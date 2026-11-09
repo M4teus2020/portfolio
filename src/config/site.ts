@@ -8,7 +8,7 @@ export const CONTACT = {
 
 // WhatsApp do /sites, só dígitos com DDI (formato wa.me).
 // Vazio: os botões do /sites caem para e-mail.
-export const WHATSAPP = '5554996456304' // (54) 99645-6304
+export const WHATSAPP = '5554999608469' // (54) 99960-8469, chip comercial (2026-11-09)
 
 // Foto real (dentro de /public). null deixa o hero só tipográfico.
 export const PHOTO_URL: string | null = '/mateus.webp'
