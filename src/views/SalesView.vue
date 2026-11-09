@@ -1,50 +1,133 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { CONTACT, PHOTO_URL, WHATSAPP } from '@/config/site'
-import { siteExamples } from '@/data/siteExamples'
+import { siteExamples, type Niche } from '@/data/siteExamples'
 import { useMeta } from '@/composables/useMeta'
+import { theme, toggleTheme } from '@/motion/theme'
+import LogoMark from '@/components/LogoMark.vue'
+import StackMarquee from '@/components/StackMarquee.vue'
+import ContourField from '@/components/ContourField.vue'
 
-// Página de venda da prospecção: celular primeiro (~3 telas), sem menu do portfólio.
-// Só em português de propósito (o público é o comércio local).
-// Sem classes que o motion/init.ts esconde até a rolagem (.ex, .close, .how): o conteúdo aparece sempre.
+// Página de venda da prospecção (dono de comércio, no celular, vindo de mensagem fria).
+// Sem menu do portfólio e só em português. Um objetivo: chamar no WhatsApp pedindo a demonstração.
+// Nenhuma classe daqui está na lista REVEAL de motion/init.ts: o conteúdo aparece sem depender do scroll.
 useMeta(() => ({
   title: 'Site para comércio local · Mateus Felini',
   description:
-    'Veja o site do seu negócio antes de pagar qualquer coisa. Demonstração sem custo e sem compromisso.',
+    'Veja a cara do site do seu negócio antes de pagar. Eu monto a página inicial com o seu logo e as suas fotos, sem custo e sem compromisso.',
 }))
 
-// TODO: trocar WHATSAPP (src/config/site.ts) pelo número do chip novo quando ele existir.
-const msg = 'Oi Mateus, vi a página de sites e quero minha demonstração.'
-const href = WHATSAPP
-  ? `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`
-  : `mailto:${CONTACT.email}?body=${encodeURIComponent(msg)}`
+const wa = (msg: string) =>
+  WHATSAPP
+    ? `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`
+    : `mailto:${CONTACT.email}?body=${encodeURIComponent(msg)}`
+const href = wa('Oi Mateus, vi a página de sites e quero a demonstração do meu negócio.')
+const hrefSistema = wa(
+  'Oi Mateus, vi a página de sites e quero conversar sobre um sistema sob medida.',
+)
 const target = WHATSAPP ? '_blank' : undefined
-const label = WHATSAPP ? 'Quero minha demonstração no WhatsApp' : 'Quero minha demonstração por e-mail'
+const ctaLabel = WHATSAPP ? 'Pedir minha demonstração' : 'Pedir minha demonstração por e-mail'
 
-const vitrine = ['Lume Odontologia', 'Fio Reto Barbearia']
-  .map((n) => siteExamples.find((e) => e.name === n))
-  .filter((e): e is NonNullable<typeof e> => !!e)
+// Torque e Prumo na frente (os preferidos do Mateus); exemplo novo entra no fim.
+const ordem = ['Torque', 'Prumo', 'Lume', 'Faísca', 'Fio Reto', 'Paiol']
+const rank = (n: string) => {
+  const i = ordem.findIndex((o) => n.includes(o))
+  return i < 0 ? ordem.length : i
+}
+const modelos = [...siteExamples].sort((a, b) => rank(a.name) - rank(b.name))
 
-const ramos = ['Odonto', 'Restaurante', 'Pet shop', 'Barbearia e salão', 'Oficina']
+// Nome curto pros botões do baralho ("Torque Pneus & Mecânica" vira "Torque").
+const curto = (n: string) =>
+  n
+    .replace(/^(Lancheria|Agropecuária) /, '')
+    .replace(/ (Barbearia|Pneus.*|Contabilidade|Odontologia)$/, '')
+const ramo: Record<Niche, string> = {
+  restaurante: 'Lancheria',
+  salao: 'Barbearia',
+  oficina: 'Oficina',
+  servicos: 'Contabilidade',
+  clinica: 'Odontologia',
+  agropecuaria: 'Agropecuária',
+}
 
-const passos = [
-  'Você me manda o nome do negócio.',
-  'Eu monto a demonstração.',
-  'Você decide.',
+const ramos = [
+  'Dentista',
+  'Lancheria',
+  'Pizzaria',
+  'Pet shop',
+  'Barbearia',
+  'Salão de beleza',
+  'Oficina',
+  'Contabilidade',
+  'Restaurante',
+  'Agropecuária',
 ]
 
-const perguntas = [
-  { k: 'Tem custo?', d: 'A demonstração não. Se gostar, eu passo o orçamento do site completo, sem pressão.' },
-  { k: 'O site é meu?', d: 'Sim. O endereço .com.br fica no seu nome.' },
-  { k: 'Tem mensalidade?', d: 'Não. O pagamento é único e o domínio do 1º ano já está incluso.' },
+const passos = [
   {
-    k: 'Os exemplos são reais?',
-    d: 'São modelos. A sua demonstração é feita com o seu negócio, com o seu logo e as suas fotos.',
+    k: 'Você me chama no WhatsApp',
+    d: 'Me manda o nome do negócio e o Instagram ou o perfil do Google, se tiver.',
+  },
+  {
+    k: 'Eu monto a demonstração',
+    d: 'Faço a página inicial com o seu logo e as suas fotos e te mando o link. Não custa nada.',
+  },
+  {
+    k: 'Você decide',
+    d: 'Gostou? Te passo o orçamento. Com a sua aprovação, faço o site completo e coloco no ar.',
   },
 ]
 
-// A barra fixa do celular some quando já há um botão grande na tela.
-const dockOn = ref(true)
+const planos = [
+  {
+    k: 'Site de 1 página',
+    d: 'Uma página só, com o principal do seu negócio e o botão do WhatsApp.',
+    v: '297',
+  },
+  {
+    k: 'Site completo',
+    d: 'Várias páginas, com espaço para serviços, cardápio, fotos e o que mais precisar mostrar.',
+    v: '697',
+  },
+]
+
+const duvidas = [
+  {
+    k: 'A demonstração tem custo?',
+    d: 'Não. Eu monto a página inicial do seu negócio e te mando o link. Se gostar, passo o orçamento do site completo. Se não fizer sentido, fica por isso mesmo.',
+  },
+  {
+    k: 'Quanto tempo leva?',
+    d: 'Eu respondo em até 1 dia. O prazo da demonstração e do site eu te passo nessa conversa, porque depende do que o seu negócio precisa.',
+  },
+  {
+    k: 'Tem mensalidade?',
+    d: 'Não. Você paga uma vez. O domínio .com.br do primeiro ano e a configuração já estão no preço.',
+  },
+  { k: 'O site fica no meu nome?', d: 'Sim. O endereço .com.br é registrado no seu nome.' },
+  {
+    k: 'Esses modelos são de clientes?',
+    d: 'Não. São negócios inventados que eu fiz para mostrar o trabalho. A sua demonstração é feita com o seu negócio: o seu logo, as suas fotos.',
+  },
+]
+
+// Baralho do herói: depth 0 é o site da frente; 1 e 2 aparecem em leque atrás; o resto espera.
+const front = ref(0)
+const depth = (i: number) => (i - front.value + modelos.length) % modelos.length
+const atual = computed(() => modelos[front.value])
+let timer: ReturnType<typeof setInterval> | undefined
+const stopAuto = () => {
+  clearInterval(timer)
+  timer = undefined
+}
+const pick = (i: number) => {
+  stopAuto()
+  front.value = i
+}
+
+// Barra fixa do celular: só aparece quando nenhum botão grande está na tela.
+const dockOn = ref(false)
+const themeBtn = ref<HTMLButtonElement>()
 let io: IntersectionObserver | undefined
 onMounted(() => {
   const seen = new Set<Element>()
@@ -53,303 +136,1117 @@ onMounted(() => {
     dockOn.value = seen.size === 0
   })
   document.querySelectorAll('[data-cta]').forEach((el) => io!.observe(el))
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && modelos.length > 1)
+    timer = setInterval(() => (front.value = (front.value + 1) % modelos.length), 4200)
 })
-onBeforeUnmount(() => io?.disconnect())
+onBeforeUnmount(() => {
+  io?.disconnect()
+  stopAuto()
+})
 </script>
 
 <template>
   <div class="sales">
-    <div class="deep hero-bleed" data-hero>
-      <section class="wrap hero">
-        <h1 class="title">Veja o site do seu negócio antes de pagar qualquer coisa.</h1>
-        <p class="lede">Eu monto a demonstração da sua página inicial. Você avalia e decide.</p>
-        <div class="actions" data-cta>
-          <a class="btn btn-solid big" :href="href" :target="target" rel="noreferrer">
-            <svg class="ic" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                fill="currentColor"
-                d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.300 1.200-1.800 1.200-.5.1-1 .2-3.300-.7-2.800-1.100-4.600-4-4.700-4.200-.1-.2-1.100-1.500-1.100-2.800 0-1.300.7-2 1-2.300.2-.3.500-.3.700-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.2.1.400 0 .5l-.4.600-.4.400c-.1.200-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.100 1 2.100 1.300 2.400 1.400.3.200.5.100.6-.1l.9-1.100c.2-.3.400-.2.600-.1l1.900.9c.3.100.5.200.5.300.1.200.1.800-.1 1.400Z"
-              />
-            </svg>
-            {{ label }}
-          </a>
-        </div>
-        <p class="sub">Sem custo, sem compromisso, resposta em até 1 dia.</p>
-        <p class="me">
-          <img v-if="PHOTO_URL" :src="PHOTO_URL" alt="Mateus Felini" />
-          <span>Mateus, aqui da região</span>
+    <div class="deep hero" data-hero>
+      <div class="top wrap">
+        <p class="who">
+          <LogoMark />
+          <span>Mateus Felini</span>
         </p>
+        <button
+          ref="themeBtn"
+          type="button"
+          class="tool"
+          aria-label="Trocar tema claro e escuro"
+          title="Trocar tema"
+          :aria-pressed="theme === 'dark'"
+          @click="toggleTheme(themeBtn)"
+        >
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true">
+            <g class="sun">
+              <circle cx="12" cy="12" r="4.2" />
+              <path
+                d="M12 2.5v2.6M12 18.9v2.6M2.5 12h2.6M18.9 12h2.6M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"
+              />
+            </g>
+            <path class="moon" d="M20.5 14.2A8.6 8.6 0 0 1 9.8 3.5a8.6 8.6 0 1 0 10.7 10.7Z" />
+          </svg>
+        </button>
+      </div>
+
+      <section class="hero-grid wrap">
+        <div class="pitch">
+          <h1>Veja a cara do seu site antes de pagar.</h1>
+          <p class="sub">
+            Eu monto a página inicial do seu negócio com o seu logo e as suas fotos, sem custo. Se
+            você gostar, a gente conversa sobre o site completo.
+          </p>
+          <a class="btn btn-solid cta" :href="href" :target="target" rel="noopener" data-cta>
+            <svg class="wa" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+            </svg>
+            {{ ctaLabel }}
+          </a>
+          <p class="assure">Sem custo e sem compromisso. Respondo em até 1 dia.</p>
+        </div>
+
+        <div class="stage">
+          <div class="deck">
+            <a
+              v-for="(m, i) in modelos"
+              :key="m.name"
+              class="win"
+              :class="{ back: depth(i) > 0, off: depth(i) > 2 }"
+              :style="{ '--k': Math.min(depth(i), 3) }"
+              :href="m.url"
+              target="_blank"
+              rel="noopener"
+              :tabindex="depth(i) === 0 ? 0 : -1"
+              :aria-hidden="depth(i) !== 0"
+              :aria-label="`Abrir o site de exemplo ${m.name} em outra aba`"
+            >
+              <span class="bar">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="5" y="11" width="14" height="10" rx="2" />
+                  <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+                </svg>
+                {{ m.name }}
+              </span>
+              <img
+                v-if="m.image"
+                :src="m.image"
+                :alt="`Página inicial do site de exemplo ${m.name}`"
+                width="960"
+                height="720"
+                :loading="i < 3 ? 'eager' : 'lazy'"
+              />
+              <span class="open" aria-hidden="true">
+                Abrir
+                <svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg>
+              </span>
+            </a>
+          </div>
+          <div class="picker" role="group" aria-label="Escolher site de exemplo">
+            <button
+              v-for="(m, i) in modelos"
+              :key="m.name"
+              type="button"
+              :aria-pressed="i === front"
+              @click="pick(i)"
+            >
+              {{ curto(m.name) }}
+            </button>
+          </div>
+          <p class="now">
+            <span>{{ atual?.niche ? ramo[atual.niche] : '' }}.</span> {{ atual?.pitch }}
+          </p>
+        </div>
+
+        <div class="me">
+          <img v-if="PHOTO_URL" :src="PHOTO_URL" alt="" width="48" height="48" />
+          <p>
+            <strong>Mateus Felini</strong>
+            Faço sites para o comércio aqui da região.
+          </p>
+        </div>
       </section>
+
+      <div class="ramos">
+        <p class="sr">Faço sites para {{ ramos.join(', ').toLowerCase() }} e outros comércios.</p>
+        <StackMarquee :rows="[ramos]" />
+      </div>
     </div>
 
-    <section class="wrap block" aria-labelledby="ex">
-      <h2 id="ex" class="h2">Veja como fica. Toque para abrir.</h2>
-      <ul class="demos">
-        <li v-for="ex in vitrine" :key="ex.url">
-          <a :href="ex.url" target="_blank" rel="noreferrer" class="demo">
-            <img v-if="ex.image" :src="ex.image" :alt="`Exemplo: ${ex.name}`" loading="lazy" />
-            <span class="ex-name">{{ ex.name }}</span>
-          </a>
-        </li>
-      </ul>
-      <p class="chips" aria-label="Ramos atendidos">
-        <span v-for="r in ramos" :key="r">{{ r }}</span>
-      </p>
-    </section>
-
-    <section class="wrap block" aria-labelledby="como">
-      <h2 id="como" class="h2">Como funciona.</h2>
-      <ol class="steps">
-        <li v-for="(s, i) in passos" :key="s">
-          <span class="n" aria-hidden="true">{{ i + 1 }}</span>
-          {{ s }}
-        </li>
-      </ol>
-      <p class="price">
-        Site de 1 página R$&nbsp;297, completo R$&nbsp;697, pagamento único, domínio do 1º ano
-        incluso.
-      </p>
-    </section>
-
-    <section class="wrap block" aria-labelledby="faq">
-      <h2 id="faq" class="h2">Perguntas rápidas.</h2>
-      <dl class="faq">
-        <div v-for="q in perguntas" :key="q.k">
-          <dt>{{ q.k }}</dt>
-          <dd>{{ q.d }}</dd>
-        </div>
-      </dl>
-    </section>
-
-    <section class="deep fecho" aria-labelledby="fecho">
-      <div class="wrap fecho-in" data-cta>
-        <h2 id="fecho" class="close-title">Me manda o nome do seu negócio.</h2>
-        <a class="btn btn-solid big" :href="href" :target="target" rel="noreferrer">{{ label }}</a>
+    <section class="sec" aria-labelledby="t-passos">
+      <div class="wrap">
+        <h2 id="t-passos" class="h2">Como funciona</h2>
+        <ol class="passos">
+          <li v-for="(p, i) in passos" :key="p.k">
+            <span class="n" aria-hidden="true">{{ i + 1 }}</span>
+            <h3>{{ p.k }}</h3>
+            <p>{{ p.d }}</p>
+          </li>
+        </ol>
       </div>
     </section>
 
-    <footer class="wrap sfoot">Mateus Felini · Sites para comércio local</footer>
+    <section class="sec" aria-labelledby="t-modelos">
+      <div class="wrap">
+        <div class="head">
+          <h2 id="t-modelos" class="h2">Alguns modelos que eu fiz</h2>
+          <p class="lede">
+            São negócios inventados, só para mostrar o trabalho. A sua demonstração sai com o seu
+            negócio de verdade.
+          </p>
+        </div>
+        <ul class="modelos">
+          <li v-for="(m, i) in modelos" :key="m.name" :class="{ big: i < 2 }">
+            <a :href="m.url" target="_blank" rel="noopener" class="modelo">
+              <span class="frame">
+                <span class="bar" aria-hidden="true"><i></i><i></i><i></i></span>
+                <img v-if="m.image" :src="m.image" alt="" width="960" height="720" loading="lazy" />
+              </span>
+              <span class="meta">
+                <span class="m-name">{{ m.name }}</span>
+                <span v-if="m.niche" class="m-ramo">{{ ramo[m.niche] }}</span>
+              </span>
+              <span v-if="m.pitch" class="m-pitch">{{ m.pitch }}</span>
+              <span class="m-open">Abrir o site<span class="sr"> (abre em outra aba)</span></span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
 
-    <!-- Barra fixa no celular: fundo sólido, some quando já há um botão grande na tela. -->
-    <div class="dock" :class="{ off: !dockOn }">
-      <a class="btn btn-solid big" :href="href" :target="target" rel="noreferrer">{{ label }}</a>
+    <section class="sec" aria-labelledby="t-preco">
+      <div class="wrap preco">
+        <div class="head">
+          <h2 id="t-preco" class="h2">Quanto custa</h2>
+          <p class="lede">Pagamento único. Sem mensalidade.</p>
+        </div>
+        <div class="tabela">
+          <div v-for="p in planos" :key="p.k" class="plano">
+            <div>
+              <h3>{{ p.k }}</h3>
+              <p>{{ p.d }}</p>
+            </div>
+            <p class="valor"><small>R$</small>{{ p.v }}</p>
+          </div>
+          <p class="inclui">
+            <span class="tag">Preço de lançamento</span>
+            Domínio .com.br do 1º ano e a configuração já estão no preço.
+          </p>
+        </div>
+        <p class="sistema">
+          Precisa de um sistema sob medida?
+          <a class="link" :href="hrefSistema" :target="target" rel="noopener"
+            >Me chama que a gente vê.</a
+          >
+        </p>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="t-quem">
+      <div class="wrap quem">
+        <img
+          v-if="PHOTO_URL"
+          :src="PHOTO_URL"
+          alt="Mateus Felini"
+          width="900"
+          height="900"
+          loading="lazy"
+        />
+        <div>
+          <h2 id="t-quem" class="h2">Quem faz o seu site</h2>
+          <p class="carta">
+            Sou o Mateus. Moro aqui na região e faço sites para o comércio local. Você fala direto
+            comigo, do primeiro oi até o site no ar.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" aria-labelledby="t-duvidas">
+      <div class="wrap duvidas-wrap">
+        <h2 id="t-duvidas" class="h2">Dúvidas</h2>
+        <div class="duvidas">
+          <details v-for="(q, i) in duvidas" :key="q.k" :open="i === 0">
+            <summary>
+              {{ q.k }}
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+            </summary>
+            <p>{{ q.d }}</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="deep fecho" aria-labelledby="t-fecho">
+      <div class="fecho-art" aria-hidden="true">
+        <ContourField label="Seu negócio aqui" :rings="11" />
+      </div>
+      <div class="wrap fecho-in">
+        <h2 id="t-fecho" class="h2 big">Me manda o nome do seu negócio.</h2>
+        <p class="lede">Eu monto a demonstração e você vê como fica. Sem compromisso.</p>
+        <a class="btn btn-solid cta" :href="href" :target="target" rel="noopener" data-cta>
+          <svg class="wa" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+          </svg>
+          {{ ctaLabel }}
+        </a>
+        <p class="assure">Respondo em até 1 dia.</p>
+        <p class="assina">Mateus Felini, sites para comércio local.</p>
+      </div>
+    </section>
+
+    <div class="dock" :class="{ on: dockOn }" :inert="!dockOn">
+      <a class="btn btn-solid cta" :href="href" :target="target" rel="noopener">
+        <svg class="wa" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+        </svg>
+        {{ ctaLabel }}
+      </a>
     </div>
   </div>
 </template>
 
 <style scoped>
-.hero {
-  padding-block: 2.5rem 2.5rem;
-  display: grid;
-  justify-items: center;
-  text-align: center;
-  gap: 1rem;
-}
-.title {
-  margin: 0;
-  font-size: clamp(2.125rem, 7vw, 4rem);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  max-width: 18ch;
-}
-.lede {
-  margin: 0;
-  font-size: 1.125rem;
-  max-width: 34ch;
-  color: var(--muted);
-}
-.actions {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 0.5rem;
-}
-.big {
-  min-height: 3.5rem;
-  padding-inline: 1rem;
-  font-size: 0.9375rem;
-  justify-content: center;
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
   white-space: nowrap;
 }
-.actions .big {
-  width: 100%;
-  max-width: 26rem;
+
+/* ─── Herói: o mesmo grafite com brilho esmeralda e malha de pontos da home ─── */
+.hero {
+  position: relative;
+  overflow: clip;
 }
-.ic {
-  width: 1.375rem;
-  height: 1.375rem;
-  flex: none;
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(34rem circle at 78% 46%, rgb(22 118 83 / 0.32), transparent 65%),
+    radial-gradient(60rem circle at 100% 0, rgb(63 182 133 / 0.08), transparent 60%);
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--on-deep) 16%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+  mask-image: linear-gradient(180deg, #000, transparent 70%);
+  opacity: 0.45;
+  pointer-events: none;
+}
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: calc(env(safe-area-inset-top) + 0.875rem);
+}
+.who {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, white 12%, transparent);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--on-deep);
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    transform 0.3s var(--ease);
+}
+.tool:hover {
+  background: color-mix(in srgb, white 10%, transparent);
+  border-color: var(--deep-accent);
+}
+.tool:active {
+  transform: scale(0.92);
+}
+.ico {
+  width: 1.125rem;
+  height: 1.125rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sun,
+.moon {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 0.5s var(--ease),
+    opacity 0.3s;
+}
+.tool[aria-pressed='false'] .moon {
+  transform: rotate(-60deg) scale(0.4);
+  opacity: 0;
+}
+.tool[aria-pressed='true'] .sun {
+  transform: rotate(90deg) scale(0.4);
+  opacity: 0;
+}
+
+.hero-grid {
+  display: grid;
+  gap: 2.75rem;
+  padding-block: clamp(2.25rem, 7vw, 4rem) 2.5rem;
+}
+@media (min-width: 960px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+    grid-template-rows: auto auto;
+    align-content: center;
+    gap: 0 4rem;
+    min-height: min(46rem, calc(100svh - 9rem));
+  }
+  .pitch {
+    align-self: end;
+  }
+  .hero-grid .me {
+    align-self: start;
+    margin-top: 2rem;
+  }
+  .stage {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+}
+h1 {
+  margin: 0;
+  font-size: clamp(2.875rem, 5.8vw, 5.25rem);
+  font-weight: 900;
+  line-height: 0.94;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+  max-width: 11ch;
+}
+@media (min-width: 960px) {
+  h1 {
+    max-width: 13ch;
+  }
 }
 .sub {
-  margin: 0;
+  margin: 1.25rem 0 0;
+  max-width: 40ch;
+  font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+  color: color-mix(in srgb, var(--on-deep) 78%, var(--deep));
+}
+.cta {
+  justify-content: center;
+  min-height: 3.5rem;
+  padding-inline: 1.5rem;
+  font-size: 1.0625rem;
+  border-radius: 10px;
+  box-shadow: 0 14px 30px -14px rgb(22 118 83 / 0.8);
+}
+.hero .cta {
+  margin-top: 1.75rem;
+}
+.hero .cta:hover,
+.fecho .cta:hover {
+  background: var(--on-deep);
+  border-color: var(--on-deep);
+  color: var(--deep);
+}
+.wa {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+.assure {
+  margin: 0.875rem 0 0;
+  text-wrap: balance;
   font-size: 0.9375rem;
   color: var(--muted);
 }
 .me {
-  margin: 0.5rem 0 0;
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-weight: 600;
+  margin-top: -0.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  max-width: 26rem;
 }
 .me img {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
   object-fit: cover;
-  object-position: 47% 22%;
+  object-position: 50% 22%;
+  box-shadow:
+    0 0 0 2px var(--deep),
+    0 0 0 3.5px var(--deep-accent);
+}
+.me p {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.me strong {
+  display: block;
+  color: var(--ink);
 }
 
-.block {
-  padding-block: clamp(2rem, 6vw, 3.5rem);
+/* Baralho de sites: o da frente abre, os de trás em leque. --k = distância da frente. */
+.stage {
+  width: 100%;
+  max-width: 44rem;
+  justify-self: center;
+}
+.deck {
+  position: relative;
+  aspect-ratio: 1 / 0.72;
+}
+.win {
+  --k: 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 78%;
+  display: block;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #17201b;
+  border: 1px solid color-mix(in srgb, white 12%, transparent);
+  box-shadow: 0 34px 60px -28px rgb(0 0 0 / 0.75);
+  text-decoration: none;
+  transform: translate(calc(var(--k) * 13%), calc(var(--k) * -6%))
+    scale(calc(1 - var(--k) * 0.05));
+  transform-origin: 0 100%;
+  z-index: calc(10 - var(--k));
+  filter: brightness(calc(1 - var(--k) * 0.16));
+  transition:
+    transform 0.8s var(--ease),
+    filter 0.8s var(--ease),
+    opacity 0.5s;
+  animation: deal 1s var(--ease) backwards;
+  animation-delay: calc(0.25s + (3 - var(--k)) * 0.1s);
+}
+.win.back {
+  pointer-events: none;
+}
+.win.off {
+  opacity: 0;
+}
+@keyframes deal {
+  from {
+    opacity: 0;
+    transform: translate(0, 6%) scale(0.92);
+  }
+}
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 1.875rem;
+  padding: 0 0.75rem;
+  background: #17201b;
+  border-bottom: 1px solid color-mix(in srgb, white 8%, transparent);
+  font: 500 0.6875rem/1 var(--mono);
+  color: var(--deep-muted);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.bar svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex: none;
+  fill: none;
+  stroke: var(--deep-accent);
+  stroke-width: 2;
+}
+.win img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: top;
+}
+.open {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  background: var(--deep);
+  color: var(--on-deep);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  box-shadow: 0 6px 18px -6px rgb(0 0 0 / 0.6);
+  transition:
+    opacity 0.3s,
+    background-color 0.2s,
+    color 0.2s;
+}
+.win.back .open {
+  opacity: 0;
+}
+.open svg {
+  width: 0.875rem;
+  height: 0.875rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+.win:hover .open,
+.win:focus-visible .open {
+  background: var(--deep-accent);
+  color: var(--deep);
+}
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+.picker button {
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font: 600 0.875rem/1 var(--sans);
+  cursor: pointer;
+  transition:
+    background-color 0.25s,
+    color 0.25s,
+    border-color 0.25s;
+}
+.picker button:hover {
+  color: var(--ink);
+  border-color: var(--deep-accent);
+}
+.picker button[aria-pressed='true'] {
+  background: var(--deep-accent);
+  border-color: var(--deep-accent);
+  color: var(--deep);
+}
+.now {
+  margin: 0.875rem 0 0;
+  min-height: 2.8em;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.now span {
+  color: var(--deep-accent);
+  font-weight: 600;
+}
+
+.ramos {
+  padding-bottom: 2rem;
+}
+.ramos :deep(.chip) {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+}
+
+/* ─── Seções claras ─── */
+.sec {
+  padding-block: clamp(3.5rem, 9vw, 6.5rem);
+}
+.sec + .sec {
   border-top: 1px solid var(--line);
 }
 .h2 {
   margin: 0;
-  font-size: clamp(1.5rem, 4vw, 2.25rem);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-}
-.demos {
-  list-style: none;
-  margin: 1.5rem 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.75rem;
-}
-@media (min-width: 720px) {
-  .demos {
-    gap: 1.5rem;
-  }
-}
-.demo {
-  display: grid;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: inherit;
-}
-.demo img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  object-position: left top;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-}
-.ex-name {
-  font-weight: 800;
-}
-.chips {
-  margin: 1.25rem 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.chips span {
-  padding: 0.25rem 0.75rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font-size: 0.875rem;
-  color: var(--muted);
-}
-
-.steps {
-  list-style: none;
-  margin: 1.25rem 0 0;
-  padding: 0;
-  display: grid;
-  gap: 0.75rem;
-}
-.steps li {
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-}
-.n {
-  display: grid;
-  place-items: center;
-  flex: none;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: 50%;
-  border: 2px solid var(--mato);
-  color: var(--mato);
-  font-weight: 800;
-}
-.price {
-  margin: 1.5rem 0 0;
-  font-size: 1.125rem;
-  font-weight: 700;
-  max-width: 36ch;
-}
-
-.faq {
-  margin: 1.25rem 0 0;
-  display: grid;
-  gap: 1.125rem;
-  max-width: 44rem;
-}
-.faq dt {
-  font-weight: 700;
-}
-.faq dd {
-  margin: 0.125rem 0 0;
-  color: var(--muted);
-}
-
-.fecho {
-  padding-block: clamp(2.5rem, 7vw, 4rem);
-}
-.fecho-in {
-  display: grid;
-  justify-items: center;
-  text-align: center;
-  gap: 1.25rem;
-}
-.close-title {
-  margin: 0;
-  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  font-size: clamp(2rem, 4.6vw, 3.5rem);
   font-weight: 900;
   line-height: 1;
   letter-spacing: -0.04em;
+  text-wrap: balance;
 }
-.fecho .big {
-  width: 100%;
-  max-width: 26rem;
-}
-.sfoot {
-  padding-block: 1.5rem 6.5rem;
+.lede {
+  margin: 0.875rem 0 0;
+  max-width: 46ch;
   color: var(--muted);
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
+}
+.head {
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+}
+@media (min-width: 900px) {
+  .head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+  .head .lede {
+    margin: 0;
+    max-width: 36ch;
+  }
 }
 
-/* Barra fixa só no celular, com fundo sólido (texto não aparece por baixo). */
+/* Passos: uma linha liga os três números. */
+.passos {
+  --dot: 3rem;
+  position: relative;
+  display: grid;
+  gap: 2rem;
+  list-style: none;
+  margin: clamp(2rem, 5vw, 3rem) 0 0;
+  padding: 0;
+}
+.passos li:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--dot) / 2 - 1px);
+  top: var(--dot);
+  bottom: -2rem;
+  width: 2px;
+  background: linear-gradient(var(--mato), var(--line));
+}
+.passos li {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--dot) minmax(0, 1fr);
+  column-gap: 1.25rem;
+}
+.n {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  background: var(--mato);
+  color: var(--paper);
+  font-size: 1.25rem;
+  font-weight: 900;
+  box-shadow: 0 0 0 6px var(--paper);
+}
+.passos li:last-child .n {
+  background: var(--ink);
+}
+.passos h3 {
+  margin: 0.55rem 0 0;
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+.passos p {
+  margin: 0.375rem 0 0;
+  color: var(--muted);
+  max-width: 36ch;
+}
+@media (min-width: 900px) {
+  .passos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3rem;
+  }
+  .passos li:not(:last-child)::before {
+    left: var(--dot);
+    right: -3rem;
+    top: calc(var(--dot) / 2 - 1px);
+    bottom: auto;
+    width: auto;
+    height: 2px;
+    background: linear-gradient(90deg, var(--mato), var(--line));
+  }
+  .passos li {
+    grid-template-columns: 1fr;
+  }
+  .n {
+    grid-row: auto;
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* Modelos: os dois preferidos grandes, os outros em grade menor. */
+.modelos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.modelos li {
+  min-width: 0;
+}
+.modelos .big {
+  grid-column: span 2;
+}
+@media (min-width: 900px) {
+  .modelos {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 3rem 1.75rem;
+  }
+  .modelos li {
+    grid-column: span 3;
+  }
+  .modelos .big {
+    grid-column: span 6;
+  }
+}
+.modelo {
+  display: grid;
+  gap: 0.375rem;
+  text-decoration: none;
+}
+.frame {
+  display: block;
+  margin-bottom: 0.625rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card);
+  box-shadow: 0 24px 44px -30px rgb(16 23 19 / 0.45);
+  transition:
+    transform 0.5s var(--ease),
+    box-shadow 0.5s var(--ease),
+    border-color 0.3s;
+}
+.frame .bar {
+  gap: 0.3rem;
+  height: 1.25rem;
+  padding: 0 0.6rem;
+  background: var(--paper-2);
+  border-bottom-color: var(--line);
+}
+.frame .bar i {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background: var(--line);
+}
+.frame img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.8s var(--ease);
+}
+.modelo:hover .frame,
+.modelo:focus-visible .frame {
+  transform: translateY(-4px);
+  border-color: var(--mato);
+  box-shadow: 0 34px 60px -32px rgb(16 23 19 / 0.55);
+}
+.modelo:hover .frame img {
+  transform: scale(1.03);
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.625rem;
+}
+.m-name {
+  font-weight: 800;
+  font-size: 1.0625rem;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+}
+.big .m-name {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+}
+.m-ramo {
+  font-size: 0.875rem;
+  color: var(--mato);
+  font-weight: 600;
+}
+.m-pitch {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  max-width: 44ch;
+}
+.modelos li:not(.big) .m-pitch,
+.modelos li:not(.big) .m-open {
+  display: none;
+}
+@media (min-width: 900px) {
+  .modelos li:not(.big) .m-pitch {
+    display: block;
+  }
+}
+.m-open {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: var(--mato);
+}
+
+/* Preço: uma tabela, não cartões. */
+.tabela {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: var(--card);
+  box-shadow: 0 30px 60px -44px rgb(16 23 19 / 0.4);
+  padding: 0.5rem clamp(1.25rem, 3vw, 2.25rem);
+}
+.plano {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem 2rem;
+  padding-block: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.plano h3 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+.plano p {
+  margin: 0.375rem 0 0;
+  color: var(--muted);
+  max-width: 42ch;
+  font-size: 0.9375rem;
+}
+.plano .valor {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.2rem;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.valor small {
+  font-size: 0.34em;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin-top: 0.3em;
+  color: var(--mato);
+}
+.inclui {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.875rem;
+  margin: 0;
+  padding-block: 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+.tag {
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--mato-soft);
+  color: var(--mato);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+.sistema {
+  margin: 1.5rem 0 0;
+  color: var(--muted);
+}
+.sistema .link {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration-color: var(--mato);
+}
+@media (min-width: 900px) {
+  .preco {
+    display: grid;
+    grid-template-columns: 18rem minmax(0, 1fr);
+    column-gap: 4rem;
+  }
+  .preco .head {
+    display: block;
+    grid-row: span 2;
+  }
+  .preco .head .lede {
+    margin-top: 0.875rem;
+  }
+}
+
+/* Quem faz */
+.quem {
+  display: grid;
+  gap: 1.75rem;
+  align-items: center;
+}
+.quem img {
+  width: min(100%, 9rem);
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: 50% 30%;
+  border-radius: 22px;
+  box-shadow: 0 30px 60px -36px rgb(16 23 19 / 0.55);
+}
+.carta {
+  margin: 1rem 0 0;
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+  line-height: 1.45;
+  max-width: 34ch;
+}
+@media (min-width: 720px) {
+  .quem {
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: 3.5rem;
+  }
+  .quem img {
+    width: 100%;
+  }
+}
+
+/* Dúvidas */
+.duvidas-wrap {
+  display: grid;
+  gap: 2rem;
+}
+@media (min-width: 900px) {
+  .duvidas-wrap {
+    grid-template-columns: 18rem minmax(0, 1fr);
+    gap: 4rem;
+  }
+}
+.duvidas details {
+  border-bottom: 1px solid var(--line);
+}
+.duvidas details:first-child {
+  border-top: 1px solid var(--line);
+}
+.duvidas summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding-block: 0.875rem;
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  list-style: none;
+}
+.duvidas summary::-webkit-details-marker {
+  display: none;
+}
+.duvidas summary svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+  fill: none;
+  stroke: var(--mato);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  transition: transform 0.35s var(--ease);
+}
+.duvidas details[open] summary svg {
+  transform: rotate(45deg);
+}
+.duvidas details p {
+  margin: 0 0 1.25rem;
+  max-width: 58ch;
+  color: var(--muted);
+}
+
+/* ─── Fecho escuro com as curvas de nível da marca ─── */
+.fecho {
+  position: relative;
+  overflow: clip;
+  padding-block: clamp(4rem, 10vw, 7rem) 2rem;
+}
+.fecho-art {
+  position: absolute;
+  right: -30%;
+  top: -10%;
+  width: 46rem;
+  max-width: 120%;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.fecho-in {
+  position: relative;
+}
+.h2.big {
+  font-size: clamp(2.5rem, 6.4vw, 5rem);
+  line-height: 0.95;
+  max-width: 13ch;
+}
+.fecho .lede {
+  color: color-mix(in srgb, var(--on-deep) 75%, var(--deep));
+}
+.fecho .cta {
+  margin-top: 2rem;
+}
+.assina {
+  margin: clamp(3rem, 8vw, 5rem) 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+@media (min-width: 900px) {
+  .fecho-art {
+    right: -4%;
+    top: 50%;
+    width: 40rem;
+    transform: translateY(-50%);
+    opacity: 0.8;
+  }
+}
+
+/* Barra fixa do celular: some quando há um botão grande na tela; o fecho deixa espaço pra ela. */
 .dock {
   position: fixed;
   inset: auto 0 0 0;
-  z-index: 40;
-  padding: 0.625rem var(--gutter) calc(0.625rem + env(safe-area-inset-bottom));
-  background: var(--paper);
+  z-index: 30;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   border-top: 1px solid var(--line);
-  transition: transform 0.25s var(--ease);
-}
-.dock.off {
   transform: translateY(110%);
+  transition: transform 0.45s var(--ease);
 }
-.dock .btn {
+.dock.on {
+  transform: none;
+}
+.dock .cta {
   width: 100%;
 }
-@media (min-width: 720px) {
+@media (max-width: 759px) {
+  .hero .cta,
+  .fecho .cta {
+    width: 100%;
+  }
+  .fecho {
+    padding-bottom: 6rem;
+  }
+}
+@media (min-width: 760px) {
   .dock {
     display: none;
   }
-  .sfoot {
-    padding-bottom: 2rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .win {
+    animation: none;
   }
 }
 </style>

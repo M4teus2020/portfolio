@@ -39,6 +39,7 @@ const todos: SiteExample[] = [
     exemplo: true,
     url: 'https://torque-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/torque.webp',
+    pitch: 'O cliente vê os serviços e pede orçamento direto no WhatsApp.',
   },
   {
     name: 'Prumo Contabilidade',
@@ -46,6 +47,7 @@ const todos: SiteExample[] = [
     exemplo: true,
     url: 'https://prumo-exemplo.mateus-felini.workers.dev/',
     image: '/exemplos/prumo.webp',
+    pitch: 'O cliente conta o caso dele e já sabe qual é o próximo passo.',
   },
   {
     name: 'Lume Odontologia',

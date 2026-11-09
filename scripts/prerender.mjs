@@ -28,7 +28,7 @@ const pages = {
   sites: {
     title: 'Site para comércio local · Mateus Felini',
     description:
-      'Site para o seu comércio, pronto em poucos dias. Veja a prévia antes de pagar e só pague se gostar. Preço de lançamento para os 5 primeiros.',
+      'Veja a cara do site do seu negócio antes de pagar. Eu monto a página inicial com o seu logo e as suas fotos, sem custo e sem compromisso.',
     path: '/sites',
     image: '/og-servicos.png',
   },

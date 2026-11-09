@@ -1,5 +1,6 @@
 <script setup lang="ts">
-// Duas faixas de tecnologias correndo em sentidos opostos. A lista é a de "Ferramentas" do Sobre.
+// Faixas de chips correndo em sentidos alternados. Padrão: as tecnologias de "Ferramentas" do Sobre.
+const props = defineProps<{ rows?: string[][] }>()
 const row1 = [
   'PHP',
   'Laravel',
@@ -26,7 +27,7 @@ const row2 = [
 
 <template>
   <div class="mq" aria-hidden="true">
-    <div v-for="(row, r) in [row1, row2]" :key="r" class="track" :class="{ rev: r === 1 }">
+    <div v-for="(row, r) in props.rows ?? [row1, row2]" :key="r" class="track" :class="{ rev: r === 1 }">
       <div class="lane">
         <span v-for="(t, i) in [...row, ...row]" :key="`${t}-${i}`" class="chip">{{ t }}</span>
       </div>
