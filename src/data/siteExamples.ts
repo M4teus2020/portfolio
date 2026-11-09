@@ -59,7 +59,6 @@ const todos: SiteExample[] = [
   },
   {
     name: 'Torque Pneus & Mecânica',
-    hidden: true, // Mateus 2026-11-09: vitrine só com o catálogo novo
     niche: 'oficina',
     exemplo: true,
     url: 'https://torque-exemplo.mateus-felini.workers.dev/',
