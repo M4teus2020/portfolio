@@ -20,15 +20,6 @@ export interface SiteExample {
 
 const todos: SiteExample[] = [
   {
-    name: 'Tosta Lancheria',
-    niche: 'restaurante',
-    exemplo: true,
-    url: 'https://tosta-exemplo.mateus-felini.workers.dev/',
-    image: '/exemplos/tosta.webp',
-    imageMobile: '/exemplos/tosta-mobile.webp',
-    pitch: 'O cliente escolhe o lanche, o jeito e a hora, e o pedido sai escrito no WhatsApp.',
-  },
-  {
     name: 'Sacode Banho e Tosa',
     niche: 'pet',
     exemplo: true,
@@ -36,7 +27,43 @@ const todos: SiteExample[] = [
     image: '/exemplos/sacode.webp',
     imageMobile: '/exemplos/sacode-mobile.webp',
     pitch: 'O dono escolhe porte, serviço e dia, e o banho do pet sai marcado no WhatsApp.',
+  },  {
+    name: 'Tosta Lancheria',
+    niche: 'restaurante',
+    exemplo: true,
+    url: 'https://tosta-exemplo.mateus-felini.workers.dev/',
+    image: '/exemplos/tosta.webp',
+    imageMobile: '/exemplos/tosta-mobile.webp',
+    pitch: 'O cliente escolhe o lanche, o jeito e a hora, e o pedido sai escrito no WhatsApp.',
+  },  {
+    name: 'Pietra Odontologia',
+    niche: 'clinica',
+    exemplo: true,
+    url: 'https://pietra-exemplo.mateus-felini.workers.dev/',
+    image: '/exemplos/pietra.webp',
+    imageMobile: '/exemplos/pietra-mobile.webp',
+    pitch: 'O paciente vê os próximos horários e marca a avaliação pelo WhatsApp em dois toques.',
   },
+  {
+    name: 'Alba Cabelo e Cor',
+    niche: 'salao',
+    exemplo: true,
+    url: 'https://alba-exemplo.mateus-felini.workers.dev/',
+    image: '/exemplos/alba.webp',
+    imageMobile: '/exemplos/alba-mobile.webp',
+    pitch: 'A cliente escolhe o serviço e o horário, e o agendamento sai pronto no WhatsApp.',
+  },
+  {
+    name: 'Cerne Contabilidade',
+    niche: 'servicos',
+    exemplo: true,
+    url: 'https://cerne-exemplo.mateus-felini.workers.dev/',
+    image: '/exemplos/cerne.webp',
+    imageMobile: '/exemplos/cerne-mobile.webp',
+    pitch: 'O empresário vê os planos e fala direto com o contador pelo WhatsApp.',
+  },
+
+
   {
     name: 'Lancheria Faísca',
     hidden: true, // Mateus 2026-11-09: fora da vitrine (catálogo novo)
